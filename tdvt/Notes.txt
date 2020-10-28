@@ -1,0 +1,6 @@
+exasol_odbc
+- connector converted as is from named 'exasolution' connector in product
+- tdvt configuration details and results included for reference
+- recommendations for long term maintenance:
+  - recreate TDS and ini files from latest SDK recommendations: https://tableau.github.io/connector-plugin-sdk/docs/tdvt
+  - remove skipped tests to improve functionality 

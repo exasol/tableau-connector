@@ -1,0 +1,6 @@
+*.bak
+*~
+*.log
+*.lock
+.dbeaver
+.project
