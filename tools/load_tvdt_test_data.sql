@@ -1,6 +1,6 @@
-DROP SCHEMA IF EXISTS "TABLEAU_TEST_DATA";
-CREATE SCHEMA "TABLEAU_TEST_DATA";
-OPEN SCHEMA "TABLEAU_TEST_DATA";
+DROP SCHEMA IF EXISTS "TESTV1";
+CREATE SCHEMA "TESTV1";
+OPEN SCHEMA "TESTV1";
 
 -- The following DLL scripts in this setup script are taken from the Tableau test
 -- datasets, published on GitHub by Tableau under the MIT license.
