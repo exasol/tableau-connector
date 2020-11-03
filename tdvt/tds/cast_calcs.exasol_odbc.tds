@@ -5,7 +5,7 @@
   <connection class='federated'>
     <named-connections>
       <named-connection name='leaf'>
-        <connection tdvtconnection='exasol_odbctestname' class='exasol_odbc' odbc-connect-string-extras='' port='8563' schema='TESTV1' server='exasol.test.lan' tablename='Calcs' username='sys' />
+        <connection tdvtconnection='exasol_odbctestname' class='exasol_odbc' odbc-connect-string-extras='' port='8563' schema='TESTV1' server='exasol.test.lan' tablename='Calcs' username='TABLEAU_TEST_USER' />
       </named-connection>
     </named-connections>
     <relation connection='leaf' name='Calcs' table='[TESTV1].[Calcs]' type='table' />
