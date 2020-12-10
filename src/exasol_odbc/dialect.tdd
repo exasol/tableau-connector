@@ -372,7 +372,8 @@
       <argument type='real' />
     </function>
     <function group='cast' name='DATETIME' return-type='datetime'>
-      <formula>TO_TIMESTAMP(%1)</formula>
+      <!-- Note that the date 1901-01-31 is a magic number in Tableau, used to signal that a date/time value acually only has a time component. -->
+      <formula>IF REGEXP_INSTR(%1, '^\d\d?:\d\d?:\d\d?(?:\.\d{1,6})?$') > 0 THEN TO_TIMESTAMP('1901-01-31 ' || %1) ELSE TO_TIMESTAMP(%1) ENDIF</formula>
       <argument type='str' />
     </function>
     <function group='cast' name='DATETIME' return-type='datetime'>
