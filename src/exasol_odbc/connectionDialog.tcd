@@ -1,0 +1,8 @@
+<connection-dialog class='exasol_odbc'>
+  <connection-config>
+    <authentication-mode value='Basic' />
+    <has-databases value="false" />
+    <has-schemas value="true" />
+    <port-prompt value="Port: " default="8563" />
+  </connection-config>
+</connection-dialog>
