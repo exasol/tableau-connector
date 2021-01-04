@@ -1,6 +1,6 @@
 # Exasol Tableau Connector
 
-<!-- add logo an banners here -->
+<!-- add logo and banners here -->
 
 # Overview
 
