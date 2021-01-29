@@ -11,6 +11,7 @@ Note that this version is not considered production-ready, since it has only bee
 ## Bug Fixes
  
 * #1: Fixed conversion from pure-time type to Tableau-compatible timestamp.
+* #7: Exclude calcs_data test.
  
 ## Documentation
  
