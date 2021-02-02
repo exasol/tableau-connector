@@ -45,7 +45,7 @@
       <argument type='real' />
     </function>
     <function group='numeric' name='DIV' return-type='int'>
-      <formula>CASE WHEN %2 = 0 THEN NULL ELSE ( %1 / %2 ) END</formula>
+      <formula>CASE WHEN %2 = 0 THEN NULL ELSE DIV(%1,%2) END</formula>
       <argument type='int' />
       <argument type='int' />
     </function>
@@ -230,23 +230,23 @@
       <argument type='str' />
     </function>
     <function group='string' name='MID' return-type='str'>
-      <formula>&#10;(CASE WHEN (%2 IS NULL) OR %2 &lt; 1 THEN NULL&#10;      ELSE {fn SUBSTRING(%1,{fn FLOOR(%2)},LENGTH(%1) - ({fn FLOOR(%2)}) + 1)} END)</formula>
+      <formula>MID(%1, %2)</formula>
       <argument type='str' />
       <argument type='real' />
     </function>
     <function group='string' name='MID' return-type='str'>
-      <formula>&#10;(CASE WHEN (%2 IS NULL) OR %2 &lt; 1 THEN NULL&#10;      ELSE {fn SUBSTRING(%1,%2,LENGTH(%1) - (%2) + 1)} END)</formula>
+      <formula>MID(%1, %2)</formula>
       <argument type='str' />
       <argument type='int' />
     </function>
     <function group='string' name='MID' return-type='str'>
-      <formula>&#10;(CASE WHEN (%2 IS NULL) OR (%3 IS NULL) THEN NULL&#10;      WHEN %3 &lt; 1 THEN &apos;&apos;&#10;      WHEN %2 &lt; 1 THEN {fn SUBSTRING(%1,1,{fn FLOOR(%3)})}&#10;      ELSE {fn SUBSTRING(%1,{fn FLOOR(%2)},{fn FLOOR(%3)})} END)</formula>
+      <formula>MID(%1, %2, %3)</formula>
       <argument type='str' />
       <argument type='real' />
       <argument type='real' />
     </function>
     <function group='string' name='MID' return-type='str'>
-      <formula>&#10;(CASE WHEN (%2 IS NULL) OR (%3 IS NULL) THEN NULL&#10;      WHEN %3 &lt; 1 THEN &apos;&apos;&#10;      WHEN %2 &lt; 1 THEN {fn SUBSTRING(%1,1,%3)}&#10;      ELSE {fn SUBSTRING(%1,%2,%3)} END)</formula>
+      <formula>MID(%1, %2, %3)</formula>
       <argument type='str' />
       <argument type='int' />
       <argument type='int' />
@@ -288,6 +288,14 @@
     <function group='string' name='UPPER' return-type='str'>
       <formula>UPPER(%1)</formula>
       <argument type='str' />
+    </function>
+    <function group='string' name='SPACE' return-type='str'>
+      <formula>CASE WHEN %1 &lt; 1 THEN NULL WHEN %1 = 0 THEN &apos;&apos; ELSE REPEAT(&apos; &apos;,%1) END</formula>
+      <argument type='int' />
+    </function>
+    <function group='string' name='SPACE' return-type='str'>
+      <formula>CASE WHEN %1 &lt; 1 THEN NULL WHEN %1 = 0 THEN &apos;&apos; ELSE REPEAT(&apos; &apos;,%1) END</formula>
+      <argument type='real' />
     </function>
     <function group='date' name='DAY' return-type='int'>
       <formula>EXTRACT(DAY FROM %1)</formula>
@@ -351,6 +359,10 @@
       <formula>EXTRACT(YEAR FROM %1)</formula>
       <argument type='datetime' />
     </function>
+    <function group='date' name='ISDATE' return-type='bool'>
+      <formula>IS_DATE(%1)</formula>
+      <argument type='str' />
+    </function>
     <function group='cast' name='DATE' return-type='date'>
       <formula>(CAST(&apos;1900-01-01&apos; AS DATE) + CAST(%1 AS INTEGER))</formula>
       <argument type='real' />
@@ -360,7 +372,7 @@
       <argument type='int' />
     </function>
     <function group='cast' name='DATE' return-type='date'>
-      <formula>TRUNC(CAST(%1 AS DATE))</formula>
+      <formula>TRUNC(TO_DATE(%1))</formula>
       <argument type='str' />
     </function>
     <function group='cast' name='DATE' return-type='date'>
@@ -432,7 +444,7 @@
       <argument type='str' />
     </function>
     <function group='cast' name='STR' return-type='str'>
-      <formula>TO_CHAR(%1, &apos;Mon DD YYYY HH24:MI:SS&apos;)</formula>
+      <formula>TO_CHAR(%1)</formula>
       <argument type='datetime' />
     </function>
     <function group='logical' name='IFNULL' return-type='bool'>
@@ -952,16 +964,16 @@
       <formula part='year'>CASE WHEN %2 IS NULL OR %3 IS NULL THEN CAST(NULL AS INTEGER) ELSE (EXTRACT(YEAR FROM %3) - EXTRACT(YEAR FROM %2)) END</formula>
       <formula part='quarter'>FLOOR(MONTHS_BETWEEN(TRUNC( CAST(%3 AS DATE), &apos;Q&apos; ), TRUNC( CAST(%2 AS DATE), &apos;Q&apos; )) / 3)</formula>
       <formula part='month'>FLOOR(MONTHS_BETWEEN(TRUNC( CAST(%3 AS DATE), &apos;MONTH&apos; ), TRUNC( CAST(TO_DATE(%2, &apos;YYYY-MM-DD&apos;) AS DATE), &apos;MONTH&apos; )))</formula>
-      <formula part='week'>ABS(FLOOR((DAYS_BETWEEN(%3, &apos;1995-01-01&apos;) - MOD(7 + TO_NUMBER(TO_CHAR(%3, &apos;D&apos;))- 1, 7) - DAYS_BETWEEN(%2, &apos;1995-01-01&apos;) + MOD(7 + TO_NUMBER(TO_CHAR(%2,&apos;D&apos;))- 1, 7))/7))</formula>
+      <formula part='week'>FLOOR((DAYS_BETWEEN(%3, &apos;1995-01-01&apos;) - MOD(7 + TO_NUMBER(TO_CHAR(%3, &apos;D&apos;))- 1, 7) - DAYS_BETWEEN(%2, &apos;1995-01-01&apos;) + MOD(7 + TO_NUMBER(TO_CHAR(%2,&apos;D&apos;))- 1, 7))/7)</formula>
       <formula part='hour'>HOURS_BETWEEN(%3, %2)</formula>
       <formula part='minute'>MINUTES_BETWEEN(%3, %2)</formula>
-      <formula part='second'>SECONDS_BETWEEN(%3, %2)</formula>
+      <formula part='second'>CAST(SECONDS_BETWEEN(%3, %2) AS INTEGER)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
       <argument type='datetime' />
     </date-function>
     <date-function name='DATEDIFF' return-type='int'>
-      <formula part='week'>ABS(FLOOR((DAYS_BETWEEN(%3, &apos;1995-01-01&apos;) - MOD(7 + TO_NUMBER(TO_CHAR(%3,&apos;D&apos;))- %4, 7) - DAYS_BETWEEN(%2, &apos;1995-01-01&apos;) + MOD(7 + TO_NUMBER(TO_CHAR(%2,&apos;D&apos;))- %4, 7))/7))</formula>
+      <formula part='week'>FLOOR((DAYS_BETWEEN(%3, &apos;1995-01-01&apos;) - MOD(7 + TO_NUMBER(TO_CHAR(%3,&apos;D&apos;))- %4, 7) - DAYS_BETWEEN(%2, &apos;1995-01-01&apos;) + MOD(7 + TO_NUMBER(TO_CHAR(%2,&apos;D&apos;))- %4, 7))/7)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
       <argument type='datetime' />
@@ -984,7 +996,7 @@
       <argument type='localstr' />
     </date-function>
     <date-function name='DATEPART' return-type='int'>
-      <formula>EXTRACT(%1 FROM %2)</formula>
+      <formula>CAST(EXTRACT(%1 FROM %2) AS DECIMAL(36,0))</formula>
       <formula part='quarter'>CAST( FLOOR( TRUNC((EXTRACT(MONTH FROM %2) - 1) / 3 + 1 )) AS INTEGER)</formula>
       <formula part='dayofyear'>TO_NUMBER(TO_CHAR(%2,&apos;DDD&apos;))</formula>
       <formula part='weekday'>TO_NUMBER(TO_CHAR(%2,&apos;D&apos;))</formula>
