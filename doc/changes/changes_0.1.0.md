@@ -1,4 +1,4 @@
-# tableau-connector 0.1.0, released 2021-01-04
+# tableau-connector 0.1.0, released 2021-??-??
  
 Code name: Green original tests
 
@@ -12,6 +12,7 @@ Note that this version is not considered production-ready, since it has only bee
  
 * #1: Fixed conversion from pure-time type to Tableau-compatible timestamp.
 * #7: Exclude calcs_data test.
+* #11: Fixed a few functions and enabled tests for them.
  
 ## Documentation
  

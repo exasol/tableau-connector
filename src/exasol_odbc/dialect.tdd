@@ -230,23 +230,23 @@
       <argument type='str' />
     </function>
     <function group='string' name='MID' return-type='str'>
-      <formula>MID(%1, %2)</formula>
+      <formula>MID(%1, CASE WHEN %2 = NULL THEN NULL WHEN %2 &lt; 0 THEN CEILING(%2) ELSE FLOOR(%2) END)</formula>
       <argument type='str' />
       <argument type='real' />
     </function>
     <function group='string' name='MID' return-type='str'>
-      <formula>MID(%1, %2)</formula>
+      <formula>MID(%1, CASE WHEN %2 = NULL THEN NULL WHEN %2 &lt; 0 THEN CEILING(%2) ELSE FLOOR(%2) END)</formula>
       <argument type='str' />
       <argument type='int' />
     </function>
     <function group='string' name='MID' return-type='str'>
-      <formula>MID(%1, %2, %3)</formula>
+      <formula>MID(%1, CASE WHEN %2 = NULL THEN NULL WHEN %2 &lt; 0 THEN CEILING(%2) ELSE FLOOR(%2) END, FLOOR(%3))</formula>
       <argument type='str' />
       <argument type='real' />
       <argument type='real' />
     </function>
     <function group='string' name='MID' return-type='str'>
-      <formula>MID(%1, %2, %3)</formula>
+      <formula>MID(%1, CASE WHEN %2 = NULL THEN NULL WHEN %2 &lt; 0 THEN CEILING(%2) ELSE FLOOR(%2) END, FLOOR(%3))</formula>
       <argument type='str' />
       <argument type='int' />
       <argument type='int' />
@@ -967,7 +967,7 @@
       <formula part='week'>FLOOR((DAYS_BETWEEN(%3, &apos;1995-01-01&apos;) - MOD(7 + TO_NUMBER(TO_CHAR(%3, &apos;D&apos;))- 1, 7) - DAYS_BETWEEN(%2, &apos;1995-01-01&apos;) + MOD(7 + TO_NUMBER(TO_CHAR(%2,&apos;D&apos;))- 1, 7))/7)</formula>
       <formula part='hour'>HOURS_BETWEEN(%3, %2)</formula>
       <formula part='minute'>MINUTES_BETWEEN(%3, %2)</formula>
-      <formula part='second'>CAST(SECONDS_BETWEEN(%3, %2) AS INTEGER)</formula>
+      <formula part='second'>FLOOR(SECONDS_BETWEEN(%3, %2))</formula>
       <argument type='localstr' />
       <argument type='datetime' />
       <argument type='datetime' />
