@@ -10,3 +10,6 @@
 **/tdvt_log_combined.txt
 **/test_results_combined.csv
 **/tdvt_results_workbook.twbx
+.idea
+*.iml
+*.env
