@@ -1,5 +1,9 @@
 package com.exasol.tableau;
 
+import static com.exasol.tableau.TableauServerConfiguration.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
 import org.junit.jupiter.api.*;
 
 class TableauServerGUITest {
@@ -7,8 +11,8 @@ class TableauServerGUITest {
 
     @BeforeEach
     public void beforeEach() {
-        tableauServerGateway = TableauServerGateway.connectTo(TableauServerConfiguration.HOSTNAME);
-        tableauServerGateway.login(TableauServerConfiguration.USERNAME, TableauServerConfiguration.PASSWORD);
+        tableauServerGateway = TableauServerGateway.connectTo(TABLEAU_HOSTNAME);
+        tableauServerGateway.login(TABLEAU_USERNAME, TABLEAU_PASSWORD);
     }
 
     @AfterEach
@@ -18,9 +22,10 @@ class TableauServerGUITest {
     }
 
     @Test
-    public void connectToExasolDatasource() {
-        tableauServerGateway.createWorkbookForConnector("Exasol by Exasol");
-        // verify
+    void connectToExasolDatasource() {
+        tableauServerGateway.createWorkbookForConnector("Exasol by Exasol", EXASOL_HOSTNAME, EXASOL_USERNAME,
+                EXASOL_PASSWORD);
+        final String workbookName = tableauServerGateway.getEstablishedConnectionName();
+        assertThat(workbookName, equalTo(EXASOL_HOSTNAME));
     }
-
 }
