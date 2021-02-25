@@ -31,8 +31,7 @@ public class TableauServerGateway {
         this.getElement("input", "tb-test-id", "textbox-username-input").sendKeys(username);
         this.getElement("input", "tb-test-id", "textbox-password-input").sendKeys(password);
         this.waitForPageLoading();
-        this.getElement("input", "tb-test-id", "button-signin").sendKeys(password);
-        this.driver.findElement(By.xpath("//button[@tb-test-id='button-signin']")).click();
+        this.getElement("input", "tb-test-id", "button-signin").click();
     }
 
     public void logout() {
@@ -50,11 +49,8 @@ public class TableauServerGateway {
     }
 
     public void createWorkbookForConnector(final String connectorName) {
-        this.driver.findElement(By.xpath("//button[@tb-test-id='button-signin']")).click();
-//        data-tb-test-id="explorer-create-content-MenuButton"
-    }
-
-    public void selectConnector(final String connectorName) {
+        this.getElement("button", "data-tb-test-id", "explorer-create-content-MenuButton").click();
+        // TODO:
     }
 
     public void closeConnection() {

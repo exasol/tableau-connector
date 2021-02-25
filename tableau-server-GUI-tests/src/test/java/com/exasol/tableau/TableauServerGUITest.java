@@ -7,8 +7,8 @@ class TableauServerGUITest {
 
     @BeforeEach
     public void beforeEach() {
-        tableauServerGateway = TableauServerGateway.connectTo("<HOST>");
-        tableauServerGateway.login("<USERNAME>", "<PASS>");
+        tableauServerGateway = TableauServerGateway.connectTo(TableauServerConfiguration.HOSTNAME);
+        tableauServerGateway.login(TableauServerConfiguration.USERNAME, TableauServerConfiguration.PASSWORD);
     }
 
     @AfterEach
