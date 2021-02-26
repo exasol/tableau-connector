@@ -43,5 +43,6 @@ class TableauServerGUITest {
         tableauServerGateway.createWorkbookForConnector("Exasol by Exasol", EXASOL_HOSTNAME, EXASOL_USERNAME,
                 EXASOL_PASSWORD);
         tableauServerGateway.createExtract("TESTV1", "Calcs");
+        // TODO: assert that we got a successful message, 'data-tb-test-id = banner-success-toast-widget'
     }
 }

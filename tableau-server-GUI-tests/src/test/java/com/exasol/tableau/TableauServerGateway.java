@@ -41,6 +41,17 @@ public class TableauServerGateway {
         this.getElement("button", "tb-test-id", "button-signin").click();
     }
 
+    private WebElement getElement(final String type, final String attribute, final String id) {
+        final List<WebElement> matchingElements = this.getElements(type, attribute, id);
+        return matchingElements.stream().findFirst().orElse(null);
+    }
+
+    private List<WebElement> getElements(final String type, final String attribute, final String id) {
+        final By xpath = By.xpath("//" + type + "[@" + attribute + "='" + id + "']");
+        this.wait.until(presenceOfElementLocated(xpath));
+        return this.driver.findElements(xpath);
+    }
+
     public void logout() {
         this.explicitWait();
         this.getElement("div", "title", "Close").click();
@@ -48,12 +59,6 @@ public class TableauServerGateway {
         this.driver.switchTo().window(new ArrayList<>(this.driver.getWindowHandles()).get(0));
         this.getElement("button", "data-tb-test-id", "flyout-list-menu-Button").click();
         this.getElement("div", "data-tb-test-id", "flyout-list-menu-signOut-MenuItem").click();
-    }
-
-    private WebElement getElement(final String type, final String attribute, final String id) {
-        final By xpath = By.xpath("//" + type + "[@" + attribute + "='" + id + "']");
-        this.wait.until(presenceOfElementLocated(xpath));
-        return this.driver.findElement(xpath);
     }
 
     // Use it when waiting for the element doesn't work until further investigation
@@ -101,13 +106,13 @@ public class TableauServerGateway {
         final WebElement connectionTab = this.getElement("div", "class",
                 "JoinArea__tabAuthTextEditingLabel__1xj1V tabAuthTextEditingLabel");
         this.explicitWait();
-        this.performDoubleClick(connectionTab);
+        this.doubleClickOn(connectionTab);
         final WebElement input = this.getElement("input", "data-tb-test-id", "text-editing-TextInput");
         input.sendKeys(renamed_connection);
         input.sendKeys(Keys.ENTER);
     }
 
-    private void performDoubleClick(final WebElement connectionTab) {
+    private void doubleClickOn(final WebElement connectionTab) {
         new Actions(this.driver).doubleClick(connectionTab).perform();
     }
 
@@ -121,12 +126,6 @@ public class TableauServerGateway {
         final WebElement menu = this.getElement("div", "class", "tabAuthMenuBarMenu dataMenu");
         this.explicitWait();
         menu.click();
-    }
-
-    private List<WebElement> getElements(final String type, final String attribute, final String id) {
-        final By xpath = By.xpath("//" + type + "[@" + attribute + "='" + id + "']");
-        this.wait.until(presenceOfElementLocated(xpath));
-        return this.driver.findElements(xpath);
     }
 
     public void createExtract(final String schemaName, final String tableName) {
@@ -146,6 +145,30 @@ public class TableauServerGateway {
         this.explicitWait();
     }
 
+    private void openSchema(final String schemaName) {
+        this.explicitWait();
+        this.getElement("button", "data-tb-test-id", "dataTab-schema-selector-Dropdown").click();
+        final List<WebElement> schemas = this.getElements("span", "class", "frvoegc");
+        this.clickElementIfTextMatches(schemaName, schemas);
+    }
+
+    private void clickElementIfTextMatches(final String text, final List<WebElement> elements) {
+        this.getElementByText(text, elements).ifPresent(WebElement::click);
+    }
+
+    private Optional<WebElement> getElementByText(final String text, final List<WebElement> elements) {
+        return elements.stream().filter(e -> text.equals(e.getText())).findFirst();
+    }
+
+    private void openTable(final String tableName) {
+        final List<WebElement> tables = this.getElements("div", "class", "tabDataTabCSTableName");
+        this.doubleClickElementIfTextMatches(tableName, tables);
+    }
+
+    private void doubleClickElementIfTextMatches(final String text, final List<WebElement> elements) {
+        this.getElementByText(text, elements).ifPresent(this::doubleClickOn);
+    }
+
     // Use it when waiting for the element doesn't work until further investigation
     private void longExplicitWait() {
         try {
@@ -163,35 +186,5 @@ public class TableauServerGateway {
     private void switchSheet(final String sheetName) {
         final List<WebElement> sheets = this.getElements("span", "class", "tabAuthTabLabel");
         this.doubleClickElementIfTextMatches(sheetName, sheets);
-    }
-
-    private void openSchema(final String schemaName) {
-        this.explicitWait();
-        this.getElement("button", "data-tb-test-id", "dataTab-schema-selector-Dropdown").click();
-        final List<WebElement> schemas = this.getElements("span", "class", "frvoegc");
-        this.clickElementIfTextMatches(schemaName, schemas);
-    }
-
-    private void clickElementIfTextMatches(final String text, final List<WebElement> elements) {
-        for (final WebElement element : elements) {
-            if (element.getText().equals(text)) {
-                element.click();
-                break;
-            }
-        }
-    }
-
-    private void openTable(final String tableName) {
-        final List<WebElement> tables = this.getElements("div", "class", "tabDataTabCSTableName");
-        this.doubleClickElementIfTextMatches(tableName, tables);
-    }
-
-    private void doubleClickElementIfTextMatches(final String text, final List<WebElement> elements) {
-        for (final WebElement schema : elements) {
-            if (schema.getText().equals(text)) {
-                this.performDoubleClick(schema);
-                break;
-            }
-        }
     }
 }
