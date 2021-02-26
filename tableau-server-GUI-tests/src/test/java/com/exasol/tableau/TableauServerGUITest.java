@@ -25,7 +25,23 @@ class TableauServerGUITest {
     void connectToExasolDatasource() {
         tableauServerGateway.createWorkbookForConnector("Exasol by Exasol", EXASOL_HOSTNAME, EXASOL_USERNAME,
                 EXASOL_PASSWORD);
-        final String workbookName = tableauServerGateway.getEstablishedConnectionName();
-        assertThat(workbookName, equalTo(EXASOL_HOSTNAME));
+        assertThat(tableauServerGateway.getEstablishedConnectionName(), equalTo(EXASOL_HOSTNAME));
+        tableauServerGateway.renameConnection("Renamed_connection");
+        assertThat(tableauServerGateway.getEstablishedConnectionName(), equalTo("Renamed_connection"));
+    }
+
+    @Test
+    void duplicateExasolDatasource() {
+        tableauServerGateway.createWorkbookForConnector("Exasol by Exasol", EXASOL_HOSTNAME, EXASOL_USERNAME,
+                EXASOL_PASSWORD);
+        final String duplicateName = tableauServerGateway.duplicateDataSource();
+        assertThat(duplicateName, equalTo(EXASOL_HOSTNAME + " (copy)"));
+    }
+
+    @Test
+    void createAndRefreshExtract() {
+        tableauServerGateway.createWorkbookForConnector("Exasol by Exasol", EXASOL_HOSTNAME, EXASOL_USERNAME,
+                EXASOL_PASSWORD);
+        tableauServerGateway.createExtract("TESTV1", "Calcs");
     }
 }
