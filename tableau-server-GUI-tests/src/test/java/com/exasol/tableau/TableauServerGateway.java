@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.util.*;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -19,14 +20,16 @@ import io.github.bonigarcia.wdm.WebDriverManager;
  */
 public class TableauServerGateway {
     private final WebDriver driver;
+    private final String httpHostAddress;
 
-    private TableauServerGateway() {
+    private TableauServerGateway(final String httpHostAddress) {
+        this.httpHostAddress = httpHostAddress;
         WebDriverManager.firefoxdriver().setup();
         this.driver = new FirefoxDriver();
     }
 
     public static TableauServerGateway connectTo(final String httpHostAddress) {
-        final TableauServerGateway gateway = new TableauServerGateway();
+        final TableauServerGateway gateway = new TableauServerGateway(httpHostAddress);
         gateway.openSession(httpHostAddress);
         return gateway;
     }
@@ -66,11 +69,7 @@ public class TableauServerGateway {
     }
 
     public void logout() {
-        this.explicitWait(2);
-        this.getElement("div", "title", "Close").click();
-        this.getElementIfExists("button", "data-tb-test-id", "tab-confirmation-deny-Button")
-                .ifPresent(WebElement::click);
-        this.driver.switchTo().window(new ArrayList<>(this.driver.getWindowHandles()).get(0));
+        this.driver.navigate().to(this.httpHostAddress);
         this.getElement("button", "data-tb-test-id", "flyout-list-menu-Button").click();
         this.getElement("div", "data-tb-test-id", "flyout-list-menu-signOut-MenuItem").click();
         this.explicitWait(1);
@@ -85,33 +84,19 @@ public class TableauServerGateway {
         }
     }
 
-    public Optional<String> createWorkbookForConnector(final String connectorName, final String sourceHostname,
-            final String sourceUsername, final String sourcePassword) {
+    public Optional<String> createWorkbookForConnector(final Workbook workbook) {
+        this.driver.navigate().to(this.httpHostAddress);
         this.getElement("button", "data-tb-test-id", "explorer-create-content-MenuButton").click();
         this.getElement("div", "data-tb-test-id", "create-workbook-button").click();
         this.switchToNewPage();
         this.getElement("div", "data-test-id", "server", 10).click();
-        this.getElement("button", "data-tb-test-id", "connection-" + connectorName + "-Button").click();
-        this.getElement("input", "data-tb-test-id", "server-textfield-TextInput").sendKeys(sourceHostname);
-        this.getElement("input", "data-tb-test-id", "username-textfield-TextInput").sendKeys(sourceUsername);
-        this.getElement("input", "data-tb-test-id", "password-textfield-TextInput").sendKeys(sourcePassword);
+        this.getElement("button", "data-tb-test-id", "connection-" + workbook.getConnectorName() + "-Button").click();
+        this.getElement("input", "data-tb-test-id", "server-textfield-TextInput").sendKeys(workbook.getHostname());
+        this.getElement("input", "data-tb-test-id", "username-textfield-TextInput").sendKeys(workbook.getUsername());
+        this.getElement("input", "data-tb-test-id", "password-textfield-TextInput").sendKeys(workbook.getPassword());
         this.getElement("button", "data-tb-test-id", "signIn-button-Button").click();
-        this.getElementIfExists("button", "data-tb-test-id", "detailedErrorDialog-Dialog-CloseButton")
-                .ifPresent(WebElement::click);
-        final Optional<String> errorMessage = this
-                .getElementIfExists("div", "data-tb-test-id", "modular-dialog-error-section-error")
+        return this.getElementIfExists("div", "data-tb-test-id", "modular-dialog-error-section-error")
                 .map(WebElement::getText);
-        if (errorMessage.isPresent()) {
-            this.closeDialogs();
-        }
-        return errorMessage;
-    }
-
-    private void closeDialogs() {
-        this.getElement("button", "data-tb-test-id", "modular-connection-hybrid-dialog-id-Dialog-CloseButton").click();
-        this.explicitWait(2);
-        this.explicitWait(2);
-        this.getElement("div", "class", "tab-Icon tabConnectionDialogHeaderCloseIcon").click();
     }
 
     private Optional<WebElement> getElementIfExists(final String type, final String attribute, final String id) {
@@ -235,10 +220,45 @@ public class TableauServerGateway {
         }
     }
 
-    public void saveWorkbook(final String workbookName) {
+    public void saveWorkbook(final Workbook workbook) {
         this.clickUpperMenuData("fileMenu");
         this.clickUpperMenuInnerButton("Save As...");
-        this.getElement("input", "class", "tab-selectable").sendKeys(workbookName);
+        this.getElement("input", "class", "tab-selectable").sendKeys(workbook.getWorkbookName());
         this.getElement("button", "data-tb-test-id", "save-dialog-save-Button").click();
+        this.explicitWait(2);
+        this.getElement("input", "data-tb-test-id", "auth-component-password-text-field-TextInput")
+                .sendKeys(workbook.getPassword());
+        this.getElement("button", "data-tb-test-id", "auth-component-sign-in-button-Button").click();
+    }
+
+    public boolean checkWorkbookExists(final Workbook workbook) {
+        this.openWorkbooksList();
+        try {
+            this.driver.findElement(By.linkText(workbook.getWorkbookName()));
+            return true;
+        } catch (final NoSuchElementException exception) {
+            return false;
+        }
+    }
+
+    private void openWorkbooksList() {
+        this.driver.navigate().to(this.httpHostAddress + "#/explore");
+        this.getElement("button", "data-tb-test-id", "site-filter-by-Button").click();
+        this.getElement("div", "data-tb-test-id", "site-filter-by-workbook-MenuItem").click();
+        this.getElement("button", "data-tb-test-id", "view-mode-toggle-Button").click();
+        this.getElement("div", "data-tb-test-id", "view-mode-toggle-list-MenuItem").click();
+    }
+
+    public void deleteWorkbookIfExists(final Workbook workbook) {
+        this.openWorkbooksList();
+        try {
+            this.driver.findElement(By.linkText(workbook.getWorkbookName())).click();
+            this.getElement("button", "data-tb-test-id", "action-menu-Button").click();
+            this.clickElementIfTextMatches("Delete…",
+                    this.getElements("div", "data-tb-test-id", "action-menu-TextMenuItem"));
+            this.getElement("button", "data-tb-test-id", "confirm-action-dialog-confirm-Button").click();
+        } catch (final NoSuchElementException exception) {
+            // ignoring the exception
+        }
     }
 }
