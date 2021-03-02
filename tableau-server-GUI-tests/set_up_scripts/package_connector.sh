@@ -40,9 +40,6 @@ install_packaging_module () {
 }
 
 package_connector () {
-    #to execute still in the virtual environment(.venv)
-    #optional(validates the XML files) -> python -m connector_packager.package --validate-only [path_to_plugin_folder]
-    #python -m connector_packager.package --validate-only ../../tableau-connector/src/exasol_odbc/
     #the connector is created in ./packaged-connector/exasol_odbc.taco
     echo "# Packaging connector"
     python -m connector_packager.package ../../tableau-connector/src/exasol_odbc/
