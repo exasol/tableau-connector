@@ -70,9 +70,9 @@ remove_tableau_connector_plugin_sdk_directory () {
 }
 
 remove_directory_if_exists () {
-    if [ -d "$1" ]; then
-        rm -rf $1
-    fi
+  if [ -d "$1" ]; then
+    rm -rf $1
+  fi
 }
     
 set_up_environment
