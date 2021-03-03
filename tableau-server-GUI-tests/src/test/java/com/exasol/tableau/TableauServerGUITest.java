@@ -28,30 +28,29 @@ class TableauServerGUITest {
 
     @Test
     void connectToExasolDatasource() {
-        this.createWorkbookForConnector();
+        this.createWorkbook();
         assertThat(tableauServerGateway.getEstablishedConnectionName(), equalTo(EXASOL_HOSTNAME));
         tableauServerGateway.renameConnection("Renamed_connection");
         assertThat(tableauServerGateway.getEstablishedConnectionName(), equalTo("Renamed_connection"));
     }
 
-    private Workbook createWorkbookForConnector() {
+    private void createWorkbook() {
         final Workbook workbook = Workbook.builder().workbookName("Test_workbook").connectorName("Exasol by Exasol")
                 .host(EXASOL_HOSTNAME).username(EXASOL_USERNAME).password(EXASOL_PASSWORD).build();
-        final Optional<String> errorMessage = tableauServerGateway.createWorkbookForConnector(workbook);
+        final Optional<String> errorMessage = tableauServerGateway.createWorkbook(workbook);
         assertTrue(errorMessage.isEmpty());
-        return workbook;
     }
 
     @Test
     void duplicateExasolDatasource() {
-        this.createWorkbookForConnector();
+        this.createWorkbook();
         final String duplicateName = tableauServerGateway.duplicateDataSource();
         assertThat(duplicateName, equalTo(EXASOL_HOSTNAME + " (copy)"));
     }
 
     @Test
     void createAndRefreshExtract() {
-        this.createWorkbookForConnector();
+        this.createWorkbook();
         tableauServerGateway.openSchema("TESTV1");
         tableauServerGateway.openTable("Calcs");
         final String message = tableauServerGateway.createExtract();
@@ -64,7 +63,7 @@ class TableauServerGUITest {
     void connectToExasolDatasourceWithWrongCredentials() {
         final Workbook workbook = Workbook.builder().workbookName("Test_workbook").connectorName("Exasol by Exasol")
                 .host(EXASOL_HOSTNAME).username(EXASOL_USERNAME).password("Wrong Password").build();
-        final Optional<String> errorMessage = tableauServerGateway.createWorkbookForConnector(workbook);
+        final Optional<String> errorMessage = tableauServerGateway.createWorkbook(workbook);
         assertAll(() -> assertThat(errorMessage.isPresent(), equalTo(true)),
                 () -> assertThat(errorMessage.get(), containsString("authentication failed")));
     }
@@ -74,12 +73,12 @@ class TableauServerGUITest {
         final Workbook workbook = Workbook.builder().workbookName("Test_workbook").connectorName("Exasol by Exasol")
                 .host(EXASOL_HOSTNAME).username(EXASOL_USERNAME).password(EXASOL_PASSWORD).build();
         tableauServerGateway.deleteWorkbookIfExists(workbook);
-        tableauServerGateway.createWorkbookForConnector(workbook);
+        tableauServerGateway.createWorkbook(workbook);
         tableauServerGateway.openSchema("TESTV1");
         tableauServerGateway.openTable("Calcs");
         tableauServerGateway.switchSheet("Sheet 1");
         tableauServerGateway.addToSheet("Num2", "Str1");
         tableauServerGateway.saveWorkbook(workbook);
-        assertTrue(tableauServerGateway.checkWorkbookExists(workbook));
+        assertTrue(tableauServerGateway.workbookExists(workbook));
     }
 }

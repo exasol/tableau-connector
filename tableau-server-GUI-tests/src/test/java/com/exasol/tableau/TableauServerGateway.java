@@ -84,7 +84,7 @@ public class TableauServerGateway {
         }
     }
 
-    public Optional<String> createWorkbookForConnector(final Workbook workbook) {
+    public Optional<String> createWorkbook(final Workbook workbook) {
         this.driver.navigate().to(this.httpHostAddress);
         this.getElement("button", "data-tb-test-id", "explorer-create-content-MenuButton").click();
         this.getElement("div", "data-tb-test-id", "create-workbook-button").click();
@@ -231,7 +231,7 @@ public class TableauServerGateway {
         this.getElement("button", "data-tb-test-id", "auth-component-sign-in-button-Button").click();
     }
 
-    public boolean checkWorkbookExists(final Workbook workbook) {
+    public boolean workbookExists(final Workbook workbook) {
         this.openWorkbooksList();
         try {
             this.driver.findElement(By.linkText(workbook.getWorkbookName()));
