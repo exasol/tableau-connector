@@ -3,10 +3,11 @@ package com.exasol.tableau;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 import java.time.Duration;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -97,6 +98,7 @@ public class TableauServerGUIGateway {
         this.getElement("input", "data-tb-test-id", "username-textfield-TextInput").sendKeys(workbook.getUsername());
         this.getElement("input", "data-tb-test-id", "password-textfield-TextInput").sendKeys(workbook.getPassword());
         this.getElement("button", "data-tb-test-id", "signIn-button-Button").click();
+        this.explicitWait(2);
         return this.getElementIfExists("div", "data-tb-test-id", "modular-dialog-error-section-error")
                 .map(WebElement::getText);
     }
@@ -159,8 +161,8 @@ public class TableauServerGUIGateway {
         this.getElement("label", "data-tb-test-id", "tabDataTabExtractToggleTestId-Label").click();
         this.explicitWait(2);
         this.getElement("a", "data-tb-test-id", "extract-create-button-TextLink").click();
-        this.getElement("button", "data-tb-test-id", "tabDataTabExtractCreationOKTestId-Button", 10).click();
-        final WebElement successBanner = this.getElement("div", "data-tb-test-id", "banner-success-toast-widget", 17);
+        this.getElement("button", "data-tb-test-id", "tabDataTabExtractCreationOKTestId-Button", 15).click();
+        final WebElement successBanner = this.getElement("div", "data-tb-test-id", "banner-success-toast-widget", 20);
         return successBanner.getText();
     }
 
@@ -225,7 +227,8 @@ public class TableauServerGUIGateway {
     public void saveWorkbook(final Workbook workbook) {
         this.clickUpperMenuData("fileMenu");
         this.clickUpperMenuInnerButton("Save As...");
-        this.getElement("input", "class", "tab-selectable").sendKeys(workbook.getWorkbookName());
+        this.explicitWait(2);
+        this.getElement("input", "class", "tabAuthSaveTextInput tab-selectable").sendKeys(workbook.getWorkbookName());
         this.getElement("button", "data-tb-test-id", "save-dialog-save-Button").click();
         this.explicitWait(2);
         this.getElement("input", "data-tb-test-id", "auth-component-password-text-field-TextInput")
@@ -244,6 +247,7 @@ public class TableauServerGUIGateway {
     }
 
     private void openWorkbooksList() {
+        this.explicitWait(2);
         this.driver.navigate().to(this.httpHostAddress + "#/explore");
         this.getElement("button", "data-tb-test-id", "site-filter-by-Button").click();
         this.getElement("div", "data-tb-test-id", "site-filter-by-workbook-MenuItem").click();

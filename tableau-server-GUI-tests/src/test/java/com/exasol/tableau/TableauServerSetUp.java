@@ -7,21 +7,21 @@ import java.time.Duration;
 import java.util.logging.Logger;
 
 import org.testcontainers.containers.Container.ExecResult;
+import org.testcontainers.containers.FixedHostPortGenericContainer;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.MountableFile;
 
-import com.github.dockerjava.api.model.*;
-
 public class TableauServerSetUp {
     private static final Logger LOGGER = Logger.getLogger(TableauServerSetUp.class.getName());
 
     @Container
-    public static GenericContainer<?> TABLEAU_SERVER_CONTAINER = new GenericContainer<>(TABLEAU_SERVER_DOCKER_IMAGE)
+    public static GenericContainer<?> TABLEAU_SERVER_CONTAINER = new FixedHostPortGenericContainer<>(TABLEAU_SERVER_DOCKER_IMAGE)
+            .withFixedExposedPort(TABLEAU_MAPPED_PORT, TABLEAU_PORT)
             .withExposedPorts(TABLEAU_PORT)//
-            .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(new HostConfig().withPortBindings(
-                    new PortBinding(Ports.Binding.bindPort(TABLEAU_MAPPED_PORT), new ExposedPort(8080))))) //
+//            .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(new HostConfig().withPortBindings(
+//                    new PortBinding(Ports.Binding.bindPort(TABLEAU_MAPPED_PORT), new ExposedPort(8080))))) //
             .withEnv("TABLEAU_USERNAME", TABLEAU_USERNAME) //
             .withEnv("TABLEAU_PASSWORD", TABLEAU_PASSWORD) //
             .withEnv("LICENSE_KEY", TABLEAU_LICENSE_KEY) //
@@ -62,7 +62,6 @@ public class TableauServerSetUp {
     }
 
     public static String getTableauServerConnectionURL() {
-        System.out.println("HOST:" + TABLEAU_SERVER_CONTAINER.getHost());
         return "http://" + TABLEAU_SERVER_CONTAINER.getHost() + ":"
                 + TABLEAU_SERVER_CONTAINER.getMappedPort(TABLEAU_PORT);
     }
