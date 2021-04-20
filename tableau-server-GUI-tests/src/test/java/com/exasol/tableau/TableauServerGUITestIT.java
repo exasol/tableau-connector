@@ -34,7 +34,7 @@ class TableauServerGUITestIT {
     @Container
     protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL = new ExasolContainer<>(
             DEFAULT_DOCKER_DB_REFERENCE)//
-                    .withCreateContainerCmdModifier(cmd -> cmd.withPortBindings(List.of( //
+                    .withCreateContainerCmdModifier(cmd -> cmd.getHostConfig().withPortBindings(List.of( //
                             new PortBinding(Ports.Binding.bindPort(EXASOL_MAPPED_PORT), new ExposedPort(EXASOL_PORT)), //
                             new PortBinding(Ports.Binding.bindPort(EXASOL_BUCKETFS_MAPPED_PORT),
                                     new ExposedPort(EXASOL_BUCKETFS_PORT)) //

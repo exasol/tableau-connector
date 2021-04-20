@@ -147,6 +147,7 @@ public class TableauServerGUIGateway {
     public String duplicateDataSource() {
         this.clickUpperMenuData("dataMenu");
         this.clickUpperMenuInnerButton("Duplicate Data Source");
+        this.explicitWait(2);
         return this.getElement("input", "data-tb-test-id", "renameDataSource-TextInput").getAttribute("value");
     }
 
@@ -161,8 +162,8 @@ public class TableauServerGUIGateway {
         this.getElement("label", "data-tb-test-id", "tabDataTabExtractToggleTestId-Label").click();
         this.explicitWait(2);
         this.getElement("a", "data-tb-test-id", "extract-create-button-TextLink").click();
-        this.getElement("button", "data-tb-test-id", "tabDataTabExtractCreationOKTestId-Button", 15).click();
-        final WebElement successBanner = this.getElement("div", "data-tb-test-id", "banner-success-toast-widget", 20);
+        this.getElement("button", "data-tb-test-id", "tabDataTabExtractCreationOKTestId-Button", 20).click();
+        final WebElement successBanner = this.getElement("div", "data-tb-test-id", "banner-success-toast-widget", 25);
         return successBanner.getText();
     }
 
@@ -173,7 +174,7 @@ public class TableauServerGUIGateway {
     }
 
     public void openSchema(final String schemaName) {
-        final WebElement button = this.getElement("button", "data-tb-test-id", "dataTab-schema-selector-Dropdown");
+        final WebElement button = this.getElement("button", "data-tb-test-id", "dataTab-schema-selector-Dropdown", 5);
         this.explicitWait(3);
         button.click();
         final List<WebElement> schemas = this.getElements("span", "class", "frvoegc");
@@ -227,11 +228,13 @@ public class TableauServerGUIGateway {
     public void saveWorkbook(final Workbook workbook) {
         this.clickUpperMenuData("fileMenu");
         this.clickUpperMenuInnerButton("Save As...");
-        this.explicitWait(2);
-        this.getElement("input", "class", "tabAuthSaveTextInput tab-selectable").sendKeys(workbook.getWorkbookName());
-        this.getElement("button", "data-tb-test-id", "save-dialog-save-Button").click();
-        this.explicitWait(2);
-        this.getElement("input", "data-tb-test-id", "auth-component-password-text-field-TextInput")
+        this.explicitWait(3);
+        this.getElement("input", "class", "tabAuthSaveTextInput tab-selectable", 5)
+                .sendKeys(workbook.getWorkbookName());
+        this.explicitWait(3);
+        this.getElement("button", "data-tb-test-id", "save-dialog-save-Button", 5).click();
+        this.explicitWait(3);
+        this.getElement("input", "data-tb-test-id", "auth-component-password-text-field-TextInput", 5)
                 .sendKeys(workbook.getPassword());
         this.getElement("button", "data-tb-test-id", "auth-component-sign-in-button-Button").click();
     }
