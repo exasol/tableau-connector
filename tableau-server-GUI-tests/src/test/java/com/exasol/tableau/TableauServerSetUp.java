@@ -29,16 +29,13 @@ public class TableauServerSetUp {
             .withEnv("TABLEAU_PASSWORD", TABLEAU_PASSWORD) //
             .withEnv("LICENSE_KEY", TABLEAU_LICENSE_KEY) //
             .withEnv("REQUESTED_LEASE_TIME", "60") //
-//            .withFileSystemBind("target/taco/", "/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors",
-//                    BindMode.READ_ONLY)
-            .withCopyFileToContainer(MountableFile.forHostPath("../src/exasol_odbc"), "/var/tmp/plugins/exasol_odbc")
             .waitingFor(Wait.forLogMessage(".*INFO exited: run-tableau-server.*", 1)) //
             .withStartupTimeout(Duration.ofSeconds(10000)) //
             .withReuse(true);
 
     public static void setUpServer() throws UnsupportedOperationException, IOException, InterruptedException {
         startContainer();
-        setConnectorsDirectoryPath();
+        setUpConnector();
         applyChanges();
     }
 
@@ -49,11 +46,13 @@ public class TableauServerSetUp {
         TABLEAU_SERVER_CONTAINER.start();
     }
 
-    private static void setConnectorsDirectoryPath()
-            throws UnsupportedOperationException, IOException, InterruptedException {
-        LOGGER.info("Setting connectors directory path on Tableau Server");
-        TABLEAU_SERVER_CONTAINER.execInContainer("tsm", "configuration", "set", "-k", "native_api.connect_plugins_path",
-                "-v", "/var/tmp/plugins", "--force-keys");
+    private static void setUpConnector() throws UnsupportedOperationException, IOException, InterruptedException {
+        LOGGER.info("Coping the connector to Tableau Server");
+        TABLEAU_SERVER_CONTAINER.copyFileToContainer(MountableFile.forHostPath("target/exasol_odbc.taco"),
+                "/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/exasol_odbc.taco");
+        LOGGER.info("Disabling connectors signature");
+        TABLEAU_SERVER_CONTAINER.execInContainer("tsm", "configuration", "set", "-k",
+                "native_api.disable_verify_connector_plugin_signature", "-v", "true", "--force-keys");
     }
 
     private static void applyChanges() throws UnsupportedOperationException, IOException, InterruptedException {

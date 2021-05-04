@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -25,10 +25,10 @@ public class TableauServerGUIGateway {
 
     private TableauServerGUIGateway(final String httpHostAddress) {
         this.httpHostAddress = httpHostAddress;
-        WebDriverManager.firefoxdriver().setup();
-        final FirefoxOptions options = new FirefoxOptions();
+        WebDriverManager.chromedriver().setup();
+        final ChromeOptions options = new ChromeOptions();
         options.setHeadless(true);
-        this.driver = new FirefoxDriver(options);
+        this.driver = new ChromeDriver(options);
     }
 
     public static TableauServerGUIGateway connectTo(final String httpHostAddress) {
@@ -92,8 +92,11 @@ public class TableauServerGUIGateway {
         this.switchToNewPage();
         this.getElement("div", "data-test-id", "server", 30).click();
         this.getElement("button", "data-tb-test-id", "connection-" + workbook.getConnectorName() + "-Button").click();
+        explicitWait(2);
         this.getElement("input", "data-tb-test-id", "server-textfield-TextInput").sendKeys(workbook.getHostname());
-        this.getElement("input", "data-tb-test-id", "port-textfield-TextInput").clear();
+        for (int i = 0; i < 4; ++i) { // workaround for chrome browser as clear() method doesn't work there
+            this.getElement("input", "data-tb-test-id", "port-textfield-TextInput").sendKeys(Keys.BACK_SPACE);
+        }
         this.getElement("input", "data-tb-test-id", "port-textfield-TextInput").sendKeys(workbook.getPort());
         this.getElement("input", "data-tb-test-id", "username-textfield-TextInput").sendKeys(workbook.getUsername());
         this.getElement("input", "data-tb-test-id", "password-textfield-TextInput").sendKeys(workbook.getPassword());
@@ -126,7 +129,7 @@ public class TableauServerGUIGateway {
     }
 
     public String getEstablishedConnectionName() {
-        return this.getElement("div", "class", "JoinArea__tabAuthTextEditingLabel__1xj1V tabAuthTextEditingLabel")
+        return this.getElement("div", "class", "JoinArea__tabAuthTextEditingLabel__1xj1V tabAuthTextEditingLabel", 5)
                 .getText();
     }
 
@@ -231,7 +234,7 @@ public class TableauServerGUIGateway {
         this.explicitWait(3);
         this.getElement("input", "class", "tabAuthSaveTextInput tab-selectable", 5)
                 .sendKeys(workbook.getWorkbookName());
-        this.explicitWait(3);
+        this.explicitWait(1);
         this.getElement("button", "data-tb-test-id", "save-dialog-save-Button", 5).click();
         this.explicitWait(3);
         this.getElement("input", "data-tb-test-id", "auth-component-password-text-field-TextInput", 5)
@@ -262,7 +265,9 @@ public class TableauServerGUIGateway {
         this.openWorkbooksList();
         try {
             this.driver.findElement(By.linkText(workbook.getWorkbookName())).click();
+            explicitWait(2);
             this.getElement("button", "data-tb-test-id", "action-menu-Button").click();
+            explicitWait(2);
             this.clickElementIfTextMatches("Delete…",
                     this.getElements("div", "data-tb-test-id", "action-menu-TextMenuItem"));
             this.getElement("button", "data-tb-test-id", "confirm-action-dialog-confirm-Button").click();
