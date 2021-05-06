@@ -20,9 +20,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.exasol.containers.ExasolContainer;
-import com.github.dockerjava.api.model.ExposedPort;
-import com.github.dockerjava.api.model.PortBinding;
-import com.github.dockerjava.api.model.Ports;
+import com.github.dockerjava.api.model.*;
 
 @Testcontainers
 class TableauServerGUITestIT {
@@ -85,11 +83,15 @@ class TableauServerGUITestIT {
     }
 
     private void createWorkbook() {
-        final Workbook workbook = Workbook.builder().workbookName("Test_workbook").connectorName(CONNECTOR_NAME)
-                .hostname(DOCKER_NETWORK_ADDRESS).username(EXASOL.getUsername())
-                .port(EXASOL.getMappedPort(EXASOL_PORT).toString()).password(EXASOL.getPassword()).build();
+        final Workbook workbook = createWorkbookWithPassword(EXASOL.getPassword());
         final Optional<String> errorMessage = tableauServerGateway.createWorkbook(workbook);
         assertTrue(errorMessage.isEmpty());
+    }
+
+    private Workbook createWorkbookWithPassword(final String password) {
+        return Workbook.builder().workbookName("Test_workbook").connectorName(CONNECTOR_NAME)
+                .hostname(DOCKER_NETWORK_ADDRESS).port(EXASOL.getMappedPort(EXASOL_PORT).toString())
+                .username(EXASOL.getUsername()).password(password).build();
     }
 
     @Test
@@ -112,9 +114,7 @@ class TableauServerGUITestIT {
 
     @Test
     void connectToExasolDatasourceWithWrongCredentials() {
-        final Workbook workbook = Workbook.builder().workbookName("Test_workbook").connectorName(CONNECTOR_NAME)
-                .hostname(DOCKER_NETWORK_ADDRESS).port(EXASOL.getMappedPort(EXASOL_PORT).toString())
-                .username(EXASOL_USERNAME).password("Wrong Password").build();
+        final Workbook workbook = this.createWorkbookWithPassword("Wrong Password");
         final Optional<String> errorMessage = tableauServerGateway.createWorkbook(workbook);
         assertAll(() -> assertThat(errorMessage.isPresent(), equalTo(true)),
                 () -> assertThat(errorMessage.get(), containsString("authentication failed")));
@@ -122,9 +122,7 @@ class TableauServerGUITestIT {
 
     @Test
     void saveWorkbook() {
-        final Workbook workbook = Workbook.builder().workbookName("Test_workbook").connectorName(CONNECTOR_NAME)
-                .hostname(DOCKER_NETWORK_ADDRESS).username(EXASOL_USERNAME)
-                .port(EXASOL.getMappedPort(EXASOL_PORT).toString()).password(EXASOL_PASSWORD).build();
+        final Workbook workbook = this.createWorkbookWithPassword(EXASOL.getPassword());
         tableauServerGateway.deleteWorkbookIfExists(workbook);
         tableauServerGateway.createWorkbook(workbook);
         tableauServerGateway.openSchema("TESTV1");

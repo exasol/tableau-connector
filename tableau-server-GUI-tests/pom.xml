@@ -87,6 +87,7 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>3.0.0-M3</version>
 				<configuration>
+					<systemPropertiesFile>${project.basedir}/src/test/resources/credentials.properties</systemPropertiesFile>
 					<excludes>
 						<exclude>TableauServerGUITest.java</exclude>
 					</excludes>
