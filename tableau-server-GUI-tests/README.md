@@ -12,7 +12,7 @@ TABLEAU_LICENSE_KEY=<tableau-server-license-key>
 
 ## Run the Tests Remotely
 
-Running the Tableau Server GUI tests in your local machine might impractical as you need to have a running Tableau Server container which might requires more resources than your machine can provide.
+Running the Tableau Server GUI tests in your local machine might impractical as you need a running Tableau Server container which might require more resources than your machine can provide.
 
 One solution for this is running the Tableau Server container in a remote(more powerful) machine, but still being able to trigger the tests from your local IDE. For this, you need to connect to spceify the host where the docker daemon is running, as follows:
 
