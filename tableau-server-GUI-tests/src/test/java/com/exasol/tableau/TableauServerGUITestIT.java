@@ -57,11 +57,6 @@ class TableauServerGUITestIT {
         }
     }
 
-    @AfterAll
-    static void afterAll() throws UnsupportedOperationException, IOException, InterruptedException {
-        TableauServerSetUp.teardownServer();
-    }
-
     @BeforeEach
     public void beforeEach() {
         tableauServerGateway = TableauServerGUIGateway.connectTo(TableauServerSetUp.getTableauServerConnectionURL());

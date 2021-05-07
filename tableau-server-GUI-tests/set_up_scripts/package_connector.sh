@@ -45,11 +45,6 @@ copy_packaged_connector_to_target_folder () {
     cp ./packaged-connector/exasol_odbc.taco ../../target/
 }
 
-sign_packaged_connector () {
-    echo "# TODO: Signing connector"
-    #TODO:
-}
-
 clean () {
     cd ../..
     remove_tableau_connector_plugin_sdk_directory
@@ -69,5 +64,4 @@ remove_directory_if_exists () {
 set_up_environment
 package_connector
 copy_packaged_connector_to_target_folder
-sign_packaged_connector
 clean
