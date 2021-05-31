@@ -8,6 +8,10 @@ Version 0.1.0 of the Tableau Connector brings the connector embedded into Exasol
 
 Note that this version is not considered production-ready, since it has only been tested using Tableau's TDVT test suite. Tests on Tableau server have not yet been conducted.
 
+## Refactorings
+
+* #6: Optimized metadata fetching.
+
 ## Bug Fixes
  
 * #1: Fixed conversion from pure-time type to Tableau-compatible timestamp.
