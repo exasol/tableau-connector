@@ -950,6 +950,28 @@
       <argument type='bool' />
       <argument type='bool' />
     </function>
+    <function group='string' name='REGEXP_REPLACE' return-type='str'>
+      <formula>REGEXP_REPLACE(%1, %2, %3)</formula>
+      <argument type='str' />
+      <argument type='str' />
+      <argument type='str' />
+    </function>
+    <function group='string' name='REGEXP_MATCH' return-type='bool'>
+      <formula>(%1 REGEXP_LIKE %2)</formula>
+      <argument type='str' />
+      <argument type='str' />
+    </function>
+    <function group='string' name='REGEXP_EXTRACT' return-type='str'>
+      <formula>REGEXP_SUBSTR(%1, %2)</formula>
+      <argument type='str' />
+      <argument type='str' />
+    </function>
+    <function group='string' name='REGEXP_EXTRACT_NTH' return-type='str'>
+      <formula>REGEXP_SUBSTR(%1, %2, %3)</formula>
+      <argument type='str' />
+      <argument type='str' />
+      <argument type='localint' />
+    </function>
     <date-function name='DATEADD' return-type='datetime'>
       <formula>(%3 + %2 * INTERVAL &apos;1&apos; %1)</formula>
       <formula part='quarter'>ADD_MONTHS(%3, (3 * %2))</formula>
