@@ -11,6 +11,7 @@ Note that this version is not considered production-ready, since it has only bee
 ## Features
 
 * #14: Enabled REGEX_* functions.
+* #15: Added support for Kerberos authentication.
 
 ## Refactorings
 

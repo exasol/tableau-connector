@@ -37,9 +37,11 @@
       <customization name="CAP_ODBC_TRIM_VARCHAR_PADDING" value="yes"/>
       <customization name="CAP_ODBC_UNBIND_EACH" value="no"/>
 
+      <customization name="CAP_AUTH_KERBEROS_IMPERSONATE" value="yes"/>
     </customizations>
   </connection-customization>
-  <connection-dialog file='connectionDialog.tcd'/>
+  <connection-fields file='connection-fields.xml'/>
+  <connection-metadata file='connection-metadata.xml'/>
   <connection-resolver file="connectionResolver.tdr"/>
   <dialect file='dialect.tdd'/>
 </connector-plugin>

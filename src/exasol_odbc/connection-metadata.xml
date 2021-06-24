@@ -1,0 +1,4 @@
+<connection-metadata>
+  <database enabled='false'/>
+  <schema enabled='true' label="Schema" />
+</connection-metadata>

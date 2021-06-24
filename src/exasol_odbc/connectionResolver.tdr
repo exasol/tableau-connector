@@ -10,6 +10,7 @@
         <attribute-list>
           <attr>server</attr>
           <attr>port</attr>
+          <attr>authentication</attr>
           <attr>schema</attr>
           <attr>username</attr>
           <attr>password</attr>
