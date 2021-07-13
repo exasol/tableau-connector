@@ -1,12 +1,11 @@
-# tableau-connector 0.1.0, released 2021-??-??
+# Exasol Tableau Connector 0.1.0, released 2021-07-14
  
-Code name: Green original tests
+Code name: Additional functions support, optimized metadata fetching
 
 ## Summary
 
-Version 0.1.0 of the Tableau Connector brings the connector embedded into Exasol's standard project layout. Also the existing test with the TDVT test suite provided by Tableau can now be executed. Test failures have been fixed.
-
-Note that this version is not considered production-ready, since it has only been tested using Tableau's TDVT test suite. Tests on Tableau server have not yet been conducted.
+Version 0.1.0 of the Tableau Connector brings the connector embedded into Exasol's standard project layout. The release contains a few bug fixes and improvements, including optimized metadata fetching, and a few additional functions enabled.
+The connector was tested with the TDVT test framework and also with freshly added integration tests for the Tableau Server application.
 
 ## Features
 
@@ -24,4 +23,5 @@ Note that this version is not considered production-ready, since it has only bee
  
 ## Documentation
  
-* #1: Added changelog and README
+* #1: Added changelog and README.
+* #20: Added a user guide. 
