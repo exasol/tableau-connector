@@ -1,4 +1,4 @@
-# Exasol Tableau Connector 0.1.0, released 2021-07-14
+# Exasol Tableau Connector 0.1.0, released 2021-07-15
  
 Code name: Additional functions support, optimized metadata fetching
 
