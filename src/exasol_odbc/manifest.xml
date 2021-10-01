@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 
-<connector-plugin class='exasol_odbc' superclass='odbc' plugin-version='1.0.0' name='Exasol' version='18.1'>
+<connector-plugin class='exasol_odbc' superclass='odbc' plugin-version='1.0.0' name='Exasol ODBC' version='18.1'>
   <vendor-information>
     <company name="Exasol"/>
     <support-link url="https://www.exasol.com/"/>
