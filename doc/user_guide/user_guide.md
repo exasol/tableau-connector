@@ -1,6 +1,7 @@
 # User Guide
 
 The Exasol Tableau Connector is distributed together with Tableau Desktop and Tableau Server applications. We recommend using the latest available version of Tableau products to access the connector.
+
 If you want to use the currently developed version of connector, you can follow the guide below and install the connector disabling sign verification.
 
 ## Testing In-Development Connector
@@ -16,13 +17,13 @@ If you want to use the currently developed version of connector, you can follow 
 * Open Windows cmd and start Tableau Desktop providing the path to the connector directory and also disabling the signature check.
 
     ```shell
-    "<path to tableau.exe file>" -DConnectPluginsPath=<path to connector> -DDisableVerifyConnectorPluginSignature
+    "<path to tableau.exe file>" -DConnectPluginsPath=<path to connector>
     ```
 
     Example:
 
     ```shell
-    "C:\Program Files\Tableau\Tableau <version>\bin\tableau.exe" -DConnectPluginsPath=C:\Users\user\git\tableau-connector\src -DDisableVerifyConnectorPluginSignature
+    "C:\Program Files\Tableau\Tableau <version>\bin\tableau.exe" -DConnectPluginsPath=C:\Users\user\git\tableau-connector\src
     ```
 
 ## With Tableau Server
