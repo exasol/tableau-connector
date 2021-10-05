@@ -13,3 +13,4 @@
 .idea
 *.iml
 *.env
+/tdvt_jdbc/tds/exasol_jdbc.password
