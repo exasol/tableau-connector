@@ -6,7 +6,15 @@ If you want to use the currently developed version of connector, you can follow 
 
 ## Testing In-Development Connector
 
-## With Tableau Desktop
+### Install the JDBC Driver
+
+* [Download the JDBC driver](https://www.exasol.com/portal/display/DOWNLOAD/)
+* Copy the driver to the Tableau installation directory:
+  * Windows: `C:\Program Files\Tableau\Drivers`
+  * Mac: `~/Library/Tableau/Drivers`
+  * Linux: `/opt/tableau/tableau_driver/jdbc`
+
+### With Tableau Desktop
 
 * Clone the Tableau-Connector repository. You can execute the following command from [Git Bash](https://gitforwindows.org/) terminal:
 
@@ -26,7 +34,7 @@ If you want to use the currently developed version of connector, you can follow 
     "C:\Program Files\Tableau\Tableau <version>\bin\tableau.exe" -DConnectPluginsPath=C:\Users\user\git\tableau-connector\src
     ```
 
-## With Tableau Server
+### With Tableau Server
 
 * Clone the Tableau-Connector repository:
 
