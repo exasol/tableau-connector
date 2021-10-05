@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <connection-fields>
-  <field name="server" label="Server" value-type="string" category="endpoint" />
+  <field name="server" label="Server" value-type="string" optional="false" category="endpoint" />
 
-  <field name="port" label="Port" value-type="string" category="endpoint" default-value="8563" />
+  <field name="port" label="Port" value-type="string" optional="false" category="endpoint" default-value="8563" />
 
-  <field name="username" label="Username" value-type="string" category="authentication" />
+  <field name="username" label="Username" value-type="string" optional="false" category="authentication" />
 
-  <field name="password" label="Password" value-type="string" category="authentication" secure="true" />
+  <field name="password" label="Password" value-type="string" optional="false" category="authentication" secure="true" />
 
+  <field name="fingerprint" label="Fingerprint" value-type="string" optional="true" category="general" />
+
+  <field name="v-validateservercertificate" label="Validate Server Certificate" value-type="boolean" category="general" default-value="1" >
+    <boolean-options>
+      <false-value value="0" />
+      <true-value value="1" />
+    </boolean-options>
+  </field>
 </connection-fields>

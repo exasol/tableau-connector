@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 
-<connector-plugin class='exasol_jdbc' superclass='jdbc' plugin-version='1.0.0' name='Exasol JDBC' version='18.1' min-version-tableau='2020.4'>
+<connector-plugin class='exasol_jdbc' superclass='jdbc' plugin-version='1.0.0' name='Exasol JDBC' version='18.1' min-version-tableau='2021.3'>
   <vendor-information>
     <company name="Exasol AG"/>
     <support-link url="https://www.exasol.com"/>
@@ -38,13 +38,14 @@
       
       <!-- JDBC -->
       <customization name="CAP_JDBC_EXPORT_DATA_BATCH" value="yes"/>
-      <customization name="CAP_JDBC_SET_CLIENT_INFO" value="yes"/>
 
-      <!-- Requires JDBC driver option feedbackinterval=1 (=1 sec, default: 30s) -->
+      <!-- https://www.exasol.com/support/browse/SPOT-13158 -->
+      <customization name="CAP_JDBC_SET_CLIENT_INFO" value="no"/>
+
+      <!-- Requires JDBC driver option feedbackinterval=1 -->
       <!-- Only one query at a time per connection, but multiple result sets are possible -->
       <customization name="CAP_JDBC_QUERY_ASYNC" value="yes"/>
       <customization name="CAP_JDBC_QUERY_CANCEL" value="yes"/>
-
     </customizations>
   </connection-customization>
   <connection-fields file='connectionFields.xml'/>
