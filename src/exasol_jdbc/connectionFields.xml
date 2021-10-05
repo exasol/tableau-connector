@@ -9,7 +9,7 @@
 
   <field name="password" label="Password" value-type="string" optional="false" category="authentication" secure="true" />
 
-  <field name="fingerprint" label="Fingerprint" value-type="string" optional="true" category="general" />
+  <field name="v-fingerprint" label="Fingerprint" value-type="string" optional="true" category="general" />
 
   <field name="v-validateservercertificate" label="Validate Server Certificate" value-type="boolean" category="general" default-value="1" >
     <boolean-options>

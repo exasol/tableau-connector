@@ -3,10 +3,8 @@
     props["user"] = attr[connectionHelper.attributeUsername];
     props["password"] = attr[connectionHelper.attributePassword];
 
-    //if (attr[connectionHelper.attributeSSLMode] == "require") {
-    //    props["ssl"] = "true";
-    //    props["sslmode"] = "require";
-    //}
+    props["fingerprint"] = attr['v-fingerprint'];
+    props["validateservercertificate"] = attr['v-validateservercertificate'];
 
     return props;
 })
