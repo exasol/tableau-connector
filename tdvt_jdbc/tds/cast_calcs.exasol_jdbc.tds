@@ -370,11 +370,11 @@
         <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Calcs_AECE0FC479F140E989703B72368E91B9]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
       </metadata-record>
       <metadata-record class='column'>
-        <remote-name>zzz2</remote-name>
+        <remote-name>zzz</remote-name>
         <remote-type>129</remote-type>
-        <local-name>[zzz2]</local-name>
+        <local-name>[zzz]</local-name>
         <parent-name>[Calcs]</parent-name>
-        <remote-alias>zzz2</remote-alias>
+        <remote-alias>zzz</remote-alias>
         <ordinal>27</ordinal>
         <local-type>string</local-type>
         <aggregation>Count</aggregation>
@@ -415,7 +415,7 @@
   <column caption='Str3' datatype='string' name='[str3]' role='dimension' type='nominal' />
   <column caption='Time0' datatype='datetime' name='[time0]' role='dimension' type='ordinal' />
   <column caption='Time1' datatype='string' name='[time1]' role='dimension' type='nominal' />
-  <column caption='Zzz2' datatype='string' name='[zzz2]' role='dimension' type='nominal' />
+  <column caption='Zzz' datatype='string' name='[zzz]' role='dimension' type='nominal' />
   <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
   <semantic-values>
     <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
