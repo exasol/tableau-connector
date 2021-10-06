@@ -46,6 +46,10 @@
       <!-- Only one query at a time per connection, but multiple result sets are possible -->
       <customization name="CAP_JDBC_QUERY_ASYNC" value="yes"/>
       <customization name="CAP_JDBC_QUERY_CANCEL" value="yes"/>
+
+      <!-- Required -->
+      <customization name="CAP_JDBC_TRIM_STRING_PADDING" value="yes"/>
+
     </customizations>
   </connection-customization>
   <connection-fields file='connectionFields.xml'/>
