@@ -10,6 +10,12 @@
     grant select on schema testv1 to TABLEAU_TEST_USER;
     ```
 
+* Add this to `c:\Windows\System32\Drivers\etc\hosts`:
+
+```
+10.0.0.2    exasol.test.lan
+```
+
 * Install tdvt
 
 
