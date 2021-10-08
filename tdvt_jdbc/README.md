@@ -23,6 +23,6 @@
 
 ```bash
 cd tdvt_jdbc
-python -m tdvt.tdvt run exasol_jdbc --generate --threads 1
-python -m tdvt.tdvt run exasol_jdbc --threads 1
+python -m tdvt.tdvt run exasol_jdbc --generate
+python -m tdvt.tdvt run exasol_jdbc
 ```
