@@ -1,5 +1,18 @@
 # Tableau Server GUI Integration Tests
 
+## Setup
+
+1. Follow the [instructions](https://help.tableau.com/current/server-linux/en-us/server-in-container_setup-tool.htm) to create a container. This should result in an image `tableau_server_image:<version>`, e.g. `tableau_server_image:20213.21.0917.1006`.
+2. Update `set_up_scripts/Dockerfile`:
+   * Use the same image in the `FROM` line, e.g. `tableau_server_image:20213.21.0917.1006`
+   * Update the download urls to the latest Exasol release.
+4. Run
+
+    ```bash
+    cd set_up_scripts
+    docker build . --tag tablau_server_with_exasol_drivers
+    ```
+
 ## Run the Tests
 
 To run the test you need to create the `/src/test/resources/credentials.properties` file with the following content (replace the placeholders for real values):
