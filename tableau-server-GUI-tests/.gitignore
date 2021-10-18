@@ -6,3 +6,5 @@
 /.settings/org.eclipse.jdt.apt.core.prefs
 /src/test/resources/credentials.properties
 /.factorypath
+/.apt_generated/
+/.apt_generated_tests/

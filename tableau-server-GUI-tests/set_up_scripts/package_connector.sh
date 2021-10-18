@@ -58,7 +58,7 @@ remove_tableau_connector_plugin_sdk_directory () {
 
 remove_directory_if_exists () {
   if [ -d "$1" ]; then
-    rm -rf $1
+    rm -rf "$1"
   fi
 }
     
