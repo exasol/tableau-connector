@@ -3,13 +3,13 @@
 ## Setup
 
 1. Follow the [instructions](https://help.tableau.com/current/server-linux/en-us/server-in-container_setup-tool.htm) to create a container. This should result in an image `tableau_server_image:<version>`, e.g. `tableau_server_image:20213.21.0917.1006`.
-2. Update `set_up_scripts/Dockerfile`:
+2. Update `tableau-server-GUI-tests/set_up_scripts/Dockerfile`:
    * Use the same image in the `FROM` line, e.g. `tableau_server_image:20213.21.0917.1006`
    * Update the download urls to the latest Exasol release.
 4. Run
 
     ```bash
-    cd set_up_scripts
+    cd tableau-server-GUI-tests/set_up_scripts
     docker build . --tag tablau_server_with_exasol_drivers
     ```
 
@@ -21,6 +21,13 @@ To run the test you need to create the `/src/test/resources/credentials.properti
 TABLEAU_USERNAME=<tableau-server-username>
 TABLEAU_PASSWORD=<tableau-server-password>
 TABLEAU_LICENSE_KEY=<tableau-server-license-key>
+```
+
+Start the tests with
+
+```sh
+cd tableau-server-GUI-tests
+mvn integration-test
 ```
 
 ## Run the Tests Remotely

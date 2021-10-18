@@ -5,3 +5,4 @@
 /.project
 /.settings/org.eclipse.jdt.apt.core.prefs
 /src/test/resources/credentials.properties
+/.factorypath
