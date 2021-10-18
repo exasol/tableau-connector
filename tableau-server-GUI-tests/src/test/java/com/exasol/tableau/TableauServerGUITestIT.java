@@ -25,7 +25,7 @@ import com.github.dockerjava.api.model.*;
 @Testcontainers
 class TableauServerGUITestIT {
     private static final String CONNECTOR_NAME = "Exasol by Exasol";
-    private static final String DEFAULT_DOCKER_DB_REFERENCE = "7.0.7";
+    private static final String DEFAULT_DOCKER_DB_REFERENCE = "7.1.1";
     public static final String DOCKER_NETWORK_ADDRESS = "172.17.0.1";
     private static TableauServerGUIGateway tableauServerGateway;
 
@@ -37,7 +37,8 @@ class TableauServerGUITestIT {
                             new PortBinding(Ports.Binding.bindPort(EXASOL_BUCKETFS_MAPPED_PORT),
                                     new ExposedPort(EXASOL_BUCKETFS_PORT)) //
                     ))) //
-                    .withExposedPorts(EXASOL_PORT, EXASOL_BUCKETFS_PORT).withReuse(true);
+                    .withExposedPorts(EXASOL_PORT, EXASOL_BUCKETFS_PORT) //
+                    .withReuse(true);
 
     @BeforeAll
     static void beforeAll() throws UnsupportedOperationException, IOException, InterruptedException {
@@ -53,7 +54,7 @@ class TableauServerGUITestIT {
                 statement.execute(command);
             }
         } catch (final SQLException | IOException exception) {
-            exception.printStackTrace();
+            throw new AssertionError("Error preparing Exasol DB", exception);
         }
     }
 
