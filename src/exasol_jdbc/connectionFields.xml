@@ -2,9 +2,11 @@
 
 <connection-fields>
   <field name="server" label="Server" value-type="string" optional="false" category="endpoint" />
-
+  
   <field name="port" label="Port" value-type="string" optional="false" category="endpoint" default-value="8563" />
-
+  
+  <field name="authentication" label="Authentication" category="authentication" value-type="string" editable="false" default-value="auth-user-pass" />
+  
   <field name="username" label="Username" value-type="string" optional="false" category="authentication" />
 
   <field name="password" label="Password" value-type="string" optional="false" category="authentication" secure="true" />
