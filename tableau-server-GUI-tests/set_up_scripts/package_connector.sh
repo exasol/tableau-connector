@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euxo pipefail
 
 set_up_environment () {
     clone_tableau_connector_plugin_sdk_repository
