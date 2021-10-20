@@ -25,7 +25,8 @@ import com.github.dockerjava.api.model.*;
 
 @Testcontainers
 class TableauServerGUITestIT {
-    private static final String CONNECTOR_NAME = "Exasol by Exasol";
+    private static final String ODBC_CONNECTOR_NAME = "Exasol ODBC by Exasol AG";
+    private static final String JDBC_CONNECTOR_NAME = "Exasol JDBC by Exasol AG";
     private static final String DEFAULT_DOCKER_DB_REFERENCE = "7.1.1";
     public static final String DOCKER_NETWORK_ADDRESS = "172.17.0.1";
     private static TableauServerGUIGateway tableauServerGateway;
@@ -34,8 +35,7 @@ class TableauServerGUITestIT {
     protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL = new ExasolContainer<>(
             DEFAULT_DOCKER_DB_REFERENCE)//
                     .withCreateContainerCmdModifier(cmd -> cmd.getHostConfig().withPortBindings(List.of( //
-                            new PortBinding(Ports.Binding.bindPort(EXASOL_MAPPED_PORT), new ExposedPort(EXASOL_PORT))
-                    ))) //
+                            new PortBinding(Ports.Binding.bindPort(EXASOL_MAPPED_PORT), new ExposedPort(EXASOL_PORT))))) //
                     .withExposedPorts(EXASOL_PORT) //
                     .withRequiredServices(ExasolService.JDBC) //
                     .withReuse(true);
@@ -85,7 +85,7 @@ class TableauServerGUITestIT {
     }
 
     private Workbook createWorkbookWithPassword(final String password) {
-        return Workbook.builder().workbookName("Test_workbook").connectorName(CONNECTOR_NAME)
+        return Workbook.builder().workbookName("Test_workbook").connectorName(ODBC_CONNECTOR_NAME)
                 .hostname(DOCKER_NETWORK_ADDRESS).port(EXASOL.getMappedPort(EXASOL_PORT).toString())
                 .username(EXASOL.getUsername()).password(password).build();
     }

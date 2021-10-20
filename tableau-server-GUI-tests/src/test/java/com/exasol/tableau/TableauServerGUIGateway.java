@@ -3,12 +3,11 @@ package com.exasol.tableau;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 import java.time.Duration;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -183,7 +182,7 @@ public class TableauServerGUIGateway {
         final WebElement button = this.getElement("button", "data-tb-test-id", "dataTab-schema-selector-Dropdown", 5);
         this.explicitWait(3);
         button.click();
-        final List<WebElement> schemas = this.getElements("span", "class", "frvoegc");
+        final List<WebElement> schemas = this.getElements("span", "class", "ftmd0dp");
         this.clickElementIfTextMatches(schemaName, schemas);
     }
 
