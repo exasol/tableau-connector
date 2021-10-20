@@ -21,6 +21,10 @@ The Exasol Tableau Connector is an adapter, that maps Exasol's analytical capabi
 * [Tableau in the Exasol Online Documentation](https://docs.exasol.com/connect_exasol/bi_tools/tableau.htm)
 * [White paper on Exasol and Tableau](https://www.exasol.com/resource/tableau-exasol-better-together/)
 
+## Information for Developers
+
+* [Developer Guide](doc/developer_guide/developer_guide.md)
+
 # Dependencies
 
 ## Runtime Dependencies

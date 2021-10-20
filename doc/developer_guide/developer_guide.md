@@ -26,3 +26,7 @@ cd tdvt_jdbc
 python -m tdvt.tdvt run exasol_jdbc --generate
 python -m tdvt.tdvt run exasol_jdbc
 ```
+
+## Troubleshooting
+
+Log files of Tableau Desktop: `%USERPROFILE%\Documents\My Tableau Repository\Logs\log.txt`
