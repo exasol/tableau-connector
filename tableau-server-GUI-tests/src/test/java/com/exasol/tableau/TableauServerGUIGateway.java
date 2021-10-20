@@ -28,7 +28,7 @@ public class TableauServerGUIGateway {
         this.httpHostAddress = httpHostAddress;
         WebDriverManager.chromedriver().setup();
         final ChromeOptions options = new ChromeOptions();
-        options.setHeadless(false);
+        options.setHeadless(true);
         this.driver = new ChromeDriver(options);
     }
 
