@@ -4,6 +4,7 @@
 /.classpath
 /.project
 /.settings/org.eclipse.jdt.apt.core.prefs
+/.settings/org.eclipse.core.resources.prefs
 /src/test/resources/credentials.properties
 /.factorypath
 /.apt_generated/
