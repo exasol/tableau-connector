@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.MountableFile;
 
 import com.github.dockerjava.api.model.*;
@@ -17,7 +16,6 @@ public class TableauServerSetUp {
     private static final Logger LOGGER = Logger.getLogger(TableauServerSetUp.class.getName());
     private static final String REQUESTED_LEASE_TIME_IN_SECONDS = "60";
 
-    @Container
     public static GenericContainer<?> TABLEAU_SERVER_CONTAINER = new GenericContainer<>(TABLEAU_SERVER_DOCKER_IMAGE)
             .withExposedPorts(TABLEAU_PORT)//
             .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(new HostConfig().withPortBindings(
@@ -27,7 +25,7 @@ public class TableauServerSetUp {
             .withEnv("LICENSE_KEY", TABLEAU_LICENSE_KEY) //
             .withEnv("REQUESTED_LEASE_TIME", REQUESTED_LEASE_TIME_IN_SECONDS) //
             .waitingFor(Wait.forLogMessage(".*INFO exited: run-tableau-server.*", 1)) //
-            .withStartupTimeout(Duration.ofSeconds(2400)) //
+            .withStartupTimeout(Duration.ofMinutes(40)) //
             .withReuse(true);
 
     public static void setUpServer() throws UnsupportedOperationException, IOException, InterruptedException {
@@ -40,15 +38,17 @@ public class TableauServerSetUp {
     }
 
     private static void setUpConnector() throws UnsupportedOperationException, IOException, InterruptedException {
-        copyConnectorToServer();
+        copyConnectorsToServer();
         disableConnectorSignatureVerification();
         applyChanges();
     }
 
-    private static void copyConnectorToServer() {
-        LOGGER.info("Copying the connector to Tableau Server");
+    private static void copyConnectorsToServer() {
+        LOGGER.info("Copying the connectors to Tableau Server");
         TABLEAU_SERVER_CONTAINER.copyFileToContainer(MountableFile.forHostPath("target/exasol_odbc.taco"),
                 "/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/exasol_odbc.taco");
+        TABLEAU_SERVER_CONTAINER.copyFileToContainer(MountableFile.forHostPath("target/exasol_jdbc.taco"),
+                "/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/exasol_jdbc.taco");
     }
 
     private static void disableConnectorSignatureVerification() throws IOException, InterruptedException {

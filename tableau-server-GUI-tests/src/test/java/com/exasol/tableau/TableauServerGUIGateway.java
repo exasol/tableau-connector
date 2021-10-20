@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,6 +21,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
  * Gateway for interacting with Tableau Server.
  */
 public class TableauServerGUIGateway {
+    private static final Logger LOGGER = Logger.getLogger(TableauServerGUIGateway.class.getName());
     private final WebDriver driver;
     private final String httpHostAddress;
 
@@ -27,11 +29,12 @@ public class TableauServerGUIGateway {
         this.httpHostAddress = httpHostAddress;
         WebDriverManager.chromedriver().setup();
         final ChromeOptions options = new ChromeOptions();
-        options.setHeadless(true);
+        options.setHeadless(false);
         this.driver = new ChromeDriver(options);
     }
 
     public static TableauServerGUIGateway connectTo(final String httpHostAddress) {
+        LOGGER.info(() -> "Connecting to '" + httpHostAddress + "'");
         final TableauServerGUIGateway gateway = new TableauServerGUIGateway(httpHostAddress);
         gateway.openSession(httpHostAddress);
         return gateway;

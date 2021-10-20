@@ -20,6 +20,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.exasol.containers.ExasolContainer;
+import com.exasol.containers.ExasolService;
 import com.github.dockerjava.api.model.*;
 
 @Testcontainers
@@ -33,11 +34,10 @@ class TableauServerGUITestIT {
     protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL = new ExasolContainer<>(
             DEFAULT_DOCKER_DB_REFERENCE)//
                     .withCreateContainerCmdModifier(cmd -> cmd.getHostConfig().withPortBindings(List.of( //
-                            new PortBinding(Ports.Binding.bindPort(EXASOL_MAPPED_PORT), new ExposedPort(EXASOL_PORT)), //
-                            new PortBinding(Ports.Binding.bindPort(EXASOL_BUCKETFS_MAPPED_PORT),
-                                    new ExposedPort(EXASOL_BUCKETFS_PORT)) //
+                            new PortBinding(Ports.Binding.bindPort(EXASOL_MAPPED_PORT), new ExposedPort(EXASOL_PORT))
                     ))) //
-                    .withExposedPorts(EXASOL_PORT, EXASOL_BUCKETFS_PORT) //
+                    .withExposedPorts(EXASOL_PORT) //
+                    .withRequiredServices(ExasolService.JDBC) //
                     .withReuse(true);
 
     @BeforeAll
