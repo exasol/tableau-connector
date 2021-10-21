@@ -8,6 +8,8 @@ public class Workbook {
     private final String password;
     private final String port;
     private final String fingerprint;
+    private final Boolean validateServerCertificate;
+    private final String databaseName;
 
     private Workbook(final Builder builder) {
         this.workbookName = builder.workbookName;
@@ -17,6 +19,8 @@ public class Workbook {
         this.password = builder.password;
         this.port = builder.port;
         this.fingerprint = builder.fingerprint;
+        this.validateServerCertificate = builder.validateServerCertificate;
+        this.databaseName = builder.databaseName;
     }
 
     public String getWorkbookName() {
@@ -47,6 +51,14 @@ public class Workbook {
         return this.fingerprint;
     }
 
+    public Boolean getValidateServerCertificate() {
+        return this.validateServerCertificate;
+    }
+
+    public String getDatabaseName() {
+        return this.databaseName;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -58,10 +70,11 @@ public class Workbook {
         private String username;
         private String password;
         private String port;
-        public String fingerprint;
+        private String fingerprint = null;
+        private Boolean validateServerCertificate = null;
+        private String databaseName = null;
 
         private Builder() {
-
         }
 
         public Builder workbookName(final String name) {
@@ -96,6 +109,16 @@ public class Workbook {
 
         public Builder fingerprint(final String fingerprint) {
             this.fingerprint = fingerprint;
+            return this;
+        }
+
+        public Builder validateServerCertificate(final Boolean validateServerCertificate) {
+            this.validateServerCertificate = validateServerCertificate;
+            return this;
+        }
+
+        public Builder databaseName(final String databaseName) {
+            this.databaseName = databaseName;
             return this;
         }
 

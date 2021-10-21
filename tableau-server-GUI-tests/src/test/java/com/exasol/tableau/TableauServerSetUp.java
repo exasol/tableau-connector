@@ -30,7 +30,6 @@ public class TableauServerSetUp {
             .withEnv("LICENSE_KEY", TABLEAU_LICENSE_KEY) //
             .withEnv("REQUESTED_LEASE_TIME", REQUESTED_LEASE_TIME_IN_SECONDS) //
             .waitingFor(Wait.forLogMessage(".*INFO exited: run-tableau-server.*", 1)) //
-            // INFO exited: run-tableau-server (exit status 0; expected)
             .withStartupTimeout(Duration.ofMinutes(40)) //
             .withReuse(true);
 

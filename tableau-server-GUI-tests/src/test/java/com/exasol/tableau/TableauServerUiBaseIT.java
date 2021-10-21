@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.*;
 import org.testcontainers.junit.jupiter.Container;
@@ -22,16 +21,15 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.exasol.containers.ExasolContainer;
 import com.exasol.containers.ExasolService;
+import com.exasol.tableau.Workbook.Builder;
 import com.github.dockerjava.api.model.*;
 
 @Testcontainers
 abstract class TableauServerUiBaseIT {
 
-    private final String connectorName;
-
     private static final String DEFAULT_DOCKER_DB_REFERENCE = "7.1.1";
     public static final String DOCKER_NETWORK_ADDRESS = "172.17.0.1";
-    private static TableauServerGUIGateway tableauServerGateway;
+    protected static TableauServerGUIGateway tableauServerGateway;
 
     @Container
     protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL = new ExasolContainer<>(
@@ -50,7 +48,7 @@ abstract class TableauServerUiBaseIT {
 
     private static void prepareExasolDatabase() {
         try (final Statement statement = EXASOL.createConnection().createStatement()) {
-            final String sqlFile = Files.readString(Path.of("src", "test", "resources", "populate_table.sql"));
+            final String sqlFile = Files.readString(Path.of("src/test/resources/populate_table.sql"));
             final String[] sqlCommands = sqlFile.split(";");
             for (final String command : sqlCommands) {
                 statement.execute(command);
@@ -58,10 +56,6 @@ abstract class TableauServerUiBaseIT {
         } catch (final SQLException | IOException exception) {
             throw new AssertionError("Error preparing Exasol DB", exception);
         }
-    }
-
-    protected TableauServerUiBaseIT(final String connectorName) {
-        this.connectorName = connectorName;
     }
 
     @BeforeEach
@@ -85,38 +79,31 @@ abstract class TableauServerUiBaseIT {
     }
 
     private void createWorkbook() {
-        final Workbook workbook = createWorkbookWithPassword(EXASOL.getPassword());
+        final Workbook workbook = createWorkbookBuilder().build();
+        assertCreatingWorkbookSucceeds(workbook);
+    }
+
+    protected void assertCreatingWorkbookSucceeds(final Workbook workbook) {
         final Optional<String> errorMessage = tableauServerGateway.createWorkbook(workbook);
-        assertTrue(errorMessage.isEmpty());
+        if (errorMessage.isPresent()) {
+            throw new AssertionError("Expected no error but got '" + errorMessage.get() + "'");
+        }
     }
 
-    private Workbook createWorkbookWithPassword(final String password) {
-        return Workbook.builder().workbookName("Test_workbook")
-                .connectorName(this.connectorName)
-                .hostname(DOCKER_NETWORK_ADDRESS)
-                .port(EXASOL.getMappedPort(EXASOL_PORT).toString())
-                .username(EXASOL.getUsername())
-                .password(password)
-                .fingerprint(extractFingerprint(EXASOL.getJdbcUrl()))
-                .build();
-    }
-
-    public static String extractFingerprint(final String jdbcUrl) {
-        if (jdbcUrl.contains("validateservercertificate=0")) {
-            throw new AssertionError("Jdbc url '" + jdbcUrl + "' does not validate certificate");
-        }
-        final java.util.regex.Matcher matcher = Pattern.compile("jdbc:exa:[^/]+/([^:]+):.*").matcher(jdbcUrl);
-        if (!matcher.matches()) {
-            throw new IllegalStateException("Error extracting fingerprint from '" + jdbcUrl + "'");
-        }
-        return matcher.group(1);
-    }
+    protected abstract Builder createWorkbookBuilder();
 
     @Test
     void duplicateExasolDatasource() {
-        this.createWorkbook();
+        final Workbook workbook = this.createWorkbookBuilder().build();
+        this.assertCreatingWorkbookSucceeds(workbook);
+        assertDuplicateWorkbookName(workbook);
+    }
+
+    private void assertDuplicateWorkbookName(final Workbook workbook) {
+        final String expectedDbName = workbook.getDatabaseName() != null ? workbook.getDatabaseName()
+                : DOCKER_NETWORK_ADDRESS;
         final String duplicateName = tableauServerGateway.duplicateDataSource();
-        assertThat(duplicateName, equalTo(DOCKER_NETWORK_ADDRESS + " (copy)"));
+        assertThat(duplicateName, equalTo(expectedDbName + " (copy)"));
     }
 
     @Test
@@ -132,15 +119,19 @@ abstract class TableauServerUiBaseIT {
 
     @Test
     void connectToExasolDatasourceWithWrongCredentials() {
-        final Workbook workbook = this.createWorkbookWithPassword("Wrong Password");
-        final Optional<String> errorMessage = tableauServerGateway.createWorkbook(workbook);
+        final Workbook workbook = this.createWorkbookBuilder().password("Wrong Password").build();
+        assertCreatingWorkbookFails(workbook, "authentication failed");
+    }
+
+    protected void assertCreatingWorkbookFails(final Workbook configuration, final String expectedErrorMessage) {
+        final Optional<String> errorMessage = tableauServerGateway.createWorkbook(configuration);
         assertAll(() -> assertThat(errorMessage.isPresent(), equalTo(true)),
-                () -> assertThat(errorMessage.get(), containsString("authentication failed")));
+                () -> assertThat(errorMessage.get(), containsString(expectedErrorMessage)));
     }
 
     @Test
     void saveWorkbook() {
-        final Workbook workbook = this.createWorkbookWithPassword(EXASOL.getPassword());
+        final Workbook workbook = this.createWorkbookBuilder().build();
         tableauServerGateway.deleteWorkbookIfExists(workbook);
         tableauServerGateway.createWorkbook(workbook);
         tableauServerGateway.openSchema("TESTV1");

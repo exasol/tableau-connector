@@ -102,6 +102,17 @@ public class TableauServerGUIGateway {
         this.getElement("input", "data-tb-test-id", "port-textfield-TextInput").sendKeys(workbook.getPort());
         this.getElement("input", "data-tb-test-id", "username-textfield-TextInput").sendKeys(workbook.getUsername());
         this.getElement("input", "data-tb-test-id", "password-textfield-TextInput").sendKeys(workbook.getPassword());
+        if (workbook.getDatabaseName() != null) {
+            this.getElement("input", "data-tb-test-id", "dbname-textfield-TextInput")
+                    .sendKeys(workbook.getDatabaseName());
+        }
+        if (workbook.getFingerprint() != null) {
+            this.getElement("input", "data-tb-test-id", "v-fingerprint-textfield-TextInput")
+                    .sendKeys(workbook.getFingerprint());
+        }
+        if ((workbook.getValidateServerCertificate() != null) && !workbook.getValidateServerCertificate()) {
+            this.driver.findElement(By.xpath("//div[text()='Validate Server Certificate']")).click();
+        }
         this.getElement("button", "data-tb-test-id", "signIn-button-Button").click();
         this.explicitWait(2);
         return this.getElementIfExists("div", "data-tb-test-id", "modular-dialog-error-section-error")
