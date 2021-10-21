@@ -7,6 +7,7 @@ public class Workbook {
     private final String username;
     private final String password;
     private final String port;
+    private final String fingerprint;
 
     private Workbook(final Builder builder) {
         this.workbookName = builder.workbookName;
@@ -15,6 +16,7 @@ public class Workbook {
         this.username = builder.username;
         this.password = builder.password;
         this.port = builder.port;
+        this.fingerprint = builder.fingerprint;
     }
 
     public String getWorkbookName() {
@@ -37,12 +39,16 @@ public class Workbook {
         return this.password;
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
     public String getPort() {
         return this.port;
+    }
+
+    public String getFingerprint() {
+        return this.fingerprint;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     static class Builder {
@@ -52,6 +58,11 @@ public class Workbook {
         private String username;
         private String password;
         private String port;
+        public String fingerprint;
+
+        private Builder() {
+
+        }
 
         public Builder workbookName(final String name) {
             this.workbookName = name;
@@ -80,6 +91,11 @@ public class Workbook {
 
         public Builder port(final String port) {
             this.port = port;
+            return this;
+        }
+
+        public Builder fingerprint(final String fingerprint) {
+            this.fingerprint = fingerprint;
             return this;
         }
 

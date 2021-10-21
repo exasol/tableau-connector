@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.*;
 import org.testcontainers.junit.jupiter.Container;
@@ -24,9 +25,10 @@ import com.exasol.containers.ExasolService;
 import com.github.dockerjava.api.model.*;
 
 @Testcontainers
-class TableauServerGUITestIT {
-    private static final String ODBC_CONNECTOR_NAME = "Exasol ODBC by Exasol AG";
-    private static final String JDBC_CONNECTOR_NAME = "Exasol JDBC by Exasol AG";
+abstract class TableauServerUiBaseIT {
+
+    private final String connectorName;
+
     private static final String DEFAULT_DOCKER_DB_REFERENCE = "7.1.1";
     public static final String DOCKER_NETWORK_ADDRESS = "172.17.0.1";
     private static TableauServerGUIGateway tableauServerGateway;
@@ -58,6 +60,10 @@ class TableauServerGUITestIT {
         }
     }
 
+    protected TableauServerUiBaseIT(final String connectorName) {
+        this.connectorName = connectorName;
+    }
+
     @BeforeEach
     public void beforeEach() {
         tableauServerGateway = TableauServerGUIGateway.connectTo(TableauServerSetUp.getTableauServerConnectionURL());
@@ -85,9 +91,25 @@ class TableauServerGUITestIT {
     }
 
     private Workbook createWorkbookWithPassword(final String password) {
-        return Workbook.builder().workbookName("Test_workbook").connectorName(ODBC_CONNECTOR_NAME)
-                .hostname(DOCKER_NETWORK_ADDRESS).port(EXASOL.getMappedPort(EXASOL_PORT).toString())
-                .username(EXASOL.getUsername()).password(password).build();
+        return Workbook.builder().workbookName("Test_workbook")
+                .connectorName(this.connectorName)
+                .hostname(DOCKER_NETWORK_ADDRESS)
+                .port(EXASOL.getMappedPort(EXASOL_PORT).toString())
+                .username(EXASOL.getUsername())
+                .password(password)
+                .fingerprint(extractFingerprint(EXASOL.getJdbcUrl()))
+                .build();
+    }
+
+    public static String extractFingerprint(final String jdbcUrl) {
+        if (jdbcUrl.contains("validateservercertificate=0")) {
+            throw new AssertionError("Jdbc url '" + jdbcUrl + "' does not validate certificate");
+        }
+        final java.util.regex.Matcher matcher = Pattern.compile("jdbc:exa:[^/]+/([^:]+):.*").matcher(jdbcUrl);
+        if (!matcher.matches()) {
+            throw new IllegalStateException("Error extracting fingerprint from '" + jdbcUrl + "'");
+        }
+        return matcher.group(1);
     }
 
     @Test
