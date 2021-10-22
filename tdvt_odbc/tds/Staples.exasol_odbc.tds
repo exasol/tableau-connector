@@ -239,8 +239,7 @@
         <aggregation>Count</aggregation>
         <width>50</width>
         <contains-null>true</contains-null>
-        <padded-semantics>true</padded-semantics>
-        <collation flag='0' name='binary' />
+        <padded-semantics>true</padded-semantics>    
         <attributes>
           <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_CHAR&quot;</attribute>
           <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_CHAR&quot;</attribute>
@@ -487,7 +486,6 @@
         <width>100</width>
         <contains-null>true</contains-null>
         <padded-semantics>true</padded-semantics>
-        <collation flag='0' name='binary' />
         <attributes>
           <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_CHAR&quot;</attribute>
           <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_CHAR&quot;</attribute>
