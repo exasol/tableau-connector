@@ -8,7 +8,7 @@ This developer guide describes how to
 
 ## Manually Testing Connectors 
 
-To manually test the connectors in Tableau Desktop add the following arguments when starting `tableau.exe`:
+To manually test the connectors in Tableau Desktop without packaging, add the following arguments when starting `tableau.exe`:
 
 * `-DConnectPluginsPath=path\to\tableau-connector\src`: Path to the `src` directory of this cloned repository.
 * `-DLogLevel=Debug`: enable log output of `logging.Log()` in JavaScript files.
@@ -22,6 +22,28 @@ Start Tableau Desktop:
 In the left bar under "To a Server" click `More...`, then click `Exasol JDBC by Exasol AG` or `Exasol ODBC by Exasol AG` to open the database connection dialog.
 
 Restart Tableau after modifying any connector file to reload changes.
+
+## Packaging the Connectors
+
+This requires `python3-venv` to be installed.
+
+To package the JDBC and ODBC connectors, execute
+
+```sh
+cd tableau-server-GUI-tests
+./set_up_scripts/package_connector.sh
+```
+
+This validates the connectors and creates the connectors at
+
+```
+tableau-server-GUI-tests/target/exasol_jdbc.taco
+tableau-server-GUI-tests/target/exasol_odbc.taco
+```
+
+To use the connectors, copy them to `C:\Program Files\Tableau\Connectors`.
+
+As the connectors are not signed, you need to start Tableau Desktop with argument `-DDisableVerifyConnectorPluginSignature`.
 
 ## Running TDVT Tests
 
@@ -125,6 +147,8 @@ Startup of the Tableau Server takes a long time. We recommend using an AWS insta
 You can either run the tests completely on the remote machine or start them on your local machine.
 
 #### Start tests on remote machine
+
+This assumes you are using an AWS instance running Amazon Linux 2.
 
 1. Setup the instance with a UI as described [here](https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-2-install-gui/).
 2. Install a Chrome browser as this will be used for running the UI tests.

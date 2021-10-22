@@ -14,6 +14,8 @@ If you want to use the currently developed version of connector, you can follow 
   * Mac: `~/Library/Tableau/Drivers`
   * Linux: `/opt/tableau/tableau_driver/jdbc`
 
+**Important note for Windows:** Make sure to download and install file `EXASOL_JDBC-<version>.msi`. The JDBC driver will be installed to `C:\Program Files\Exasol\EXASolution-7.1\JDBC\exajdbc.jar`. Only the JDBC driver for Windows supports Kerberos under Windows.
+
 ### With Tableau Desktop
 
 * Clone the Tableau-Connector repository. You can execute the following command from [Git Bash](https://gitforwindows.org/) terminal:
