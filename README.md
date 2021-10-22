@@ -13,7 +13,6 @@ The Exasol Tableau Connector is an adapter, that maps Exasol's analytical capabi
 * Exasol-specific connection dialog
 * Maps Tableau functions to Exasol functions
 
-![JDBC connection dialog](doc/images/jdbc_connection_dialog.png "JDBC connection dialog")
 
 # Table of Contents
 

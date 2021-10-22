@@ -8,18 +8,16 @@ This developer guide describes how to
 
 ## Manually Testing Connectors 
 
-To manually test the connectors in Tableau Desktop without packaging, add the following arguments when starting `tableau.exe`:
-
-* `-DConnectPluginsPath=path\to\tableau-connector\src`: Path to the `src` directory of this cloned repository.
-* `-DLogLevel=Debug`: enable log output of `logging.Log()` in JavaScript files.
-
-Start Tableau Desktop:
+To manually test the connectors in Tableau Desktop without packaging, add the following arguments when starting Tableau Desktop:
 
 ```bat
 "C:\Program Files\Tableau\Tableau 2021.3\bin\tableau.exe" -DConnectPluginsPath=%USERPROFILE%\git\tableau-connector\src -DLogLevel=Debug
 ```
 
-In the left bar under "To a Server" click `More...`, then click `Exasol JDBC by Exasol AG` or `Exasol ODBC by Exasol AG` to open the database connection dialog.
+* `-DConnectPluginsPath=path\to\tableau-connector\src`: Path to the `src` directory of this cloned repository.
+* `-DLogLevel=Debug`: enable log output of `logging.Log()` in JavaScript files.
+
+After starting Tableau Desktop, click click `More...` in the left bar under "To a Server", then click `Exasol JDBC by Exasol AG` or `Exasol ODBC by Exasol AG` to open the database connection dialog for JDBC resp. ODBC.
 
 Restart Tableau after modifying any connector file to reload changes.
 
@@ -60,7 +58,12 @@ You can run TDVT tests under Windows and macOS. This guide describes the setup f
     ```
 
 * Install TDVT as described in the [TDVT documentation](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#set-up).
-* Update the Exasol certificate fingerprint in the four `*.tds` files.
+* Update the Exasol certificate fingerprint in the four `*.tds` files:
+  * [tdvt_jdbc/tds/cast_calcs.exasol_jdbc.tds](../../tdvt_jdbc/tds/cast_calcs.exasol_jdbc.tds)
+  * [tdvt_jdbc/tds/Staples.exasol_jdbc.tds](../../tdvt_jdbc/tds/Staples.exasol_jdbc.tds)
+  * [tdvt_odbc/tds/Staples.exasol_odbc.tds](../../tdvt_odbc/tds/Staples.exasol_odbc.tds)
+  * [tdvt_odbc/tds/cast_calcs.exasol_odbc.tds](../../tdvt_odbc/tds/cast_calcs.exasol_odbc.tds)
+
 * Update the path to `tabquerytool.exe` (e.g. `C:\Program Files\Tableau\Tableau 2021.3\bin\tabquerytool.exe`) in
   * [tdvt_jdbc/config/tdvt/tdvt_override.ini](../../tdvt_jdbc/config/tdvt/tdvt_override.ini)
   * [tdvt_odbc/config/tdvt/tdvt_override.ini](../../tdvt_odbc/config/tdvt/tdvt_override.ini)
@@ -125,7 +128,7 @@ Also see the [FAQ and troubleshooting section of the manual](https://tableau.git
 
 ### Run the Tests
 
-To run the test you need to create the `tableau-server-GUI-tests/src/test/resources/credentials.properties` file with the following content (replace the placeholders for real values):
+To run the tests you need to create the `tableau-server-GUI-tests/src/test/resources/credentials.properties` file with the following content (replace the placeholders for real values):
 
 ```properties
 TABLEAU_USERNAME=<tableau-server-username>

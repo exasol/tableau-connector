@@ -20,7 +20,6 @@
         + ":"
         + attr[connectionHelper.attributePort]
         + ";validateservercertificate=" + validateServerCertificate
-        + ";encryption=1"
         + ";feedbackinterval=1"
         + ";clientname=TableauDesktop";
 
