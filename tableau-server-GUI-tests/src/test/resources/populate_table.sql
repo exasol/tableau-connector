@@ -1,4 +1,4 @@
-DROP SCHEMA IF EXISTS "TESTV1";
+DROP SCHEMA IF EXISTS "TESTV1" CASCADE;
 CREATE SCHEMA "TESTV1";
 OPEN SCHEMA "TESTV1";
 
@@ -55,7 +55,7 @@ CREATE TABLE "Calcs"
     "time1"     VARCHAR(20), -- originally type TIME, but not supported by EXASOL
     "datetime0" TIMESTAMP,
     "datetime1" VARCHAR(255),
-    "zzz2"      VARCHAR(255)
+    "zzz"      VARCHAR(255)
 );
 
 CREATE TABLE "Staples"

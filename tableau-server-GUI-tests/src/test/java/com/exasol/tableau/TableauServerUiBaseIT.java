@@ -20,24 +20,25 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.exasol.containers.ExasolContainer;
+import com.exasol.containers.ExasolService;
+import com.exasol.tableau.Workbook.Builder;
 import com.github.dockerjava.api.model.*;
 
 @Testcontainers
-class TableauServerGUITestIT {
-    private static final String CONNECTOR_NAME = "Exasol by Exasol";
-    private static final String DEFAULT_DOCKER_DB_REFERENCE = "7.0.7";
+abstract class TableauServerUiBaseIT {
+
+    private static final String DEFAULT_DOCKER_DB_REFERENCE = "7.1.1";
     public static final String DOCKER_NETWORK_ADDRESS = "172.17.0.1";
-    private static TableauServerGUIGateway tableauServerGateway;
+    protected static TableauServerGUIGateway tableauServerGateway;
 
     @Container
     protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL = new ExasolContainer<>(
             DEFAULT_DOCKER_DB_REFERENCE)//
                     .withCreateContainerCmdModifier(cmd -> cmd.getHostConfig().withPortBindings(List.of( //
-                            new PortBinding(Ports.Binding.bindPort(EXASOL_MAPPED_PORT), new ExposedPort(EXASOL_PORT)), //
-                            new PortBinding(Ports.Binding.bindPort(EXASOL_BUCKETFS_MAPPED_PORT),
-                                    new ExposedPort(EXASOL_BUCKETFS_PORT)) //
-                    ))) //
-                    .withExposedPorts(EXASOL_PORT, EXASOL_BUCKETFS_PORT).withReuse(true);
+                            new PortBinding(Ports.Binding.bindPort(EXASOL_MAPPED_PORT), new ExposedPort(EXASOL_PORT))))) //
+                    .withExposedPorts(EXASOL_PORT) //
+                    .withRequiredServices(ExasolService.JDBC) //
+                    .withReuse(true);
 
     @BeforeAll
     static void beforeAll() throws UnsupportedOperationException, IOException, InterruptedException {
@@ -47,13 +48,13 @@ class TableauServerGUITestIT {
 
     private static void prepareExasolDatabase() {
         try (final Statement statement = EXASOL.createConnection().createStatement()) {
-            final String sqlFile = Files.readString(Path.of("src", "test", "resources", "populate_table.sql"));
+            final String sqlFile = Files.readString(Path.of("src/test/resources/populate_table.sql"));
             final String[] sqlCommands = sqlFile.split(";");
             for (final String command : sqlCommands) {
                 statement.execute(command);
             }
         } catch (final SQLException | IOException exception) {
-            exception.printStackTrace();
+            throw new AssertionError("Error preparing Exasol DB", exception);
         }
     }
 
@@ -78,22 +79,31 @@ class TableauServerGUITestIT {
     }
 
     private void createWorkbook() {
-        final Workbook workbook = createWorkbookWithPassword(EXASOL.getPassword());
-        final Optional<String> errorMessage = tableauServerGateway.createWorkbook(workbook);
-        assertTrue(errorMessage.isEmpty());
+        final Workbook workbook = createWorkbookBuilder().build();
+        assertCreatingWorkbookSucceeds(workbook);
     }
 
-    private Workbook createWorkbookWithPassword(final String password) {
-        return Workbook.builder().workbookName("Test_workbook").connectorName(CONNECTOR_NAME)
-                .hostname(DOCKER_NETWORK_ADDRESS).port(EXASOL.getMappedPort(EXASOL_PORT).toString())
-                .username(EXASOL.getUsername()).password(password).build();
+    protected void assertCreatingWorkbookSucceeds(final Workbook workbook) {
+        final Optional<String> errorMessage = tableauServerGateway.createWorkbook(workbook);
+        if (errorMessage.isPresent()) {
+            throw new AssertionError("Expected no error but got '" + errorMessage.get() + "'");
+        }
     }
+
+    protected abstract Builder createWorkbookBuilder();
 
     @Test
     void duplicateExasolDatasource() {
-        this.createWorkbook();
+        final Workbook workbook = this.createWorkbookBuilder().build();
+        this.assertCreatingWorkbookSucceeds(workbook);
+        assertDuplicateWorkbookName(workbook);
+    }
+
+    private void assertDuplicateWorkbookName(final Workbook workbook) {
+        final String expectedDbName = workbook.getDatabaseName() != null ? workbook.getDatabaseName()
+                : DOCKER_NETWORK_ADDRESS;
         final String duplicateName = tableauServerGateway.duplicateDataSource();
-        assertThat(duplicateName, equalTo(DOCKER_NETWORK_ADDRESS + " (copy)"));
+        assertThat(duplicateName, equalTo(expectedDbName + " (copy)"));
     }
 
     @Test
@@ -109,15 +119,19 @@ class TableauServerGUITestIT {
 
     @Test
     void connectToExasolDatasourceWithWrongCredentials() {
-        final Workbook workbook = this.createWorkbookWithPassword("Wrong Password");
-        final Optional<String> errorMessage = tableauServerGateway.createWorkbook(workbook);
+        final Workbook workbook = this.createWorkbookBuilder().password("Wrong Password").build();
+        assertCreatingWorkbookFails(workbook, "authentication failed");
+    }
+
+    protected void assertCreatingWorkbookFails(final Workbook configuration, final String expectedErrorMessage) {
+        final Optional<String> errorMessage = tableauServerGateway.createWorkbook(configuration);
         assertAll(() -> assertThat(errorMessage.isPresent(), equalTo(true)),
-                () -> assertThat(errorMessage.get(), containsString("authentication failed")));
+                () -> assertThat(errorMessage.get(), containsString(expectedErrorMessage)));
     }
 
     @Test
     void saveWorkbook() {
-        final Workbook workbook = this.createWorkbookWithPassword(EXASOL.getPassword());
+        final Workbook workbook = this.createWorkbookBuilder().build();
         tableauServerGateway.deleteWorkbookIfExists(workbook);
         tableauServerGateway.createWorkbook(workbook);
         tableauServerGateway.openSchema("TESTV1");

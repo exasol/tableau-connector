@@ -3,11 +3,11 @@ package com.exasol.tableau;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 import java.time.Duration;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.logging.Logger;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -20,6 +20,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
  * Gateway for interacting with Tableau Server.
  */
 public class TableauServerGUIGateway {
+    private static final Logger LOGGER = Logger.getLogger(TableauServerGUIGateway.class.getName());
     private final WebDriver driver;
     private final String httpHostAddress;
 
@@ -32,6 +33,7 @@ public class TableauServerGUIGateway {
     }
 
     public static TableauServerGUIGateway connectTo(final String httpHostAddress) {
+        LOGGER.info(() -> "Connecting to '" + httpHostAddress + "'");
         final TableauServerGUIGateway gateway = new TableauServerGUIGateway(httpHostAddress);
         gateway.openSession(httpHostAddress);
         return gateway;
@@ -100,6 +102,17 @@ public class TableauServerGUIGateway {
         this.getElement("input", "data-tb-test-id", "port-textfield-TextInput").sendKeys(workbook.getPort());
         this.getElement("input", "data-tb-test-id", "username-textfield-TextInput").sendKeys(workbook.getUsername());
         this.getElement("input", "data-tb-test-id", "password-textfield-TextInput").sendKeys(workbook.getPassword());
+        if (workbook.getDatabaseName() != null) {
+            this.getElement("input", "data-tb-test-id", "dbname-textfield-TextInput")
+                    .sendKeys(workbook.getDatabaseName());
+        }
+        if (workbook.getFingerprint() != null) {
+            this.getElement("input", "data-tb-test-id", "v-fingerprint-textfield-TextInput")
+                    .sendKeys(workbook.getFingerprint());
+        }
+        if ((workbook.getValidateServerCertificate() != null) && !workbook.getValidateServerCertificate()) {
+            this.driver.findElement(By.xpath("//div[text()='Validate Server Certificate']")).click();
+        }
         this.getElement("button", "data-tb-test-id", "signIn-button-Button").click();
         this.explicitWait(2);
         return this.getElementIfExists("div", "data-tb-test-id", "modular-dialog-error-section-error")
@@ -180,7 +193,7 @@ public class TableauServerGUIGateway {
         final WebElement button = this.getElement("button", "data-tb-test-id", "dataTab-schema-selector-Dropdown", 5);
         this.explicitWait(3);
         button.click();
-        final List<WebElement> schemas = this.getElements("span", "class", "frvoegc");
+        final List<WebElement> schemas = this.getElements("span", "class", "ftmd0dp");
         this.clickElementIfTextMatches(schemaName, schemas);
     }
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euxo pipefail
 
 set_up_environment () {
     clone_tableau_connector_plugin_sdk_repository
@@ -34,15 +35,19 @@ install_packaging_module () {
     python setup.py install
 }
 
-package_connector () {
+package_connectors () {
     #the connector is created in ./packaged-connector/exasol_odbc.taco
-    echo "# Packaging connector"
+    echo "# Packaging odbc connector"
     python -m connector_packager.package ../../../src/exasol_odbc/
+    echo "# Packaging jdbc connector"
+    python -m connector_packager.package ../../../src/exasol_jdbc/
 }
 
-copy_packaged_connector_to_target_folder () {
-    echo "# Copying packaged connector to target folder"
+copy_packaged_connectors_to_target_folder () {
+    echo "# Copying packaged odbc connector to target folder"
     cp ./packaged-connector/exasol_odbc.taco ../../target/
+    echo "# Copying packaged jdbc connector to target folder"
+    cp ./packaged-connector/exasol_jdbc.taco ../../target/
 }
 
 clean () {
@@ -57,11 +62,11 @@ remove_tableau_connector_plugin_sdk_directory () {
 
 remove_directory_if_exists () {
   if [ -d "$1" ]; then
-    rm -rf $1
+    rm -rf "$1"
   fi
 }
     
 set_up_environment
-package_connector
-copy_packaged_connector_to_target_folder
+package_connectors
+copy_packaged_connectors_to_target_folder
 clean

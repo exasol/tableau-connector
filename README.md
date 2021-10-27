@@ -4,7 +4,7 @@
 
 # Overview
 
-[Tableau](https://www.tableau.com/) is a business intelligence tool. You can use Tableau to visualize  data in [Exasol](https://www.exasol.com).
+[Tableau](https://www.tableau.com/) is a business intelligence tool. You can use Tableau to visualize data in [Exasol](https://www.exasol.com).
 
 The Exasol Tableau Connector is an adapter, that maps Exasol's analytical capabilities to Tableau's external interface, allowing Tableau to use Exasol-specific features.
 
@@ -12,6 +12,7 @@ The Exasol Tableau Connector is an adapter, that maps Exasol's analytical capabi
 
 * Exasol-specific connection dialog
 * Maps Tableau functions to Exasol functions
+
 
 # Table of Contents
 
@@ -21,11 +22,15 @@ The Exasol Tableau Connector is an adapter, that maps Exasol's analytical capabi
 * [Tableau in the Exasol Online Documentation](https://docs.exasol.com/connect_exasol/bi_tools/tableau.htm)
 * [White paper on Exasol and Tableau](https://www.exasol.com/resource/tableau-exasol-better-together/)
 
+## Information for Developers
+
+* [Developer Guide](doc/developer_guide/developer_guide.md)
+
 # Dependencies
 
 ## Runtime Dependencies
 
-To use the Exasol Tableau Connector, you need Tableau Version 2020.3 or later either as desktop or server variant.
+To use the Exasol Tableau Connector, you need Tableau Version 2021.3 or later either as desktop or server variant.
 
 ## Test Dependencies
 

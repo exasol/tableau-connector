@@ -7,6 +7,9 @@ public class Workbook {
     private final String username;
     private final String password;
     private final String port;
+    private final String fingerprint;
+    private final Boolean validateServerCertificate;
+    private final String databaseName;
 
     private Workbook(final Builder builder) {
         this.workbookName = builder.workbookName;
@@ -15,6 +18,9 @@ public class Workbook {
         this.username = builder.username;
         this.password = builder.password;
         this.port = builder.port;
+        this.fingerprint = builder.fingerprint;
+        this.validateServerCertificate = builder.validateServerCertificate;
+        this.databaseName = builder.databaseName;
     }
 
     public String getWorkbookName() {
@@ -37,12 +43,24 @@ public class Workbook {
         return this.password;
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
     public String getPort() {
         return this.port;
+    }
+
+    public String getFingerprint() {
+        return this.fingerprint;
+    }
+
+    public Boolean getValidateServerCertificate() {
+        return this.validateServerCertificate;
+    }
+
+    public String getDatabaseName() {
+        return this.databaseName;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     static class Builder {
@@ -52,6 +70,12 @@ public class Workbook {
         private String username;
         private String password;
         private String port;
+        private String fingerprint = null;
+        private Boolean validateServerCertificate = null;
+        private String databaseName = null;
+
+        private Builder() {
+        }
 
         public Builder workbookName(final String name) {
             this.workbookName = name;
@@ -80,6 +104,21 @@ public class Workbook {
 
         public Builder port(final String port) {
             this.port = port;
+            return this;
+        }
+
+        public Builder fingerprint(final String fingerprint) {
+            this.fingerprint = fingerprint;
+            return this;
+        }
+
+        public Builder validateServerCertificate(final Boolean validateServerCertificate) {
+            this.validateServerCertificate = validateServerCertificate;
+            return this;
+        }
+
+        public Builder databaseName(final String databaseName) {
+            this.databaseName = databaseName;
             return this;
         }
 

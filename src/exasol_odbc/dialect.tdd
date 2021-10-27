@@ -1004,9 +1004,9 @@
     <date-function name='DATENAME' return-type='str'>
       <formula>EXTRACT(%1 FROM %2)</formula>
       <formula part='quarter'>CAST( TRUNC((EXTRACT(MONTH FROM %2) - 1) / 3 + 1) AS INTEGER)</formula>
-      <formula part='month'>TO_CHAR(%2, &apos;MONTH&apos;)</formula>
-      <formula part='dayofyear'>TO_CHAR(%2, &apos;DDD&apos;)</formula>
-      <formula part='weekday'>TO_CHAR(%2, &apos;DAY&apos;)</formula>
+      <formula part='month'>RTRIM(TO_CHAR(%2, &apos;MONTH&apos;), &apos; &apos;)</formula>
+      <formula part='dayofyear'>RTRIM(TO_CHAR(%2, &apos;DDD&apos;), &apos; &apos;)</formula>
+      <formula part='weekday'>RTRIM(TO_CHAR(%2, &apos;DAY&apos;), &apos; &apos;)</formula>
       <formula part='week'>TO_CHAR(FLOOR((7 + TO_NUMBER(TO_CHAR(%2, &apos;DDD&apos;)) - 1 + TO_NUMBER(TO_CHAR(TRUNC(CAST(%2 AS DATE), &apos;YYYY&apos;), &apos;D&apos;)) - 1) / 7))</formula>
       <argument type='localstr' />
       <argument type='datetime' />
