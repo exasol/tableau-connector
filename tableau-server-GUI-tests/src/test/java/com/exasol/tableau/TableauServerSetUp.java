@@ -56,8 +56,6 @@ public class TableauServerSetUp {
 
     private static void copyConnectorsToServer() {
         LOGGER.info("Copying the connectors to Tableau Server");
-        assertFileExists(ODBC_CONNECTOR_FILE);
-        assertFileExists(JDBC_CONNECTOR_FILE);
         TABLEAU_SERVER_CONTAINER.copyFileToContainer(MountableFile.forHostPath(ODBC_CONNECTOR_FILE),
                 "/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/exasol_odbc.taco");
         TABLEAU_SERVER_CONTAINER.copyFileToContainer(MountableFile.forHostPath(JDBC_CONNECTOR_FILE),
