@@ -30,7 +30,7 @@ class JdbcConnectorIT extends TableauServerUiBaseIT {
 
     private static String extractFingerprint(final String jdbcUrl) {
         if (jdbcUrl.contains("validateservercertificate=0")) {
-            throw new AssertionError("Jdbc url '" + jdbcUrl + "' does not validate certificate");
+            throw new AssertionError("JDBC url '" + jdbcUrl + "' does not validate certificate");
         }
         final Matcher matcher = Pattern.compile("jdbc:exa:[^/]+/([^:]+):.*").matcher(jdbcUrl);
         if (!matcher.matches()) {
