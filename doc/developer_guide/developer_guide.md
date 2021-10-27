@@ -17,7 +17,7 @@ To manually test the connectors in Tableau Desktop without packaging, add the fo
 * `-DConnectPluginsPath=path\to\tableau-connector\src`: Path to the `src` directory of this cloned repository.
 * `-DLogLevel=Debug`: enable log output of `logging.Log()` in JavaScript files.
 
-After starting Tableau Desktop, click click `More...` in the left bar under "To a Server", then click `Exasol JDBC by Exasol AG` or `Exasol ODBC by Exasol AG` to open the database connection dialog for JDBC resp. ODBC.
+After starting Tableau Desktop, click `More...` in the left bar under "To a Server", then click `Exasol JDBC by Exasol AG` or `Exasol ODBC by Exasol AG` to open the database connection dialog for JDBC resp. ODBC.
 
 Restart Tableau after modifying any connector file to reload changes.
 
