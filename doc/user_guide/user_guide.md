@@ -66,3 +66,57 @@ If you want to use the currently developed version of connector, you can follow 
     tsm configuration set -k native_api.disable_verify_connector_plugin_signature -v true --force-keys
     tsm pending-changes apply --ignore-prompt
     ```
+
+## Using the JDBC Connector
+
+After installing the JDBC Connector, you can use it by selecting connector "EXASOL JDBC by Exasol AG". This will open a connection dialog where you can enter details for connecting to your Exasol database.
+
+### TLS Certificate Validation
+
+The JDBC connector will always create a TLS encrypted connection to the database.
+
+Using the "Validate Server Certificate" checkbox you can configure if the connector should verify the database server's TLS certificate. This is on by default and we recommend to keep it on.
+
+If your server does not have a valid TLS certificate with the correct hostname (e.g. the default self-signed certificate), you will need to enter the fingerprint of the servers certificate into text box "Server Certificate Fingerprint". This ensures that you connect to the correct server and there is no person-in-the-middle attack going on.
+
+You can find the fingerprint via the EXAoperation user interface.
+
+### Authentication
+
+For authentication against the database you have three options:
+
+1. Normal username and password
+2. Kerberos/Active Directory username and password
+3. Kerberos/Active Directory without username or password
+
+#### Normal Username and Password
+
+This is for database users created with a password:
+
+```sql
+CREATE USER <user> IDENTIFIED BY "<password>";
+```
+
+To use this, select "Username and Password" in the "Authentication" drop-down-list and enter username and password.
+
+#### Kerberos/Active Directory Username and Password
+
+This is for database users created with Kerberos authentication:
+
+```sql
+CREATE USER <user> IDENTIFIED BY KERBEROS PRINCIPAL "<user@EXAMPLE.COM>";
+```
+
+To use this, select "Username and Password" in the "Authentication" drop-down-list and enter username and password.
+
+This requires that Kerberos uses service name `exasol` for the database.
+
+#### Kerberos/Active Directory Without Username or Password
+
+This is for database users created with Kerberos authentication:
+
+```sql
+CREATE USER <user> IDENTIFIED BY KERBEROS PRINCIPAL "<user@EXAMPLE.COM>";
+```
+
+To use this, select "Kerberos" in the "Authentication" drop-down-list. The connector will use your operating system's credentials to connect to Exasol.
