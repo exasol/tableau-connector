@@ -22,6 +22,12 @@
         + ";validateservercertificate=" + validateServerCertificate
         + ";feedbackinterval=1"
         + ";clientname=TableauDesktop";
+        // Required to activate Kerberos authentication
+        // https://www.exasol.com/support/browse/SUPPORT-26947
+        + ";kerberoshostname=" + attr[connectionHelper.attributeServer]
+        //+ ";kerberosservicename=exasol"
+        //+ ";debug=1;logdir=C:\\tmp"
+        + "";
 
     return [url];
 })
