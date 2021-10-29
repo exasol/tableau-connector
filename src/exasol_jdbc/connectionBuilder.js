@@ -1,15 +1,19 @@
 (function dsbuilder(attr) {
 
+    function log(str) {
+        logging.Log("connectionBuilder.js: " + str)
+    }
+
     const authentication = attr[connectionHelper.attributeAuthentication];
     const fingerprint = attr["v-fingerprint"];
     const validateServerCertificate = attr["v-validateservercertificate"];
-    
-    logging.Log("connectionBuilder.js: input args: authentication='" + authentication
+
+    log("input args: authentication='" + authentication
         + "', fingerprint='" + fingerprint
-        + "', validateServerCertificate='"+ validateServerCertificate+"'");
+        + "', validateServerCertificate='" + validateServerCertificate + "'");
 
     var fingerprintArg = "";
-    if(fingerprint && fingerprint.trim().length > 0) {
+    if (fingerprint && fingerprint.trim().length > 0) {
         fingerprintArg = "/" + fingerprint.trim();
     }
 
@@ -28,6 +32,6 @@
         //+ ";kerberosservicename=exasol"
         //+ ";debug=1;logdir=C:\\tmp"
         + "";
-
+    log("JDBC URL: '" + url + "'");
     return [url];
 })

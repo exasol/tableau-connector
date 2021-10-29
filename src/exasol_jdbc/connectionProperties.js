@@ -1,4 +1,8 @@
 (function propertiesbuilder(attr) {
+
+    function log(str) {
+        logging.Log("connectionProperties.js: " + str)
+    }
     const authentication = attr[connectionHelper.attributeAuthentication];
 
     var props = {};
@@ -11,7 +15,7 @@
         props["jaasLogin"] = "false";
         props["jaasApplicationName"] = "com.sun.security.jgss.krb5.initiate";
     } else {
-        logging.Log("connectionProperties.js: Using non-integrated auth '" + authentication + "'")
+        log("Using non-integrated auth '" + authentication + "'")
     }
 
     return props;
