@@ -28,17 +28,31 @@ If you want to use the currently developed version of connector, you can follow 
 
 * Open Windows cmd and start Tableau Desktop providing the path to the connector directory and also disabling the signature check.
 
-    ```shell
+    ```bat
     "<path to tableau.exe file>" -DConnectPluginsPath=<path to connector>
     ```
 
     Example:
 
-    ```shell
+    ```bat
     "C:\Program Files\Tableau\Tableau <version>\bin\tableau.exe" -DConnectPluginsPath=C:\Users\user\git\tableau-connector\src
     ```
 
 ### With Tableau Server
+
+#### Install JDBC and/or ODBC drivers
+
+* Download the latest JDBC and/or ODBC drivers for your operating system from the [Exasol download page](https://www.exasol.com/portal/display/DOWNLOAD/).
+* Install the drivers.
+* Copy the JDBC driver `exajdbc.jar` to directory `/opt/tableau/tableau_driver/jdbc/`.
+* Create or edit file `/etc/odbcinst.ini` and add the following entry. Adapt the path to the ODBC driver if necessary.
+
+```ini
+[EXASolution Driver]
+Driver=/opt/exasol/odbc/lib/linux/x86_64/libexaodbc-uo2214lv2.so
+```
+
+#### Install the Connector
 
 * Clone the Tableau-Connector repository:
 
@@ -46,7 +60,7 @@ If you want to use the currently developed version of connector, you can follow 
     git clone https://github.com/exasol/tableau-connector.git
     ```
 
-* Package the connector with the script we provide (requires python installed):
+* Package the connector with the script we provide (requires python to be installed):
 
     ```shell
     cd <path to connector directory>/tableau-connector
@@ -55,13 +69,14 @@ If you want to use the currently developed version of connector, you can follow 
     
     Note that we run the command above in the [Git Bash](https://gitforwindows.org/) terminal.
 
-* Copy the `exasol_odbc.taco` file to the following path inside Tableau Server:
+* Copy the `exasol_jdbc.taco` and/or `exasol_odbc.taco` file to the following path inside Tableau Server:
 
     ```shell
-    /var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/exasol_odbc.taco"
+    /var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/exasol_jdbc.taco
+    /var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/exasol_odbc.taco
     ```
 
-* Disable the sign verification on the Tableau Server and apply changes:
+* Disable the signature verification on the Tableau Server and apply changes:
 
     ```shell
     tsm configuration set -k native_api.disable_verify_connector_plugin_signature -v true --force-keys
@@ -110,7 +125,12 @@ CREATE USER <user> IDENTIFIED BY KERBEROS PRINCIPAL "<user@EXAMPLE.COM>";
 
 To use this, select "Username and Password" in the "Authentication" drop-down-list and enter username and password.
 
-This requires that Kerberos uses service name `exasol` for the database.
+Prerequisites:
+
+* The Exasol database is configured to use [Kerberos Single Sign-On](https://docs.exasol.com/administration/on-premise/access_management/kerberos_sso.htm).
+* Kerberos uses service name `exasol` for the database.
+* You use the Kerberos hostname to connect to the database. Using an IP address is not possible.
+* The clocks of all machines, especially the Exasol database must be in sync. We recommend to synchronize time by configuring an NTP Server.
 
 #### Kerberos/Active Directory Without Username or Password
 
@@ -121,3 +141,5 @@ CREATE USER <user> IDENTIFIED BY KERBEROS PRINCIPAL "<user@EXAMPLE.COM>";
 ```
 
 To use this, select "Kerberos" in the "Authentication" drop-down-list. The connector will use your operating system's credentials to connect to Exasol.
+
+See the list above for prerequisites.
