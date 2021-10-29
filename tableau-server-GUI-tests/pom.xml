@@ -134,7 +134,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<executable>${project.basedir}/set_up_scripts/package_connector.sh</executable>
+					<workingDirectory>${project.basedir}/..</workingDirectory>
+					<executable>${project.basedir}/../tools/package_connector.sh</executable>
 				</configuration>
 			</plugin>
 			<plugin>

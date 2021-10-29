@@ -28,15 +28,14 @@ This requires `python3-venv` to be installed.
 To package the JDBC and ODBC connectors, execute
 
 ```sh
-cd tableau-server-GUI-tests
-./set_up_scripts/package_connector.sh
+./tools/package_connector.sh
 ```
 
 This validates the connectors and creates the connectors at
 
 ```
-tableau-server-GUI-tests/target/exasol_jdbc.taco
-tableau-server-GUI-tests/target/exasol_odbc.taco
+target/exasol_jdbc.taco
+target/exasol_odbc.taco
 ```
 
 To use the connectors, copy them to `C:\Program Files\Tableau\Connectors`.

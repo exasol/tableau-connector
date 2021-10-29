@@ -49,7 +49,8 @@ If you want to use the currently developed version of connector, you can follow 
 * Package the connector with the script we provide (requires python installed):
 
     ```shell
-    /bin/bash <path to connector directory>/tableau-connector/tableau-server-GUI-tests/set_up_scripts/package_connector.sh
+    cd <path to connector directory>/tableau-connector
+    /bin/bash tools/package_connector.sh
     ```
     
     Note that we run the command above in the [Git Bash](https://gitforwindows.org/) terminal.

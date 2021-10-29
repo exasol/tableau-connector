@@ -1,0 +1,25 @@
+name: CI Build
+
+on:
+  - push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Build connectors
+        run: ./tools/package_connector.sh
+      - name: Upload JDBC Connector
+        uses: actions/upload-artifact@v2
+        with:
+          name: JDBC Connector
+          path: target/exasol_jdbc.taco
+      - name: Upload ODBC Connector
+        uses: actions/upload-artifact@v2
+        with:
+          name: JDBO Connector
+          path: target/exasol_odbc.taco

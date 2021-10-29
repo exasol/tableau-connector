@@ -18,8 +18,8 @@ public class TableauServerSetUp {
     private static final Logger LOGGER = Logger.getLogger(TableauServerSetUp.class.getName());
     private static final String REQUESTED_LEASE_TIME_IN_SECONDS = "60";
 
-    private static final Path ODBC_CONNECTOR_FILE = Paths.get("target/exasol_odbc.taco").toAbsolutePath();
-    private static final Path JDBC_CONNECTOR_FILE = Paths.get("target/exasol_jdbc.taco").toAbsolutePath();
+    private static final Path ODBC_CONNECTOR_FILE = Paths.get("../target/exasol_odbc.taco").toAbsolutePath();
+    private static final Path JDBC_CONNECTOR_FILE = Paths.get("../target/exasol_jdbc.taco").toAbsolutePath();
 
     public static GenericContainer<?> TABLEAU_SERVER_CONTAINER = new GenericContainer<>(TABLEAU_SERVER_DOCKER_IMAGE)
             .withExposedPorts(TABLEAU_PORT)//
