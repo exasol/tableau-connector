@@ -21,6 +21,20 @@ After starting Tableau Desktop, click `More...` in the left bar under "To a Serv
 
 Restart Tableau after modifying any connector file to reload changes.
 
+### Verify Connected User
+
+To verify which user account Tableau is using for connecting to Exasol, create the following view and view it from Tableau:
+
+```sql
+CREATE OR REPLACE VIEW TESTV1.MYSESSION AS SELECT * FROM SYS.EXA_ALL_SESSIONS WHERE SESSION_ID=CURRENT_SESSION;
+```
+
+To verify the view works, run the following query:
+
+```sql
+SELECT * FROM TESTV1.MYSESSION;
+```
+
 ## Packaging the Connectors
 
 This requires `python3-venv` to be installed.

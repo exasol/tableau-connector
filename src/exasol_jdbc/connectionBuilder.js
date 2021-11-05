@@ -17,22 +17,21 @@
     const fingerprint = attr["v-fingerprint"];
     const validateServerCertificate = attr["v-validateservercertificate"];
 
-    const useKerberos = authentication === 'auth-integrated';
-    const kerberosHostName = hostName;
-
-    log("input args: authentication='" + authentication
-        + " -> use kerberos = " + useKerberos
-        + ", fingerprint='" + fingerprint
-        + "', validateServerCertificate='" + validateServerCertificate + "'");
-
     const fingerprintArg = !isEmpty(fingerprint) ? ("/" + fingerprint.trim()) : "";
 
+    const useKerberos = authentication === 'auth-integrated';
+    const kerberosHostName = hostName;
     let kerberosArg = "";
     if (useKerberos) {
         // Required to activate Kerberos authentication
         // https://www.exasol.com/support/browse/SUPPORT-26947
         kerberosArg = ";kerberoshostname=" + kerberosHostName + ";kerberosservicename=" + kerberosServiceName;
     }
+
+    log("input args: authentication='" + authentication
+        + " -> use kerberos = " + useKerberos
+        + ", fingerprint='" + fingerprint
+        + "', validateServerCertificate='" + validateServerCertificate + "'");
 
     const clientVersionArg = !isEmpty(clientVersion) ? ";clientversion=" + clientVersion : "";
 
