@@ -1,5 +1,5 @@
 (function dsbuilder(attr) {
-    const jdbcDriverDebugEnabled = true;
+    const jdbcDriverDebugEnabled = false;
     const jdbcDriverLogDir = "C:\\tmp";
     const kerberosServiceName = "exasol";
     const clientVersion = "(none)";
@@ -17,7 +17,7 @@
     const fingerprint = attr["v-fingerprint"];
     const validateServerCertificate = attr["v-validateservercertificate"];
 
-    const fingerprintArg = !isEmpty(fingerprint) ? ("/" + fingerprint.trim()) : "";
+    const fingerprintArg = !isEmpty(fingerprint) ? (";fingerprint=" + fingerprint.trim()) : "";
 
     const useKerberos = authentication === 'auth-integrated';
     const kerberosHostName = hostName;
@@ -39,10 +39,10 @@
     // See https://docs.exasol.com/connect_exasol/drivers/jdbc.htm
     const url = "jdbc:exa:"
         + hostName
-        + fingerprintArg
         + ":"
         + attr[connectionHelper.attributePort]
         + ";validateservercertificate=" + validateServerCertificate
+        + fingerprintArg
         + ";feedbackinterval=1"
         + ";clientname=Tableau"
         + clientVersionArg
