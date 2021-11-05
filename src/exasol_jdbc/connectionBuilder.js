@@ -29,7 +29,7 @@
         + attr[connectionHelper.attributePort]
         + ";validateservercertificate=" + validateServerCertificate
         + ";feedbackinterval=1"
-        + ";clientname=TableauDesktop"
+        + ";clientname=Tableau"
         // Required to activate Kerberos authentication
         // https://www.exasol.com/support/browse/SUPPORT-26947
         + ";kerberoshostname=" + hostName
