@@ -37,7 +37,14 @@ create_virtual_environment () {
 
 activate_virtual_environment () {
     echo "# Activating virtual environment"
-    source ./.venv/bin/activate
+    venv_dir="$sdk_dir/connector-packager/.venv/"
+    if [ -d "$venv_dir/Scripts" ]; then
+        activate_script="$venv_dir/Scripts/activate"
+    else
+        activate_script="$venv_dir/bin/activate"
+    fi
+    # shellcheck source=/dev/null # file only exists at runtime
+    source "$activate_script"
 }
 
 install_packaging_module () {
