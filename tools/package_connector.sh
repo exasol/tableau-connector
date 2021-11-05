@@ -17,9 +17,11 @@ set_up_environment () {
 }
 
 clone_tableau_connector_plugin_sdk_repository () {
-    echo "# Cloning Tableau Connector Plugin SDK repository"
-    mkdir -p "$sdk_dir"
-    git clone https://github.com/tableau/connector-plugin-sdk.git "$sdk_dir"
+    if [ ! -d "$sdk_dir" ]; then
+        echo "# Cloning Tableau Connector Plugin SDK repository"
+        mkdir -p "$sdk_dir"
+        git clone https://github.com/tableau/connector-plugin-sdk.git "$sdk_dir"
+    fi
 }
 
 change_to_connector_packager_directory () {
