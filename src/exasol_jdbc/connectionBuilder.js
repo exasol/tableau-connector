@@ -1,6 +1,8 @@
 (function dsbuilder(attr) {
-    const jdbcDriverDebugEnabled = false;
+    const jdbcDriverDebugEnabled = true;
     const jdbcDriverLogDir = "C:\\tmp";
+    const kerberosServiceName = "exasol";
+    const clientVersion = "(none)";
 
     function log(str) {
         logging.Log("connectionBuilder.js: " + str)
@@ -14,20 +16,26 @@
     const authentication = attr[connectionHelper.attributeAuthentication];
     const fingerprint = attr["v-fingerprint"];
     const validateServerCertificate = attr["v-validateservercertificate"];
-    const useKerberosAttr = attr["v-usekerberos"];
-    const useKerberos = useKerberosAttr.toLowerCase() === 'true';
+
+    const useKerberos = authentication === 'auth-integrated';
+    const kerberosHostName = hostName;
 
     log("input args: authentication='" + authentication
-        + "', use kerberos=" + useKerberos
+        + " -> use kerberos = " + useKerberos
         + ", fingerprint='" + fingerprint
         + "', validateServerCertificate='" + validateServerCertificate + "'");
 
     const fingerprintArg = !isEmpty(fingerprint) ? ("/" + fingerprint.trim()) : "";
 
-    // Required to activate Kerberos authentication
-    // https://www.exasol.com/support/browse/SUPPORT-26947
-    const kerberosArg = useKerberos ? ";kerberoshostname=" + hostName + ";kerberosservicename=exasol" : "";
-    
+    let kerberosArg = "";
+    if (useKerberos) {
+        // Required to activate Kerberos authentication
+        // https://www.exasol.com/support/browse/SUPPORT-26947
+        kerberosArg = ";kerberoshostname=" + kerberosHostName + ";kerberosservicename=" + kerberosServiceName;
+    }
+
+    const clientVersionArg = !isEmpty(clientVersion) ? ";clientversion=" + clientVersion : "";
+
     const debugArg = jdbcDriverDebugEnabled ? (";debug=1;logdir=" + jdbcDriverLogDir) : "";
     // See https://docs.exasol.com/connect_exasol/drivers/jdbc.htm
     const url = "jdbc:exa:"
@@ -38,6 +46,7 @@
         + ";validateservercertificate=" + validateServerCertificate
         + ";feedbackinterval=1"
         + ";clientname=Tableau"
+        + clientVersionArg
         + kerberosArg
         + debugArg;
     log("JDBC URL: '" + url + "'");
