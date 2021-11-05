@@ -32,7 +32,11 @@ change_to_connector_packager_directory () {
 create_virtual_environment () {
     echo "# Creating virtual environment"
     echo "# NOTE: Make sure 'python3-venv' is installed ('sudo apt-get install python3-venv' in Ubuntu)"
-    python3 -m venv .venv
+    if hash python3 2>/dev/null; then
+        python3 -m venv .venv
+    else
+        python -m venv .venv
+    fi
 }
 
 activate_virtual_environment () {
