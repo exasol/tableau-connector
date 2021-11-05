@@ -24,6 +24,8 @@
     </conditions>
   </field>
 
+  <field name="v-usekerberos" label="Use Kerberos" value-type="boolean" optional="false" category="authentication" default-value="false"/>
+
   <field name="v-fingerprint" label="Server Certificate Fingerprint" value-type="string" optional="true" category="general" />
 
   <field name="v-validateservercertificate" label="Validate Server Certificate" value-type="boolean" optional="false" category="general" default-value="1">
