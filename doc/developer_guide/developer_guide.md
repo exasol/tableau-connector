@@ -37,11 +37,26 @@ SELECT * FROM TESTV1.MYSESSION;
 
 ## Packaging the Connectors
 
-This requires `python3-venv` to be installed.
+### Initial Setup
 
-To package the JDBC and ODBC connectors, execute
+Prequisites for Linux:
 
 ```sh
+# Ubuntu:
+sudo apt-get install python3-venv openjdk-11-jdk
+```
+
+Prerequisites for Windows:
+
+* Git for Windows and bash: [Git for Windows](https://git-scm.com/download/win)
+* JDK 11, e.g. from [Adoptium](https://adoptium.net/?variant=openjdk11&jvmVariant=hotspot)
+* [Python 3](https://www.python.org/downloads/windows/)
+
+### Building the Connector
+
+To package the JDBC and ODBC connectors, execute the following command in a `bash` shell:
+
+```bash
 ./tools/package_connector.sh
 ```
 
