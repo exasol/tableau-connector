@@ -8,6 +8,8 @@ This developer guide describes how to
 
 ## Manually Testing Connectors 
 
+### Tableau Desktop
+
 To manually test the connectors in Tableau Desktop without packaging, add the following arguments when starting Tableau Desktop:
 
 ```bat
@@ -20,6 +22,26 @@ To manually test the connectors in Tableau Desktop without packaging, add the fo
 After starting Tableau Desktop, click `More...` in the left bar under "To a Server", then click `Exasol JDBC by Exasol AG` or `Exasol ODBC by Exasol AG` to open the database connection dialog for JDBC resp. ODBC.
 
 Restart Tableau after modifying any connector file to reload changes.
+
+### Tableau Server
+
+To allow using unsigned connectors, run
+
+```bash
+tsm configuration set -k native_api.disable_verify_connector_plugin_signature -v true --force-keys
+tsm pending-changes apply --ignore-prompt
+```
+
+Package the connectors as described below then copy them to `C:\Program Files\Tableau\Connectors` (Windows) or `/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/` (Linux) and restart Tableau Server:
+
+```bash
+./tools/package_connector.sh
+# Linux:
+cp -v target/*.taco /var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/
+# Windows:
+cp -v target/*.taco "/c/Program Files/Tableau/Connectors"
+tsm restart
+```
 
 ### Verify Connected User
 
