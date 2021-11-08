@@ -167,6 +167,29 @@ Log files of Tableau Desktop: `%USERPROFILE%\Documents\My Tableau Repository\Log
 
 Also see the [FAQ and troubleshooting section of the manual](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#frequently-found-issues-and-troubleshooting).
 
+If tests fail, check file `test_results_combined.csv`.
+
+#### Smoke Test Fail With Message `Package signature verification failed during connection creation.`
+
+Error message in `test_results_combined.csv`:
+
+```
+LoadDatasource DataSourceException: Package signature verification failed during connection creation.
+```
+
+This could mean that a connector is already installed as a `.taco` file. Make sure to remove all `.taco` files from `C:\Program Files\Tableau\Connectors`.
+
+#### Smoke Test Fail With Message `Can't start FlexNet Licensing Service`
+
+Error message in `test_results_combined.csv`:
+
+```
+Can't start FlexNet Licensing Service (try setting automatic start)
+LoadDatasource TableauException: Unable to establish connection: Data source 'Exasol JDBC by Exasol AG' has not been licensed.
+```
+
+This could mean that you are connecting the test machine via SSH. Start the tests by logging in to the machine directly.
+
 ## Tableau Server UI Tests
 
 ### Setup
