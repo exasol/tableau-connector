@@ -61,15 +61,18 @@ SELECT * FROM TESTV1.MYSESSION;
 
 ### Initial Setup
 
-Prequisites for Linux:
+#### Prequisites for Linux
+
+`python3-venv` and JDK 11 are required under Linux.
 
 ```sh
 # Ubuntu:
 sudo apt-get install python3-venv openjdk-11-jdk
 ```
 
-Prerequisites for Windows:
+#### Prerequisites for Windows
 
+Download and install the following packages:
 * Git for Windows and bash: [Git for Windows](https://git-scm.com/download/win)
 * JDK 11, e.g. from [Adoptium](https://adoptium.net/?variant=openjdk11&jvmVariant=hotspot)
 * [Python 3](https://www.python.org/downloads/windows/)
@@ -82,14 +85,18 @@ To package the JDBC and ODBC connectors, execute the following command in a `bas
 ./tools/package_connector.sh
 ```
 
-This validates the connectors and creates the connectors at
+This validates the connectors and creates the `.taco` files at
 
 ```
 target/exasol_jdbc.taco
 target/exasol_odbc.taco
 ```
 
-To use the connectors, copy them to `C:\Program Files\Tableau\Connectors`.
+To use the connectors, copy them to
+* `C:\Users\[Windows User]\Documents\My Tableau Repository\Connectors` (Windows, Tableau Desktop)
+* `C:\Program Files\Tableau\Connectors` (Windows, Tableau Server)
+* `/Users/[user]/Documents/My Tableau Repository/Connectors` (macOS, Tableau Desktop)
+* `/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/` (Linux, Tableau Server)
 
 As the connectors are not signed, you need to start Tableau Desktop with argument `-DDisableVerifyConnectorPluginSignature`.
 
@@ -101,7 +108,7 @@ You can run TDVT tests under Windows and macOS. This guide describes the setup f
 
 * Create a new Exasol database running on port `8563`.
 * Prepare database schema by running [tools/load_tvdt_test_data.sql](../../tools/load_tvdt_test_data.sql).
-* Configure hostname of the Exasol database: Add an entry to `c:\Windows\System32\Drivers\etc\hosts`. Adapt the IP to your database:
+* Configure hostname of the Exasol database: Add an entry to `C:\Windows\System32\Drivers\etc\hosts` (adapt the IP to your database):
 
     ```
     10.0.0.2    exasol.test.lan
@@ -228,6 +235,10 @@ export TESTCONTAINERS_RYUK_DISABLED=true
 ```
 
 ### Troubleshooting
+
+#### Tableau Server Startup Fails
+
+Run `tsm status -v` to see the detailed status of all Tableau services.
 
 #### Tableau Server Container Startup Fails
 
