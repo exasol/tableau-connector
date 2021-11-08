@@ -1,32 +1,56 @@
 # User Guide
 
-The Exasol Tableau Connector is distributed together with Tableau Desktop and Tableau Server applications. We recommend using the latest available version of Tableau products to access the connector.
+The Exasol ODBC Tableau Connector is distributed together with Tableau Desktop and Tableau Server applications. We recommend using the latest available version of Tableau products to access the connector.
 
 ![JDBC connection dialog](../images/jdbc_connection_dialog.png "JDBC connection dialog")
 
-If you want to use the currently developed version of connector, you can follow the guide below and install the connector disabling sign verification.
+If you want to use the currently developed versions of connector for JDBC and ODBC, you can follow the guide below and install the connector disabling sign verification.
 
 ## Testing In-Development Connector
 
-The ODBC Connector is deprecated, we recommend using the JDBC Connector. You can download the latest connector as a `.taco` file from the [GitHub release page](https://github.com/exasol/tableau-connector/releases).
+You can download the latest connectors for JDBC and ODBC as `.taco` files from the [GitHub release page](https://github.com/exasol/tableau-connector/releases).
 
-### Install the JDBC Driver
+### Preconditions
+
+#### Install the JDBC Driver
+
+The connector for JDBC requires the Exasol JDBC driver to be installed for Tableau Desktop and Server.
 
 Download and install the latest JDBC driver for your operating system from the [download page](https://www.exasol.com/portal/display/DOWNLOAD/).
 
 **Important note for Windows:** Make sure to download and install file `EXASOL_JDBC-<version>.msi`. This will install the JDBC driver to `C:\Program Files\Exasol\EXASolution-7.1\JDBC\exajdbc.jar`. Only the JDBC driver for Windows supports Kerberos under Windows.
 
-See below for where to install the JDBC driver in Tableau Desktop and Tableau Server.
+Copy the JDBC driver `exajdbc.jar` to the Tableau installation directory:
 
-### With Tableau Desktop
-
-1. Copy the JDBC driver `exajdbc.jar` to the Tableau installation directory (see [Tableau Desktop documentation](https://help.tableau.com/current/pro/desktop/en-us/examples_otherdatabases_jdbc.htm#specify-the-right-jdbc-driver) for details).
+* Tableau Desktop (see [Tableau Desktop documentation](https://help.tableau.com/current/pro/desktop/en-us/examples_otherdatabases_jdbc.htm#specify-the-right-jdbc-driver) for details):
   * `C:\Program Files\Tableau\Drivers` (Windows)
   * `~/Library/Tableau/Drivers` (macOS)
-2. Copy the connector `.taco` file to
+* Tableau Server:
+  * Windows: `C:\Program Files\Tableau\Drivers`
+  * Linux: `/opt/tableau/tableau_driver/jdbc`
+
+#### Install the ODBC Driver
+
+The connector for ODBC requres the Exasol ODBC driver to be installed for Tableau Desktop and Server.
+
+Download and install the latest JDBC driver for your operating system from the [download page](https://www.exasol.com/portal/display/DOWNLOAD/).
+
+* Windows and macOS: install the driver by executing the installer.
+* Linux:
+  1. Unpack the ODBC driver to `/opt/exasol/odbc`
+  2. Create or edit file `/etc/odbcinst.ini` and add the following entry:
+
+      ```ini
+      [EXASolution Driver]
+      Driver=/opt/exasol/odbc/lib/linux/x86_64/libexaodbc-uo2214lv2.so
+      ```
+
+### Install the Connectors With Tableau Desktop
+
+1. Copy the connector `.taco` files to
   * `C:\Users\[Windows User]\Documents\My Tableau Repository\Connectors` (Windows)
   * `/Users/[user]/Documents/My Tableau Repository/Connectors` (macOS)
-3. As the connector is not signed, you need to start Tableau Desktop with command line argument `-DDisableVerifyConnectorPluginSignature`, e.g. by creating a `.bat` file with the following content:
+2. As the connectors are not signed, you need to start Tableau Desktop with command line argument `-DDisableVerifyConnectorPluginSignature`, e.g. by creating a `.bat` file with the following content:
 
     ```bat
     "C:\Program Files\Tableau\Tableau 2021.3\bin\tableau.exe" -DDisableVerifyConnectorPluginSignature
@@ -34,28 +58,23 @@ See below for where to install the JDBC driver in Tableau Desktop and Tableau Se
 
 See details in the documentation for [Tabeleau Desktop](https://help.tableau.com/current/pro/desktop/en-us/examples_connector_sdk.htm) and the [Tableau Connector SDK](https://tableau.github.io/connector-plugin-sdk/docs/run-taco).
 
-### With Tableau Server
+### Install the Connectors With Tableau Server
 
-#### Install the JDBC Driver
-
-1. Copy the JDBC driver `exajdbc.jar` to the Tableau installation directory:
-  * Windows: `C:\Program Files\Tableau\Drivers`
-  * Linux: `/opt/tableau/tableau_driver/jdbc`
-2. Copy the connector `.taco` file to
+1. Copy the connector `.taco` files to
   * `/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/` (Linux)
   * `C:\Program Files\Tableau\Connectors` (Windows)
-3. As the connector is not signed, you need to disable the signature verification and apply changes:
+2. As the connectors are not signed, you need to disable the signature verification and apply changes:
 
     ```shell
     tsm configuration set -k native_api.disable_verify_connector_plugin_signature -v true --force-keys
     tsm pending-changes apply
     ```
 
-## Using the JDBC Connector
+## Using the Connectors
 
-After installing the JDBC Connector, you can use it by selecting connector "EXASOL JDBC by Exasol AG". This will open a connection dialog where you can enter details for connecting to your Exasol database.
+After installing the connectors, you can use them by selecting connector "EXASOL JDBC by Exasol AG" resp. "EXASOL ODBC by Exasol AG". This will open a connection dialog where you can enter details for connecting to your Exasol database.
 
-### TLS Certificate Validation
+### JDBC Connector: TLS Certificate Validation
 
 The JDBC connector will always create a TLS encrypted connection to the Exasol database.
 
@@ -65,7 +84,7 @@ If your Exasol server does not have a valid TLS certificate with the correct hos
 
 You can find the fingerprint via the EXAoperation user interface.
 
-### Authentication
+### JDBC Connector: Authentication
 
 For authentication against the database you have two options:
 
