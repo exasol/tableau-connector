@@ -1,6 +1,7 @@
 (function dsbuilder(attr) {
     const jdbcDriverDebugEnabled = false;
-    const jdbcDriverLogDir = "C:\\tmp";
+    const jdbcDriverLogDir = "C:\\tmp"; // Windows
+    //const jdbcDriverLogDir = "/tmp"; // Linux
     const kerberosServiceName = "exasol";
     const clientVersion = "";
 
