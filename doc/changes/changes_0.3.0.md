@@ -1,4 +1,4 @@
-# Exasol Tableau Connector 0.3.0, released 2021-11-??
+# Exasol Tableau Connector 0.3.0, released 2021-11-09
  
 Code name: Kerberos for JDBC Connector
 
