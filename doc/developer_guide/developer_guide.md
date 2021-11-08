@@ -263,8 +263,14 @@ export TESTCONTAINERS_RYUK_DISABLED=true
 
 Run `tsm status -v` to see the detailed status of all Tableau services.
 
-#### Tableau Server Container Startup Fails
+#### Tableau Server Docker Container Startup Fails
 
-When the Tableau server container stops after some minutes, you can start the container with environment variable `TSM_ONLY=1`, attach to the container and start the server with `"${DOCKER_CONFIG}"/config/tsm-commands`. See [detailed instructions](https://help.tableau.com/current/server-linux/en-gb/server-in-container_troubleshoot.htm).
+When the Tableau server container stops after some minutes, you can start the container with environment variable `TSM_ONLY=1`, attach to the container and start the server with `"${DOCKER_CONFIG}"/config/tsm-commands`:
 
-One possible root cause is an invalid license key. To check if the license is valid, run `tsm licenses list` in the container. You can try to get a trial license by running `tsm licenses activate --trial`.
+```shell
+docker run --env TABLEAU_USERNAME=user --env TABLEAU_PASSWORD=password --env LICENSE_KEY=$license --env REQUESTED_LEASE_TIME=60 --env TSM_ONLY=1 --publish 8080:8080 --detach tablau_server_with_exasol_drivers:latest
+```
+
+See [detailed troubleshooting instructions](https://help.tableau.com/current/server-linux/en-gb/server-in-container_troubleshoot.htm).
+
+One possible root cause is an invalid license key. To check if the license is valid, run `tsm licenses list` in the container. You can try to activate a license with `tsm licenses activate  -k $license_key` or get a trial license by running `tsm licenses activate --trial`.
