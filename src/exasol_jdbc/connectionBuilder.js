@@ -2,7 +2,7 @@
     const jdbcDriverDebugEnabled = false;
     const jdbcDriverLogDir = "C:\\tmp";
     const kerberosServiceName = "exasol";
-    const clientVersion = "(none)";
+    const clientVersion = "";
 
     function log(str) {
         logging.Log("connectionBuilder.js: " + str)
