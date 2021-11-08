@@ -16,7 +16,7 @@ You can download the latest connectors for JDBC and ODBC as `.taco` files from t
 
 The connector for JDBC requires the Exasol JDBC driver to be installed for Tableau Desktop and Server.
 
-Download and install the latest JDBC driver for your operating system from the [download page](https://www.exasol.com/portal/display/DOWNLOAD/).
+Download and install the latest Exasol JDBC driver for your operating system from the [Exasol download page](https://www.exasol.com/portal/display/DOWNLOAD/).
 
 **Important note for Windows:** Make sure to download and install file `EXASOL_JDBC-<version>.msi`. This will install the JDBC driver to `C:\Program Files\Exasol\EXASolution-7.1\JDBC\exajdbc.jar`. Only the JDBC driver for Windows supports Kerberos under Windows.
 
@@ -78,9 +78,9 @@ After installing the connectors, you can use them by selecting connector "EXASOL
 
 The JDBC connector will always create a TLS encrypted connection to the Exasol database.
 
-Using the "Validate Server Certificate" checkbox you can configure if the connector should verify the Exasol server's TLS certificate. This is on by default and we recommend to keep it on.
+Using the "Validate Server Certificate" checkbox you can configure if the connector should verify the Exasol server's TLS certificate. This is on by default and we recommend keeping it on.
 
-If your Exasol server does not have a valid TLS certificate with the correct hostname (e.g. the default self-signed certificate), you will need to enter the fingerprint of the servers certificate into text field "Server Certificate Fingerprint". This ensures that you connect to the correct server and there is no person-in-the-middle attack going on.
+If your Exasol server does not have a valid TLS certificate with the correct hostname (e.g. the default self-signed certificate), you will need to enter the fingerprint of the servers' certificate into the text field "Server Certificate Fingerprint". This ensures that you connect to the correct server and there is no person-in-the-middle attack going on.
 
 You can find the fingerprint via the EXAoperation user interface.
 

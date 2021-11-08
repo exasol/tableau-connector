@@ -45,7 +45,7 @@ tsm restart
 
 ### Verify Connected User
 
-To verify which user account Tableau is using for connecting to Exasol, create the following view and view it from Tableau:
+To verify which user account Tableau is using for connecting to Exasol, create the following view and check it from Tableau:
 
 ```sql
 CREATE OR REPLACE VIEW TESTV1.MYSESSION AS SELECT * FROM SYS.EXA_ALL_SESSIONS WHERE SESSION_ID=CURRENT_SESSION;
