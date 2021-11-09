@@ -53,7 +53,7 @@ Download and install the latest ODBC driver for your operating system from the [
 2. As the connectors are not signed, you need to start Tableau Desktop with command line argument `-DDisableVerifyConnectorPluginSignature`, e.g. by creating a `.bat` file with the following content:
 
     ```bat
-    "C:\Program Files\Tableau\Tableau 2021.3\bin\tableau.exe" -DDisableVerifyConnectorPluginSignature
+    "C:\Program Files\Tableau\Tableau <version>\bin\tableau.exe" -DDisableVerifyConnectorPluginSignature
     ```
 
 See details in the documentation for [Tabeleau Desktop](https://help.tableau.com/current/pro/desktop/en-us/examples_connector_sdk.htm) and the [Tableau Connector SDK](https://tableau.github.io/connector-plugin-sdk/docs/run-taco).
