@@ -8,6 +8,8 @@ This developer guide describes how to
 
 ## Manually Testing Connectors 
 
+### Tableau Desktop
+
 To manually test the connectors in Tableau Desktop without packaging, add the following arguments when starting Tableau Desktop:
 
 ```bat
@@ -21,25 +23,80 @@ After starting Tableau Desktop, click `More...` in the left bar under "To a Serv
 
 Restart Tableau after modifying any connector file to reload changes.
 
+### Tableau Server
+
+To allow using unsigned connectors, run
+
+```bash
+tsm configuration set -k native_api.disable_verify_connector_plugin_signature -v true --force-keys
+tsm pending-changes apply --ignore-prompt
+```
+
+Package the connectors as described below then copy them to `C:\Program Files\Tableau\Connectors` (Windows) or `/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/` (Linux) and restart Tableau Server:
+
+```bash
+./tools/package_connector.sh
+# Linux:
+cp -v target/*.taco /var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/
+# Windows:
+cp -v target/*.taco "/c/Program Files/Tableau/Connectors"
+tsm restart
+```
+
+### Verify Connected User
+
+To verify which user account Tableau is using for connecting to Exasol, create the following view and check it from Tableau:
+
+```sql
+CREATE OR REPLACE VIEW TESTV1.MYSESSION AS SELECT * FROM SYS.EXA_ALL_SESSIONS WHERE SESSION_ID=CURRENT_SESSION;
+```
+
+To verify the view works, run the following query:
+
+```sql
+SELECT * FROM TESTV1.MYSESSION;
+```
+
 ## Packaging the Connectors
 
-This requires `python3-venv` to be installed.
+### Initial Setup
 
-To package the JDBC and ODBC connectors, execute
+#### Prequisites for Linux
+
+`python3-venv` and JDK 11 are required under Linux.
 
 ```sh
-cd tableau-server-GUI-tests
-./set_up_scripts/package_connector.sh
+# Ubuntu:
+sudo apt-get install python3-venv openjdk-11-jdk
 ```
 
-This validates the connectors and creates the connectors at
+#### Prerequisites for Windows
+
+Download and install the following packages:
+* Git for Windows and bash: [Git for Windows](https://git-scm.com/download/win)
+* JDK 11, e.g. from [Adoptium](https://adoptium.net/?variant=openjdk11&jvmVariant=hotspot)
+* [Python 3](https://www.python.org/downloads/windows/)
+
+### Building the Connector
+
+To package the JDBC and ODBC connectors, execute the following command in a `bash` shell:
+
+```bash
+./tools/package_connector.sh
+```
+
+This validates the connectors and creates the `.taco` files at
 
 ```
-tableau-server-GUI-tests/target/exasol_jdbc.taco
-tableau-server-GUI-tests/target/exasol_odbc.taco
+target/exasol_jdbc.taco
+target/exasol_odbc.taco
 ```
 
-To use the connectors, copy them to `C:\Program Files\Tableau\Connectors`.
+To use the connectors, copy them to
+* `C:\Users\[Windows User]\Documents\My Tableau Repository\Connectors` (Windows, Tableau Desktop)
+* `C:\Program Files\Tableau\Connectors` (Windows, Tableau Server)
+* `/Users/[user]/Documents/My Tableau Repository/Connectors` (macOS, Tableau Desktop)
+* `/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/` (Linux, Tableau Server)
 
 As the connectors are not signed, you need to start Tableau Desktop with argument `-DDisableVerifyConnectorPluginSignature`.
 
@@ -51,7 +108,7 @@ You can run TDVT tests under Windows and macOS. This guide describes the setup f
 
 * Create a new Exasol database running on port `8563`.
 * Prepare database schema by running [tools/load_tvdt_test_data.sql](../../tools/load_tvdt_test_data.sql).
-* Configure hostname of the Exasol database: Add an entry to `c:\Windows\System32\Drivers\etc\hosts`. Adapt the IP to your database:
+* Configure hostname of the Exasol database: Add an entry to `C:\Windows\System32\Drivers\etc\hosts` (adapt the IP to your database):
 
     ```
     10.0.0.2    exasol.test.lan
@@ -109,6 +166,29 @@ Log files of Tableau Desktop: `%USERPROFILE%\Documents\My Tableau Repository\Log
 * `jprotocolserver.log`
 
 Also see the [FAQ and troubleshooting section of the manual](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#frequently-found-issues-and-troubleshooting).
+
+If tests fail, check file `test_results_combined.csv`.
+
+#### Smoke Test Fail With Message `Package signature verification failed during connection creation.`
+
+Error message in `test_results_combined.csv`:
+
+```
+LoadDatasource DataSourceException: Package signature verification failed during connection creation.
+```
+
+This could mean that a connector is already installed as a `.taco` file. Make sure to remove all `.taco` files from `C:\Program Files\Tableau\Connectors`.
+
+#### Smoke Test Fail With Message `Can't start FlexNet Licensing Service`
+
+Error message in `test_results_combined.csv`:
+
+```
+Can't start FlexNet Licensing Service (try setting automatic start)
+LoadDatasource TableauException: Unable to establish connection: Data source 'Exasol JDBC by Exasol AG' has not been licensed.
+```
+
+This could mean that you are connecting the test machine via SSH. Start the tests by logging in to the machine directly.
 
 ## Tableau Server UI Tests
 
@@ -179,8 +259,18 @@ export TESTCONTAINERS_RYUK_DISABLED=true
 
 ### Troubleshooting
 
-#### Tableau Server Container Startup Fails
+#### Tableau Server Startup Fails
 
-When the Tableau server container stops after some minutes, you can start the container with environment variable `TSM_ONLY=1`, attach to the container and start the server with `"${DOCKER_CONFIG}"/config/tsm-commands`. See [detailed instructions](https://help.tableau.com/current/server-linux/en-gb/server-in-container_troubleshoot.htm).
+Run `tsm status -v` to see the detailed status of all Tableau services.
 
-One possible root cause is an invalid license key. To check if the license is valid, run `tsm licenses list` in the container. You can try to get a trial license by running `tsm licenses activate --trial`.
+#### Tableau Server Docker Container Startup Fails
+
+When the Tableau server container stops after some minutes, you can start the container with environment variable `TSM_ONLY=1`, attach to the container and start the server with `"${DOCKER_CONFIG}"/config/tsm-commands`:
+
+```shell
+docker run --env TABLEAU_USERNAME=user --env TABLEAU_PASSWORD=password --env LICENSE_KEY=$license --env REQUESTED_LEASE_TIME=60 --env TSM_ONLY=1 --publish 8080:8080 --detach tablau_server_with_exasol_drivers:latest
+```
+
+See [detailed troubleshooting instructions](https://help.tableau.com/current/server-linux/en-gb/server-in-container_troubleshoot.htm).
+
+One possible root cause is an invalid license key. To check if the license is valid, run `tsm licenses list` in the container. You can try to activate a license with `tsm licenses activate  -k $license_key` or get a trial license by running `tsm licenses activate --trial`.

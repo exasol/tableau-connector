@@ -1,0 +1,21 @@
+name: CI Build
+
+on:
+  - push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Build connectors
+        run: ./tools/package_connector.sh
+      - name: Upload connectors
+        uses: actions/upload-artifact@v2
+        with:
+          name: Exasol Tableau Connectors
+          path: target/*.taco
+
