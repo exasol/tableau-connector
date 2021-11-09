@@ -11,3 +11,7 @@ Please note that Kerberos delegation is not yet supported in this release. See [
 ## Features
 
 * #15: Kerberos support
+
+## Bug Fixes
+
+* #33: Fixed behavior of `REGEXP_MATCH()` function: it now returns true if only a substring matches the regular expression.

@@ -957,7 +957,7 @@
       <argument type='str' />
     </function>
     <function group='string' name='REGEXP_MATCH' return-type='bool'>
-      <formula>(%1 REGEXP_LIKE %2)</formula>
+      <formula>REGEXP_INSTR(%1, %2)&gt;0</formula>
       <argument type='str' />
       <argument type='str' />
     </function>
