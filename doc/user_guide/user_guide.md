@@ -33,7 +33,7 @@ Copy the JDBC driver `exajdbc.jar` to the Tableau installation directory:
 
 The connector for ODBC requres the Exasol ODBC driver to be installed for Tableau Desktop and Server.
 
-Download and install the latest JDBC driver for your operating system from the [download page](https://www.exasol.com/portal/display/DOWNLOAD/).
+Download and install the latest ODBC driver for your operating system from the [Exasol download page](https://www.exasol.com/portal/display/DOWNLOAD/).
 
 * Windows and macOS: install the driver by executing the installer.
 * Linux:
