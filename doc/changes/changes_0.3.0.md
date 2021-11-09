@@ -14,4 +14,5 @@ Please note that Kerberos delegation is not yet supported in this release. See [
 
 ## Bug Fixes
 
+* #30: Fixed REGEX functions not being visible in Tableau.
 * #33: Fixed behavior of `REGEXP_MATCH()` function: it now returns true if only a substring matches the regular expression.
