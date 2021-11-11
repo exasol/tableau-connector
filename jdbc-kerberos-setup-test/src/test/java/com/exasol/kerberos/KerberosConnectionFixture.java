@@ -1,5 +1,13 @@
 package com.exasol.kerberos;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.sql.*;
@@ -16,166 +24,129 @@ import com.sun.security.jgss.ExtendedGSSCredential;
 
 public class KerberosConnectionFixture {
 
-    private final Subject serviceSubject;
-    private static Oid krb5Oid;
-    private GSSCredential impersonationCredentials;
+    private static final boolean KERBEROS_DEBUGGING_ENABLED = false;
     private final TestConfig config;
 
-    static {
-        try {
-            krb5Oid = new Oid("1.2.840.113554.1.2.2");
-        } catch (final GSSException e) {
-            System.out.println("Error creating Oid: " + e);
-            System.exit(-1);
-        }
-    }
-
-    public static void main(final String[] args) throws Exception {
-
-        final TestConfig config = TestConfig.load();
-        System.setProperty("java.security.krb5.conf", config.getKerberosConfigFile().get().toString());
-        System.setProperty("sun.security.krb5.debug", "true");
-
-        final KerberosConnectionFixture sample = new KerberosConnectionFixture(config);
-        sample.connect();
-    }
-
-    KerberosConnectionFixture(final TestConfig config) throws Exception {
+    KerberosConnectionFixture(final TestConfig config) {
         this.config = config;
         if (this.config.getJaasFile().isPresent()) {
             System.setProperty("java.security.auth.login.config", this.config.getJaasFile().get().toString());
         }
-        this.serviceSubject = doInitialLogin();
+        System.setProperty("java.security.krb5.conf", this.config.getKerberosConfigFile().get().toString());
+        System.setProperty("sun.security.krb5.debug", String.valueOf(KERBEROS_DEBUGGING_ENABLED));
         try {
-            this.impersonationCredentials = kerberosImpersonate();
-        } catch (final Exception ex) {
-            ex.printStackTrace();
-            System.exit(1);
-        }
-
-    }
-
-    void connect() {
-
-        try {
-            final Connection con = createConnectionWithRunAs();
-
-            final ResultSet result = con.createStatement().executeQuery(getQuery());
-            while (result.next()) {
-                System.out.println(" User on DB: " + result.getString(1));
+            if (!Files.exists(config.getLogDir())) {
+                Files.createDirectories(config.getLogDir());
             }
-        } catch (final Exception ex) {
-
-            System.out.println(" Exception caught in createConnection ");
-            ex.printStackTrace();
+        } catch (final IOException exception) {
+            throw new UncheckedIOException("Unable to create log dir", exception);
         }
     }
 
-    void connectWithImpersonate() {
+    private static GSSCredential getImpersonationCredentials(final Subject subject, final String impersonatedUser) {
+        assertThat(subject.getPrincipals(), hasSize(1));
+        final String runAsUser = subject.getPrincipals().iterator().next().getName();
+        System.out
+                .println("Getting impersonation credentials for runAs user '" + runAsUser + "' and '" + impersonatedUser
+                        + "'");
         try {
-            // Create a connection for target service thanks S4U2proxy mechanism
-            final Connection con = createConnectionWithImpersonation();
+            return Subject.doAs(subject, (PrivilegedExceptionAction<GSSCredential>) () -> {
+                final GSSManager manager = GSSManager.getInstance();
+                final GSSName selfName = manager.createName(runAsUser, GSSName.NT_USER_NAME);
 
-            final ResultSet result = con.createStatement().executeQuery(getQuery());
-            while (result.next()) {
-                System.out.println(" User on DB: " + result.getString(1));
-            }
-        } catch (final Exception ex) {
+                final GSSCredential selfCreds = manager.createCredential(selfName, GSSCredential.INDEFINITE_LIFETIME,
+                        createKerberosOid(),
+                        GSSCredential.INITIATE_ONLY);
+                System.out.println("Got self credentials " + selfCreds);
 
-            System.out.println(" Exception caught in createConnection ");
-            ex.printStackTrace();
+                final GSSName dbUser = manager.createName(impersonatedUser, GSSName.NT_USER_NAME);
+
+                System.out.println("Impersonating user " + dbUser);
+                return ((ExtendedGSSCredential) selfCreds).impersonate(dbUser);
+            });
+        } catch (final PrivilegedActionException exception) {
+            throw new IllegalStateException("Could not impersonate user", exception);
         }
     }
 
-    private Subject doInitialLogin() throws Exception {
-        final Subject serviceSubject = new Subject();
-
-        LoginModule krb5Module = null;
-        try {
-            krb5Module = new Krb5LoginModule();
-        } catch (final Exception e) {
-            System.out.print("Error loading Krb5LoginModule module: " + e);
-            throw e;
-        }
-
-        System.setProperty("sun.security.krb5.debug", String.valueOf(true));
-
+    private static Subject getServiceSubject(final String runAsUser, final Path keytabFile) {
         final Map<String, String> options = new HashMap<>();
-        options.put("principal", this.config.getRunAsUser().get());
+        options.put("principal", runAsUser);
         options.put("useKeyTab", "true");
         options.put("doNotPrompt", "true");
-        options.put("keyTab", this.config.getKeytabFile().get().toString());
+        options.put("keyTab", keytabFile.toString());
         options.put("isInitiator", "true");
         options.put("refreshKrb5Config", "true");
 
         System.out.println("Retrieving TGT for runAsUser using keytab");
 
+        final Subject serviceSubject = new Subject();
+        final LoginModule krb5Module = new Krb5LoginModule();
         krb5Module.initialize(serviceSubject, null, null, options);
         try {
-            krb5Module.login();
-            krb5Module.commit();
-        } catch (final LoginException e) {
-            System.out.println("Error authenticating with Kerberos: " + e);
+            assertThat(krb5Module.login(), is(true));
+            assertThat(krb5Module.commit(), is(true));
+        } catch (final LoginException exception) {
             try {
                 krb5Module.abort();
             } catch (final LoginException e1) {
                 System.out.println("Error aborting Kerberos authentication:  " + e1);
             }
-            throw e;
+            throw new IllegalStateException("Error during login", exception);
         }
-
+        assertThat(serviceSubject.getPrincipals(), hasSize(1));
+        System.out.println("Logged in as " + serviceSubject.getPrincipals().iterator().next().getName());
         return serviceSubject;
     }
 
-    /**
-     * Generate the impersonated user credentials using S4U2self mechanism
-     *
-     * @return the client impersonated GSSCredential
-     * @throws PrivilegedActionException in case of failure
-     */
-    private GSSCredential kerberosImpersonate() throws PrivilegedActionException {
-        return Subject.doAs(this.serviceSubject, (PrivilegedExceptionAction<GSSCredential>) () -> {
-            final GSSManager manager = GSSManager.getInstance();
-            final GSSName selfName = manager.createName(this.config.getRunAsUser().get(), GSSName.NT_USER_NAME);
-
-            final GSSCredential selfCreds = manager.createCredential(selfName, GSSCredential.INDEFINITE_LIFETIME,
-                    krb5Oid,
-                    GSSCredential.INITIATE_ONLY);
-            System.out.println("Got self credentials " + selfCreds);
-
-            final GSSName dbUser = manager.createName(this.config.getImpersonatedUser(), GSSName.NT_USER_NAME);
-
-            System.out.println("Impersonating user " + dbUser);
-            return ((ExtendedGSSCredential) selfCreds).impersonate(dbUser);
-        });
+    private static Oid createKerberosOid() {
+        try {
+            return new Oid("1.2.840.113554.1.2.2");
+        } catch (final GSSException e) {
+            throw new IllegalStateException();
+        }
     }
 
-    private Connection createConnectionWithRunAs() throws PrivilegedActionException {
-        return Subject.doAs(this.serviceSubject, (PrivilegedExceptionAction<Connection>) () -> {
-            return getConnection();
-        });
+    Connection createConnectionWithRunAs() {
+        final String runAsUser = this.config.getRunAsUser().get();
+        final Subject subject = getServiceSubject(runAsUser, this.config.getKeytabFile().get());
+        return createPriviligedConnection(subject, runAsUser);
     }
 
-    private Connection createConnectionWithImpersonation() throws PrivilegedActionException {
-        this.serviceSubject.getPrivateCredentials().add(this.impersonationCredentials);
-        return Subject.doAs(this.serviceSubject, (PrivilegedExceptionAction<Connection>) () -> {
-            return getConnection();
-        });
+    Connection createConnectionWithImpersonation() {
+        final Subject subject = getServiceSubject(this.config.getRunAsUser().get(), this.config.getKeytabFile().get());
+        subject.getPrivateCredentials().add(getImpersonationCredentials(subject, this.config.getImpersonatedUser()));
+        return createPriviligedConnection(subject, subject);
     }
 
-    private Connection getConnection() throws SQLException {
+    Connection createConnectionWithoutUser() {
+        return createConnection(null);
+    }
+
+    private Connection createPriviligedConnection(final Subject subject, final Object connectionUser) {
+        try {
+            return Subject.doAs(subject, (PrivilegedExceptionAction<Connection>) () -> {
+                return createConnection(connectionUser);
+            });
+        } catch (final PrivilegedActionException exception) {
+            throw new IllegalStateException("Error getting connection", exception);
+        }
+    }
+
+    private Connection createConnection(final Object user) {
         final Properties driverProperties = new Properties();
         driverProperties.put("gsslib", "gssapi");
         driverProperties.put("jaasLogin", "false");
-        driverProperties.put("user", this.serviceSubject);
-        System.out.println("Connecting using url " + this.config.getJdbcUrl());
-        System.out.println("   properties: " + driverProperties);
-        return DriverManager.getConnection(this.config.getJdbcUrl(), driverProperties);
+        if (user != null) {
+            driverProperties.put("user", user);
+        }
+        final String jdbcUrl = this.config.getJdbcUrl();
+        System.out.println("Connecting using url " + jdbcUrl);
+        System.out.println(" properties: " + driverProperties);
+        try {
+            return DriverManager.getConnection(jdbcUrl, driverProperties);
+        } catch (final SQLException exception) {
+            throw new IllegalStateException("Error connecting to DB using URL " + jdbcUrl);
+        }
     }
-
-    protected String getQuery() {
-        // the current_user function works in for Presto Server 0.203 but NOT 0.167
-        return "SELECT current_user";
-    }
-
 }

@@ -30,7 +30,8 @@ public class TestConfig {
         return "jdbc:exa:" + getDbHostName()
                 + ":" + getDbPort()
                 + ";fingerprint=" + getDbCertificateFingerPrint()
-                + ";kerberosservicename=exasol;kerberoshostname=" + getDbHostName() + ";debug=1;logdir=.";
+                + ";kerberosservicename=exasol;kerberoshostname=" + getDbHostName() + ";debug=1;logdir="
+                + getLogDir().toString();
     }
 
     private String getDbCertificateFingerPrint() {
@@ -63,6 +64,10 @@ public class TestConfig {
 
     public Optional<Path> getJaasFile() {
         return getProperty("jaas_file").map(Paths::get);
+    }
+
+    public Path getLogDir() {
+        return Paths.get("logs").toAbsolutePath();
     }
 
     private String getMandatoryProperty(final String key) {
