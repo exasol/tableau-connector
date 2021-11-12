@@ -14,6 +14,7 @@ import java.sql.*;
 import java.util.*;
 
 import javax.security.auth.Subject;
+import javax.security.auth.callback.*;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
@@ -78,11 +79,35 @@ public class KerberosConnectionFixture {
         options.put("isInitiator", "true");
         options.put("refreshKrb5Config", "true");
 
-        System.out.println("Retrieving TGT for runAsUser using keytab");
+        return login(options, null);
+    }
 
+    static Subject getServiceSubject(final String user, final String password) {
+        final Map<String, String> options = new HashMap<>();
+        options.put("principal", user);
+        options.put("useKeyTab", "true");
+        options.put("doNotPrompt", "false");
+        options.put("isInitiator", "true");
+        options.put("refreshKrb5Config", "true");
+
+        return login(options, callbacks -> {
+            for (final Callback callback : callbacks) {
+                if (callback instanceof PasswordCallback) {
+                    final PasswordCallback passwordCallback = (PasswordCallback) callback;
+                    System.out.println("Prompt:" + passwordCallback.getPrompt());
+                    passwordCallback.setPassword(password.toCharArray());
+                } else {
+                    throw new IllegalStateException("Unknown callback type " + callback.getClass().getName());
+                }
+            }
+            System.out.println(Arrays.toString(callbacks));
+        });
+    }
+
+    private static Subject login(final Map<String, String> options, final CallbackHandler callbackHandler) {
         final Subject serviceSubject = new Subject();
         final LoginModule krb5Module = new Krb5LoginModule();
-        krb5Module.initialize(serviceSubject, null, null, options);
+        krb5Module.initialize(serviceSubject, callbackHandler, null, options);
         try {
             assertThat(krb5Module.login(), is(true));
             assertThat(krb5Module.commit(), is(true));
@@ -116,14 +141,10 @@ public class KerberosConnectionFixture {
     Connection createConnectionWithImpersonation() {
         final Subject subject = getServiceSubject(this.config.getRunAsUser().get(), this.config.getKeytabFile().get());
         subject.getPrivateCredentials().add(getImpersonationCredentials(subject, this.config.getImpersonatedUser()));
-        return createPriviligedConnection(subject, subject);
+        return createPriviligedConnection(subject, this.config.getImpersonatedUser());
     }
 
-    Connection createConnectionWithoutUser() {
-        return createConnection(null);
-    }
-
-    private Connection createPriviligedConnection(final Subject subject, final Object connectionUser) {
+    Connection createPriviligedConnection(final Subject subject, final String connectionUser) {
         try {
             return Subject.doAs(subject, (PrivilegedExceptionAction<Connection>) () -> {
                 return createConnection(connectionUser);
@@ -133,20 +154,18 @@ public class KerberosConnectionFixture {
         }
     }
 
-    private Connection createConnection(final Object user) {
+    private Connection createConnection(final String user) {
         final Properties driverProperties = new Properties();
-        driverProperties.put("gsslib", "gssapi");
-        driverProperties.put("jaasLogin", "false");
-        if (user != null) {
-            driverProperties.put("user", user);
-        }
+        driverProperties.put("user", user);
+        driverProperties.put("loginType", 2);
+
         final String jdbcUrl = this.config.getJdbcUrl();
         System.out.println("Connecting using url " + jdbcUrl);
         System.out.println(" properties: " + driverProperties);
         try {
             return DriverManager.getConnection(jdbcUrl, driverProperties);
         } catch (final SQLException exception) {
-            throw new IllegalStateException("Error connecting to DB using URL " + jdbcUrl);
+            throw new IllegalStateException("Error connecting to DB using URL " + jdbcUrl, exception);
         }
     }
 }

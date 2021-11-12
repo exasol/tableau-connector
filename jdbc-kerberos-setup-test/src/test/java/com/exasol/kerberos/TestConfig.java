@@ -50,6 +50,10 @@ public class TestConfig {
         return getMandatoryProperty("impersonated_user");
     }
 
+    public Optional<String> getImpersonatedUserDbName() {
+        return getProperty("impersonated_user_db_name");
+    }
+
     public Optional<String> getRunAsUser() {
         return getProperty("runas_user");
     }
@@ -66,6 +70,10 @@ public class TestConfig {
         return getProperty("jaas_file").map(Paths::get);
     }
 
+    public Path getGssConfigFile() {
+        return getProperty("gss_config_file").map(Paths::get).get();
+    }
+
     public Path getLogDir() {
         return Paths.get("logs").toAbsolutePath();
     }
@@ -78,4 +86,5 @@ public class TestConfig {
     private Optional<String> getProperty(final String key) {
         return Optional.ofNullable((String) this.properties.get(key));
     }
+
 }

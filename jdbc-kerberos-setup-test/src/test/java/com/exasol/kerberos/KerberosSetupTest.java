@@ -22,8 +22,9 @@ public class KerberosSetupTest {
 
     @Test
     void impersonate() {
+        final String expectedUser = this.config.getImpersonatedUserDbName().orElse(this.config.getImpersonatedUser());
         assertDbUser(this.kerberosConnectionFixture::createConnectionWithImpersonation,
-                this.config.getImpersonatedUser());
+                expectedUser);
     }
 
     @Test
@@ -31,20 +32,13 @@ public class KerberosSetupTest {
         assertDbUser(this.kerberosConnectionFixture::createConnectionWithRunAs, this.config.getRunAsUser().get());
     }
 
-    @Test
-    void withoutSubject() {
-        assertDbUser(this.kerberosConnectionFixture::createConnectionWithoutUser, this.config.getImpersonatedUser());
-    }
-
     private void assertDbUser(final Supplier<Connection> connectionSupplier, final String expectedUser) {
         try (Connection connection = connectionSupplier.get()) {
             final String user = getCurrentDbUser(connection);
-            System.out.println("Connected to DB as user '" + user + "'");
             assertThat(user, equalToIgnoringCase(expectedUser));
         } catch (final SQLException exception) {
             throw new IllegalStateException("Error getting db user", exception);
         }
-
     }
 
     private String getCurrentDbUser(final Connection connection) {
@@ -52,7 +46,9 @@ public class KerberosSetupTest {
             if (!result.next()) {
                 throw new IllegalStateException("Query did not return a result");
             }
-            return result.getString(1);
+            final String user = result.getString(1);
+            System.out.println("Connected to DB as user '" + user + "'");
+            return user;
         } catch (final SQLException exception) {
             throw new IllegalStateException("Error executing query", exception);
         }
