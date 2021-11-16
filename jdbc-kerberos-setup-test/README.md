@@ -4,6 +4,10 @@ This directory contains JUnit integrationt tests that verify Kerberos delegation
 
 ## Initial configuration
 
+For running the tests you will need to install JDK 11 or later e.g. from [Adoptium](https://adoptium.net/) and [Apache Maven](https://maven.apache.org/).
+
+Setup the Kerberos environment and create user accounts as described in the [user guide](../doc/user_guide/user_guide.md) and [Tableau Server documentation](https://help.tableau.com/current/server/en-us/kerberos_delegation_jdbc.htm).
+
 Create file `jdbc-kerberos-setup-test/test.properties` with the following content:
 
 ```properties
@@ -27,7 +31,16 @@ impersonated_user_kerberos_password = ****
 impersonated_user_db_name = <username>
 
 # Path to the Kerberos config file, e.g. C:/ProgramData/Tableau/krb5.ini
-kerberos_config_file=C:/path/to/krb5.ini
+kerberos_config_file = C:/path/to/krb5.ini
 # Path to the keytab file for the delegating user, e.g. C:/ProgramData/Tableau/tableauuser-delegation.keytab
-keytab_file=C:/path/to/kt.keytab
-````
+keytab_file = C:/path/to/kt.keytab
+```
+
+Some tests require valid credentials in the local credential cache. Run `klist` to check if the credentials are still valid. Run `kinit` to retrieve new credentials. The Maven build will hang if no valid credentials are available.
+
+## Run Tests
+
+```sh
+cd jdbc-kerberos-setup-test
+mvn integration-test
+```

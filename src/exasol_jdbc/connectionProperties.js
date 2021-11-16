@@ -1,4 +1,5 @@
 (function propertiesbuilder(attr) {
+    const enableDebugging = false;
 
     function log(str) {
         logging.Log("connectionProperties.js: " + str)
@@ -15,12 +16,11 @@
     const props = {};
     props["password"] = attr[connectionHelper.attributePassword];
 
-    props["jdbc-driver-debug"] = "Authentication=" + authentication + ", authmode='" + serverAuthMode
+    if(enableDebugging) {
+        props["jdbc-driver-debug"] = "Authentication=" + authentication + ", authmode='" + serverAuthMode
         + "', impersonateMode='" + connectionHelper.valueAuthModeDBImpersonate
         + "', user='" + user + "', serveruser='" + serverUser + "'";
-    // Authentication=auth-user-pass, authmode='prompt', impersonateMode='db-impersonate', user=sys, serveruser=undefined, 
-    //Authentication=auth-integrated, authmode='as-is', impersonateMode='db-impersonate', user=, serveruser=tableauuser,
-    //Authentication=auth-integrated, authmode='kerberos-impersonate', impersonateMode='db-impersonate', user=, serveruser=john.doe,
+    }
 
     if (!isEmpty(serverUser)) {
         props["user"] = serverUser;
