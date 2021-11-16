@@ -54,24 +54,20 @@ public class TestConfig {
         return getProperty("impersonated_user_db_name");
     }
 
-    public Optional<String> getRunAsUser() {
-        return getProperty("runas_user");
+    public String getImpersonatedUserKerberosPassword() {
+        return getMandatoryProperty("impersonated_user_kerberos_password");
     }
 
-    public Optional<Path> getKerberosConfigFile() {
-        return getProperty("kerberos_config_file").map(Paths::get);
+    public String getRunAsUser() {
+        return getMandatoryProperty("runas_user");
     }
 
-    public Optional<Path> getKeytabFile() {
-        return getProperty("keytab_file").map(Paths::get);
+    public Path getKerberosConfigFile() {
+        return Paths.get(getMandatoryProperty("kerberos_config_file"));
     }
 
-    public Optional<Path> getJaasFile() {
-        return getProperty("jaas_file").map(Paths::get);
-    }
-
-    public Path getGssConfigFile() {
-        return getProperty("gss_config_file").map(Paths::get).get();
+    public Path getKeytabFile() {
+        return Paths.get(getMandatoryProperty("keytab_file"));
     }
 
     public Path getLogDir() {
@@ -86,5 +82,4 @@ public class TestConfig {
     private Optional<String> getProperty(final String key) {
         return Optional.ofNullable((String) this.properties.get(key));
     }
-
 }

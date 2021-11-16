@@ -30,11 +30,12 @@ public class KerberosConnectionFixture {
 
     KerberosConnectionFixture(final TestConfig config) {
         this.config = config;
-        if (this.config.getJaasFile().isPresent()) {
-            System.setProperty("java.security.auth.login.config", this.config.getJaasFile().get().toString());
-        }
-        System.setProperty("java.security.krb5.conf", this.config.getKerberosConfigFile().get().toString());
+        System.setProperty("java.security.krb5.conf", this.config.getKerberosConfigFile().toString());
         System.setProperty("sun.security.krb5.debug", String.valueOf(KERBEROS_DEBUGGING_ENABLED));
+        createJdbcDriverLogDir(config);
+    }
+
+    private void createJdbcDriverLogDir(final TestConfig config) {
         try {
             if (!Files.exists(config.getLogDir())) {
                 Files.createDirectories(config.getLogDir());
@@ -78,7 +79,6 @@ public class KerberosConnectionFixture {
         options.put("keyTab", keytabFile.toString());
         options.put("isInitiator", "true");
         options.put("refreshKrb5Config", "true");
-
         return login(options, null);
     }
 
@@ -89,7 +89,7 @@ public class KerberosConnectionFixture {
         options.put("doNotPrompt", "false");
         options.put("isInitiator", "true");
         options.put("refreshKrb5Config", "true");
-
+        options.put("storeKey", "true");
         return login(options, callbacks -> {
             for (final Callback callback : callbacks) {
                 if (callback instanceof PasswordCallback) {
@@ -133,31 +133,42 @@ public class KerberosConnectionFixture {
     }
 
     Connection createConnectionWithRunAs() {
-        final String runAsUser = this.config.getRunAsUser().get();
-        final Subject subject = getServiceSubject(runAsUser, this.config.getKeytabFile().get());
-        return createPriviligedConnection(subject, runAsUser);
+        final String runAsUser = this.config.getRunAsUser();
+        final Subject subject = getServiceSubject(runAsUser, this.config.getKeytabFile());
+        return createPriviligedConnection(LoginType.GSSAPI, subject, runAsUser);
     }
 
     Connection createConnectionWithImpersonation() {
-        final Subject subject = getServiceSubject(this.config.getRunAsUser().get(), this.config.getKeytabFile().get());
+        final Subject subject = getServiceSubject(this.config.getRunAsUser(), this.config.getKeytabFile());
         subject.getPrivateCredentials().add(getImpersonationCredentials(subject, this.config.getImpersonatedUser()));
-        return createPriviligedConnection(subject, this.config.getImpersonatedUser());
+        return createPriviligedConnection(LoginType.GSSAPI, subject, this.config.getImpersonatedUser());
     }
 
-    Connection createPriviligedConnection(final Subject subject, final String connectionUser) {
+    Connection createConnectionWithKerberosPassword() {
+        final Subject subject = getServiceSubject(this.config.getRunAsUser(),
+                this.config.getImpersonatedUserKerberosPassword());
+        return createPriviligedConnection(LoginType.GSSAPI, subject, this.config.getImpersonatedUser());
+    }
+
+    Connection createConnectionWithSspi() {
+        return createPriviligedConnection(LoginType.SSPI, null, this.config.getImpersonatedUser());
+    }
+
+    Connection createPriviligedConnection(final LoginType loginType, final Subject subject,
+            final String connectionUser) {
         try {
             return Subject.doAs(subject, (PrivilegedExceptionAction<Connection>) () -> {
-                return createConnection(connectionUser);
+                return createConnection(loginType, connectionUser);
             });
         } catch (final PrivilegedActionException exception) {
             throw new IllegalStateException("Error getting connection", exception);
         }
     }
 
-    private Connection createConnection(final String user) {
+    private Connection createConnection(final LoginType loginType, final String user) {
         final Properties driverProperties = new Properties();
         driverProperties.put("user", user);
-        driverProperties.put("loginType", 2);
+        driverProperties.put("loginType", loginType.code);
 
         final String jdbcUrl = this.config.getJdbcUrl();
         System.out.println("Connecting using url " + jdbcUrl);
@@ -166,6 +177,16 @@ public class KerberosConnectionFixture {
             return DriverManager.getConnection(jdbcUrl, driverProperties);
         } catch (final SQLException exception) {
             throw new IllegalStateException("Error connecting to DB using URL " + jdbcUrl, exception);
+        }
+    }
+
+    public enum LoginType {
+        SSPI(1), GSSAPI(2);
+
+        private final int code;
+
+        private LoginType(final int code) {
+            this.code = code;
         }
     }
 }

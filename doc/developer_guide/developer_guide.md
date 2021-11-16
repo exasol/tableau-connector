@@ -159,7 +159,7 @@ See the [manual](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#about-
 
 TDVT writes the test result to `test_results_combined.csv`. You can view it by opening the `TDVT Results.twb` workbook with Tableau Desktop. After re-running the tests type `F5` to refresh the results. See [detailed instructions](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#review-results).
 
-### Troubleshooting
+### Troubleshooting TDVT Tests
 
 Log files of Tableau Desktop: `%USERPROFILE%\Documents\My Tableau Repository\Logs\`:
 * `log.txt`
@@ -192,6 +192,8 @@ This could mean that you are connecting the test machine via SSH. Start the test
 
 ## Tableau Server UI Tests
 
+The UI tests verify that the Exasol connector works with Tableau Server.
+
 ### Setup
 
 1. Follow the [instructions](https://help.tableau.com/current/server-linux/en-us/server-in-container_setup-tool.htm) to create a container. This should result in an image `tableau_server_image:<version>`, e.g. `tableau_server_image:20213.21.0917.1006`.
@@ -206,7 +208,7 @@ This could mean that you are connecting the test machine via SSH. Start the test
     docker build . --tag tablau_server_with_exasol_drivers
     ```
 
-### Run the Tests
+### Run the UI Tests
 
 To run the tests you need to create the `tableau-server-GUI-tests/src/test/resources/credentials.properties` file with the following content (replace the placeholders for real values):
 
@@ -257,7 +259,7 @@ export DOCKER_HOST=tcp://localhost:2375
 export TESTCONTAINERS_RYUK_DISABLED=true
 ```
 
-### Troubleshooting
+### Troubleshooting UI Tests
 
 #### Tableau Server Startup Fails
 
@@ -274,3 +276,7 @@ docker run --env TABLEAU_USERNAME=user --env TABLEAU_PASSWORD=password --env LIC
 See [detailed troubleshooting instructions](https://help.tableau.com/current/server-linux/en-gb/server-in-container_troubleshoot.htm).
 
 One possible root cause is an invalid license key. To check if the license is valid, run `tsm licenses list` in the container. You can try to activate a license with `tsm licenses activate  -k $license_key` or get a trial license by running `tsm licenses activate --trial`.
+
+## Manually Testing Kerberos Authentication
+
+Testing that Kerberos authentication works with the connector requires setting up a Windows Domain Controller and Active Directory. You can use the [JDBC Kerberos setup test](../../jdbc-kerberos-setup-test/README.md) to verify Kerberos delegation works in your setup. We recommend using this if Kerberos authentication does not work with Tableau Server.

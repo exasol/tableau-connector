@@ -8,16 +8,36 @@ import java.util.function.Supplier;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
-public class KerberosSetupTest {
+public class KerberosSetupIT {
 
     private TestConfig config;
     private KerberosConnectionFixture kerberosConnectionFixture;
 
     @BeforeEach
-    void setup() {
+    void setup() throws ClassNotFoundException {
+        Class.forName("com.exasol.jdbc.EXADriver");
         this.config = TestConfig.load();
         this.kerberosConnectionFixture = new KerberosConnectionFixture(this.config);
+    }
+
+    @Test
+    void kerberosPassword() {
+        // This test requires valid credentials in the local credential cache. Run 'klist' to check if the credentials
+        // are still valid. Run `kinit` to retrieve new credentials.
+        final String expectedUser = this.config.getImpersonatedUserDbName().orElse(this.config.getImpersonatedUser());
+        assertDbUser(this.kerberosConnectionFixture::createConnectionWithKerberosPassword,
+                expectedUser);
+    }
+
+    @Test
+    @EnabledOnOs({ OS.WINDOWS })
+    void sspi() {
+        final String expectedUser = System.getProperty("user.name");
+        assertDbUser(this.kerberosConnectionFixture::createConnectionWithSspi,
+                expectedUser);
     }
 
     @Test
@@ -29,7 +49,7 @@ public class KerberosSetupTest {
 
     @Test
     void runAs() {
-        assertDbUser(this.kerberosConnectionFixture::createConnectionWithRunAs, this.config.getRunAsUser().get());
+        assertDbUser(this.kerberosConnectionFixture::createConnectionWithRunAs, this.config.getRunAsUser());
     }
 
     private void assertDbUser(final Supplier<Connection> connectionSupplier, final String expectedUser) {
