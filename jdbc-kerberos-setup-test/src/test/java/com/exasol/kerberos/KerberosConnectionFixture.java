@@ -82,7 +82,7 @@ public class KerberosConnectionFixture {
         return login(options, null);
     }
 
-    static Subject getServiceSubject(final String user, final String password) {
+    private static Subject getServiceSubject(final String user, final String password) {
         final Map<String, String> options = new HashMap<>();
         options.put("principal", user);
         options.put("useKeyTab", "true");
@@ -168,7 +168,7 @@ public class KerberosConnectionFixture {
     private Connection createConnection(final LoginType loginType, final String user) {
         final Properties driverProperties = new Properties();
         driverProperties.put("user", user);
-        driverProperties.put("loginType", loginType.code);
+        driverProperties.put("loginType", loginType.getCode());
 
         final String jdbcUrl = this.config.getJdbcUrl();
         System.out.println("Connecting using url " + jdbcUrl);
@@ -177,16 +177,6 @@ public class KerberosConnectionFixture {
             return DriverManager.getConnection(jdbcUrl, driverProperties);
         } catch (final SQLException exception) {
             throw new IllegalStateException("Error connecting to DB using URL " + jdbcUrl, exception);
-        }
-    }
-
-    public enum LoginType {
-        SSPI(1), GSSAPI(2);
-
-        private final int code;
-
-        private LoginType(final int code) {
-            this.code = code;
         }
     }
 }
