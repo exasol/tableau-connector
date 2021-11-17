@@ -12,6 +12,7 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.*;
@@ -24,6 +25,8 @@ import com.sun.security.auth.module.Krb5LoginModule;
 import com.sun.security.jgss.ExtendedGSSCredential;
 
 public class KerberosConnectionFixture {
+
+    private static final Logger LOGGER = Logger.getLogger(KerberosConnectionFixture.class.getName());
 
     private static final boolean KERBEROS_DEBUGGING_ENABLED = false;
     private final TestConfig config;
@@ -48,9 +51,8 @@ public class KerberosConnectionFixture {
     private static GSSCredential getImpersonationCredentials(final Subject subject, final String impersonatedUser) {
         assertThat(subject.getPrincipals(), hasSize(1));
         final String runAsUser = subject.getPrincipals().iterator().next().getName();
-        System.out
-                .println("Getting impersonation credentials for runAs user '" + runAsUser + "' and '" + impersonatedUser
-                        + "'");
+        LOGGER.info("Getting impersonation credentials for runAs user '" + runAsUser + "' and '" + impersonatedUser
+                + "'");
         try {
             return Subject.doAs(subject, (PrivilegedExceptionAction<GSSCredential>) () -> {
                 final GSSManager manager = GSSManager.getInstance();
@@ -59,11 +61,11 @@ public class KerberosConnectionFixture {
                 final GSSCredential selfCreds = manager.createCredential(selfName, GSSCredential.INDEFINITE_LIFETIME,
                         createKerberosOid(),
                         GSSCredential.INITIATE_ONLY);
-                System.out.println("Got self credentials " + selfCreds);
+                LOGGER.info("Got self credentials " + selfCreds);
 
                 final GSSName dbUser = manager.createName(impersonatedUser, GSSName.NT_USER_NAME);
 
-                System.out.println("Impersonating user " + dbUser);
+                LOGGER.info("Impersonating user " + dbUser);
                 return ((ExtendedGSSCredential) selfCreds).impersonate(dbUser);
             });
         } catch (final PrivilegedActionException exception) {
@@ -94,13 +96,13 @@ public class KerberosConnectionFixture {
             for (final Callback callback : callbacks) {
                 if (callback instanceof PasswordCallback) {
                     final PasswordCallback passwordCallback = (PasswordCallback) callback;
-                    System.out.println("Prompt:" + passwordCallback.getPrompt());
+                    LOGGER.info("Prompt:" + passwordCallback.getPrompt());
                     passwordCallback.setPassword(password.toCharArray());
                 } else {
                     throw new IllegalStateException("Unknown callback type " + callback.getClass().getName());
                 }
             }
-            System.out.println(Arrays.toString(callbacks));
+            LOGGER.info(Arrays.toString(callbacks));
         });
     }
 
@@ -115,12 +117,12 @@ public class KerberosConnectionFixture {
             try {
                 krb5Module.abort();
             } catch (final LoginException e1) {
-                System.out.println("Error aborting Kerberos authentication:  " + e1);
+                LOGGER.info("Error aborting Kerberos authentication:  " + e1);
             }
             throw new IllegalStateException("Error during login", exception);
         }
         assertThat(serviceSubject.getPrincipals(), hasSize(1));
-        System.out.println("Logged in as " + serviceSubject.getPrincipals().iterator().next().getName());
+        LOGGER.info("Logged in as " + serviceSubject.getPrincipals().iterator().next().getName());
         return serviceSubject;
     }
 
@@ -171,8 +173,8 @@ public class KerberosConnectionFixture {
         driverProperties.put("loginType", loginType.getCode());
 
         final String jdbcUrl = this.config.getJdbcUrl();
-        System.out.println("Connecting using url " + jdbcUrl);
-        System.out.println(" properties: " + driverProperties);
+        LOGGER.info("Connecting using url " + jdbcUrl);
+        LOGGER.info(" properties: " + driverProperties);
         try {
             return DriverManager.getConnection(jdbcUrl, driverProperties);
         } catch (final SQLException exception) {

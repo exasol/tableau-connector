@@ -5,14 +5,15 @@ import static org.hamcrest.Matchers.equalToIgnoringCase;
 
 import java.sql.*;
 import java.util.function.Supplier;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
-public class KerberosSetupIT {
-
+class KerberosSetupIT {
+    private static final Logger LOGGER = Logger.getLogger(KerberosSetupIT.class.getName());
     private TestConfig config;
     private KerberosConnectionFixture kerberosConnectionFixture;
 
@@ -67,7 +68,7 @@ public class KerberosSetupIT {
                 throw new IllegalStateException("Query did not return a result");
             }
             final String user = result.getString(1);
-            System.out.println("Connected to DB as user '" + user + "'");
+            LOGGER.info("Connected to DB as user '" + user + "'");
             return user;
         } catch (final SQLException exception) {
             throw new IllegalStateException("Error executing query", exception);
