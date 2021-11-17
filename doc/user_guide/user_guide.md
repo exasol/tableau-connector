@@ -2,7 +2,7 @@
 
 The Exasol ODBC Tableau Connector is distributed together with Tableau Desktop and Tableau Server applications. We recommend using the latest available version of Tableau products to access the connector.
 
-![JDBC connection dialog](../images/jdbc_connection_dialog.png "JDBC connection dialog")
+![JDBC connection dialog](../images/jdbc_connection_dialog_kerberos.png "JDBC connection dialog")
 
 If you want to use the currently developed versions of connector for JDBC and ODBC, you can follow the guide below and install the connector disabling sign verification.
 
