@@ -1,4 +1,5 @@
 (function propertiesbuilder(attr) {
+    "use strict";
     const enableDebugging = false;
 
     function log(str) {
@@ -18,7 +19,6 @@
 
     if(enableDebugging) {
         props["jdbc-driver-debug"] = "Authentication=" + authentication + ", authmode='" + serverAuthMode
-        + "', impersonateMode='" + connectionHelper.valueAuthModeDBImpersonate
         + "', user='" + user + "', serveruser='" + serverUser + "'";
     }
 
