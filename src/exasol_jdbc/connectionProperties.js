@@ -1,4 +1,5 @@
 (function propertiesbuilder(attr) {
+    const enableDebugging = false;
 
     function log(str) {
         logging.Log("connectionProperties.js: " + str)
@@ -8,27 +9,24 @@
     }
 
     const authentication = attr[connectionHelper.attributeAuthentication];
+    const user = attr[connectionHelper.attributeUsername];
+    const serverUser = attr[connectionHelper.attributeTableauServerUser];
+    const serverAuthMode = attr[connectionHelper.attributeTableauServerAuthMode];
 
-    var props = {};
-    props["user"] = attr[connectionHelper.attributeUsername];
+    const props = {};
     props["password"] = attr[connectionHelper.attributePassword];
 
-    if (authentication === 'auth-integrated') {
-        // if attributeTableauServerUser is non-empty, it means the connector plugin is currently being accessed in a Tableau Server environment
-        var serverUser = attr[connectionHelper.attributeTableauServerUser];
-        if (!isEmpty(serverUser)) {
-            log("Running on Server using integrated auth with user '" + serverUser + "'")
-            props["user"] = serverUser;
-            props["gsslib"] = "gssapi";
-            props["jaasLogin"] = "false";
-        } else {
-            log("Running on Desktop using integrated auth")
-            props["gsslib"] = "gssapi";
-            props["jaasLogin"] = "false";
-            props["jaasApplicationName"] = "com.sun.security.jgss.krb5.initiate";
-        }
+    if(enableDebugging) {
+        props["jdbc-driver-debug"] = "Authentication=" + authentication + ", authmode='" + serverAuthMode
+        + "', impersonateMode='" + connectionHelper.valueAuthModeDBImpersonate
+        + "', user='" + user + "', serveruser='" + serverUser + "'";
+    }
+
+    if (!isEmpty(serverUser)) {
+        props["user"] = serverUser;
+        props["loginType"] = "2";
     } else {
-        log("Using non-integrated auth '" + authentication + "'")
+        props["user"] = user;
     }
 
     return props;
