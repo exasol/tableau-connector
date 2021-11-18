@@ -8,18 +8,6 @@
         "jest": "^27.3.1"
     },
     "jest": {
-        "verbose": false,
-        "collectCoverage": true,
-        "collectCoverageFrom": [
-            "../src/exasol_jdbc/*.js"
-        ],
-        "coverageThreshold": {
-            "global": {
-                "branches": 80,
-                "functions": 80,
-                "lines": 80,
-                "statements": -10
-            }
-        }
+        "verbose": false
     }
 }
