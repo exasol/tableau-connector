@@ -24,3 +24,5 @@
 /tableau-server-GUI-tests/src/test/resources/credentials.properties
 /jdbc-kerberos-setup-test/test.properties
 /jdbc-kerberos-setup-test/logs
+/javascript-test/node_modules/
+/javascript-test/coverage/

@@ -1,0 +1,13 @@
+{
+    "type": "commonjs",
+    "scripts": {
+        "test": "jest",
+        "test-watch": "jest --watchAll"
+    },
+    "devDependencies": {
+        "jest": "^27.3.1"
+    },
+    "jest": {
+        "verbose": false
+    }
+}

@@ -12,6 +12,23 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Cache npm files
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+
+      - name: Run JavaScript tests
+        run: |
+          cd javascript-test
+          npm ci
+          npm run test
+
       - name: Build connectors
         run: ./tools/package_connector.sh
 

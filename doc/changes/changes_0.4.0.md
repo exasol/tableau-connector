@@ -1,4 +1,4 @@
-# Exasol Tableau Connector 0.4.0, released 2021-11-??
+# Exasol Tableau Connector 0.4.0, released 2021-11-18
  
 Code name: Kerberos Delegation
 
@@ -8,4 +8,8 @@ Version 0.4.0 of the Tableau Connector adds support for Kerberos delegation with
 
 ## Features
 
-* #32: Kerberos delegation support
+* #32: Added Kerberos delegation support
+
+## Refactoring
+
+* #27: Added unit tests for JDBC connector

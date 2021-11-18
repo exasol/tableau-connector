@@ -1,0 +1,109 @@
+Properties of object 'connectionHelper':"}
+  - connectionHelper['objectName'] = '' type: string"}
+  - connectionHelper['attributeServer'] = 'server' type: string"}
+  - connectionHelper['attributeClass'] = 'class' type: string"}
+  - connectionHelper['attributeDatabase'] = 'dbname' type: string"}
+  - connectionHelper['attributeInitialSQL'] = 'one-time-sql' type: string"}
+  - connectionHelper['attributeAuthentication'] = 'authentication' type: string"}
+  - connectionHelper['attributeUsername'] = 'username' type: string"}
+  - connectionHelper['attributePassword'] = 'password' type: string"}
+  - connectionHelper['attributeODBCConnectStringExtras'] = 'odbc-connect-string-extras' type: string"}
+  - connectionHelper['attributeWarehouse'] = 'warehouse' type: string"}
+  - connectionHelper['attributeService'] = 'service' type: string"}
+  - connectionHelper['attributeVendor1'] = 'vendor1' type: string"}
+  - connectionHelper['attributeVendor2'] = 'vendor2' type: string"}
+  - connectionHelper['attributeVendor3'] = 'vendor3' type: string"}
+  - connectionHelper['attributePort'] = 'port' type: string"}
+  - connectionHelper['attributeTableauServerUser'] = ':tableau-server-user' type: string"}
+  - connectionHelper['attributeTableauServerAuthMode'] = 'workgroup-auth-mode' type: string"}
+  - connectionHelper['attributeSSLMode'] = 'sslmode' type: string"}
+  - connectionHelper['attributeSSLCert'] = 'sslcert' type: string"}
+  - connectionHelper['keywordODBCUsername'] = 'UID' type: string"}
+  - connectionHelper['keywordODBCPassword'] = 'PWD' type: string"}
+  - connectionHelper['valueAuthIntegrated'] = 'auth-integrated' type: string"}
+  - connectionHelper['valueAuthUserPass'] = 'auth-user-pass' type: string"}
+  - connectionHelper['valueAuthModeDBImpersonate'] = 'db-impersonate' type: string"}
+  - connectionHelper['objectNameChanged'] = 'function() { [code] }' type: function"}
+  - connectionHelper['formatKeyValuePair'] = 'function() { [code] }' type: function"}
+  - connectionHelper['FormatKeyValuePair'] = 'function() { [code] }' type: function"}
+  - connectionHelper['GetPlatform'] = 'function() { [code] }' type: function"}
+  - connectionHelper['MatchesConnectionAttributes'] = 'function() { [code] }' type: function"}
+  - connectionHelper['ParseODBCConnectString'] = 'function() { [code] }' type: function"}
+  - connectionHelper['ThrowTableauException'] = 'function() { [code] }' type: function"}
+  - connectionHelper['GetRTK'] = 'function() { [code] }' type: function"}
+  - connectionHelper['SetImpersonateAttributes'] = 'function() { [code] }' type: function"}
+Properties of object 'attr':"}
+  - attr['port'] = '8563' type: string"}
+  - attr['class'] = 'jdbc' type: string"}
+  - attr['server'] = 'exasoldb.example.com' type: string"}
+  - attr['authentication'] = 'auth-integrated' type: string"}
+  - attr['v-fingerprint'] = '15F9CA9BC95E14F1F913FC449A26723841C118CFB644957866ABB73C1399A7FF' type: string"}
+  - attr['dbname'] = '' type: string"}
+  - attr['v-validateservercertificate'] = '1' type: string"}
+  - attr['name'] = 'exasol_jdbc.0vzu1ng0thcngw18ovqlb0f51mic' type: string"}
+  - attr[':thread-session'] = '2' type: string"}
+  - attr[':subclass'] = 'exasol_jdbc' type: string"}
+Properties of object 'logging':"}
+  - logging['objectName'] = '' type: string"}
+  - logging['objectNameChanged'] = 'function() { [code] }' type: function"}
+  - logging['log'] = 'function() { [code] }' type: function"}
+  - logging['Log'] = 'function() { [code] }' type: function"}
+platform: win"}
+rtk: SFTableau_9c9859940b1343bdb7c15d69b37ce1af_v1.0"}
+input args: authentication='auth-integrated -> use kerberos = true, fingerprint='15F9CA9BC95E14F1F913FC449A26723841C118CFB644957866ABB73C1399A7FF', validateServerCertificate='1'"}
+JDBC URL: 'jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1;fingerprint=15F9CA9BC95E14F1F913FC449A26723841C118CFB644957866ABB73C1399A7FF;feedbackinterval=1;clientname=Tableau;kerberoshostname=exasoldb.example.com;kerberosservicename=exasol;debug=1;logdir=C:\\tmp'"}
+Properties of object 'connectionHelper':"}
+  - connectionHelper['objectName'] = '' type: string"}
+  - connectionHelper['attributeServer'] = 'server' type: string"}
+  - connectionHelper['attributeClass'] = 'class' type: string"}
+  - connectionHelper['attributeDatabase'] = 'dbname' type: string"}
+  - connectionHelper['attributeInitialSQL'] = 'one-time-sql' type: string"}
+  - connectionHelper['attributeAuthentication'] = 'authentication' type: string"}
+  - connectionHelper['attributeUsername'] = 'username' type: string"}
+  - connectionHelper['attributePassword'] = 'password' type: string"}
+  - connectionHelper['attributeODBCConnectStringExtras'] = 'odbc-connect-string-extras' type: string"}
+  - connectionHelper['attributeWarehouse'] = 'warehouse' type: string"}
+  - connectionHelper['attributeService'] = 'service' type: string"}
+  - connectionHelper['attributeVendor1'] = 'vendor1' type: string"}
+  - connectionHelper['attributeVendor2'] = 'vendor2' type: string"}
+  - connectionHelper['attributeVendor3'] = 'vendor3' type: string"}
+  - connectionHelper['attributePort'] = 'port' type: string"}
+  - connectionHelper['attributeTableauServerUser'] = ':tableau-server-user' type: string"}
+  - connectionHelper['attributeTableauServerAuthMode'] = 'workgroup-auth-mode' type: string"}
+  - connectionHelper['attributeSSLMode'] = 'sslmode' type: string"}
+  - connectionHelper['attributeSSLCert'] = 'sslcert' type: string"}
+  - connectionHelper['keywordODBCUsername'] = 'UID' type: string"}
+  - connectionHelper['keywordODBCPassword'] = 'PWD' type: string"}
+  - connectionHelper['valueAuthIntegrated'] = 'auth-integrated' type: string"}
+  - connectionHelper['valueAuthUserPass'] = 'auth-user-pass' type: string"}
+  - connectionHelper['valueAuthModeDBImpersonate'] = 'db-impersonate' type: string"}
+  - connectionHelper['objectNameChanged'] = 'function() { [code] }' type: function"}
+  - connectionHelper['formatKeyValuePair'] = 'function() { [code] }' type: function"}
+  - connectionHelper['FormatKeyValuePair'] = 'function() { [code] }' type: function"}
+  - connectionHelper['GetPlatform'] = 'function() { [code] }' type: function"}
+  - connectionHelper['MatchesConnectionAttributes'] = 'function() { [code] }' type: function"}
+  - connectionHelper['ParseODBCConnectString'] = 'function() { [code] }' type: function"}
+  - connectionHelper['ThrowTableauException'] = 'function() { [code] }' type: function"}
+  - connectionHelper['GetRTK'] = 'function() { [code] }' type: function"}
+  - connectionHelper['SetImpersonateAttributes'] = 'function() { [code] }' type: function"}
+Properties of object 'attr':"}
+  - attr['server'] = 'exasoldb.example.com' type: string"}
+  - attr['class'] = 'jdbc' type: string"}
+  - attr['port'] = '8563' type: string"}
+  - attr['authentication'] = 'auth-integrated' type: string"}
+  - attr['v-fingerprint'] = '15F9CA9BC95E14F1F913FC449A26723841C118CFB644957866ABB73C1399A7FF' type: string"}
+  - attr['v-validateservercertificate'] = '1' type: string"}
+  - attr['dbname'] = '' type: string"}
+  - attr['name'] = 'exasol_jdbc.0vzu1ng0thcngw18ovqlb0f51mic' type: string"}
+  - attr[':thread-session'] = '2' type: string"}
+  - attr[':protocol-id'] = '2' type: string"}
+  - attr[':subclass'] = 'exasol_jdbc' type: string"}
+Properties of object 'logging':"}
+  - logging['objectName'] = '' type: string"}
+  - logging['objectNameChanged'] = 'function() { [code] }' type: function"}
+  - logging['log'] = 'function() { [code] }' type: function"}
+  - logging['Log'] = 'function() { [code] }' type: function"}
+platform: win"}
+rtk: SFTableau_9c9859940b1343bdb7c15d69b37ce1af_v1.0"}
+input args: authentication='auth-integrated -> use kerberos = true, fingerprint='15F9CA9BC95E14F1F913FC449A26723841C118CFB644957866ABB73C1399A7FF', validateServerCertificate='1'"}
+JDBC URL: 'jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1;fingerprint=15F9CA9BC95E14F1F913FC449A26723841C118CFB644957866ABB73C1399A7FF;feedbackinterval=1;clientname=Tableau;kerberoshostname=exasoldb.example.com;kerberosservicename=exasol;debug=1;logdir=C:\\tmp'"}
