@@ -18,7 +18,7 @@ exports.createDefaultAttr = function (customAttributes) {
         authentication: 'auth-integrated',
         dbname: '',
         name: 'exasol_jdbc.0vzu1ng0thcngw18ovqlb0f51mic',
-        ':thread-session' : '2',
+        ':thread-session': '2',
         ':subclass': 'exasol_jdbc',
         'v-fingerprint': '15F9CA9',
         'v-validateservercertificate': '1'
