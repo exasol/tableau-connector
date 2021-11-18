@@ -1,9 +1,9 @@
 (function propertiesbuilder(attr) {
     "use strict";
-    const enableDebugging = false;
+    let enableDebugging = false;
 
     function log(str) {
-        logging.Log("connectionProperties.js: " + str)
+        logging.Log("[connectionProperties.js] " + str)
     }
     function isEmpty(str) {
         return (!str || 0 === str.length);
@@ -17,9 +17,12 @@
     const props = {};
     props["password"] = attr[connectionHelper.attributePassword];
 
-    if(enableDebugging) {
-        props["jdbc-driver-debug"] = "Authentication=" + authentication + ", authmode='" + serverAuthMode
-        + "', user='" + user + "', serveruser='" + serverUser + "'";
+    enableDebugging = enableDebugging || attr['v-debug'];
+    if (enableDebugging) {
+        props["jdbc-driver-debug"] = connectionHelper.attributeAuthentication + "=" + authentication + ", "
+            + connectionHelper.attributeTableauServerAuthMode + "='" + serverAuthMode + "', "
+            + connectionHelper.attributeUsername + "='" + user + "', "
+            + connectionHelper.attributeTableauServerUser + "='" + serverUser + "'";
     }
 
     if (!isEmpty(serverUser)) {
