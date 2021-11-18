@@ -15,21 +15,23 @@
     const serverAuthMode = attr[connectionHelper.attributeTableauServerAuthMode];
 
     const props = {};
-    
+
     enableDebugging = enableDebugging || attr['v-debug'];
-    if (enableDebugging) {
-        props["jdbc-driver-debug"] = connectionHelper.attributeAuthentication + "=" + authentication + ", "
+    const debugMessage = connectionHelper.attributeAuthentication + "=" + authentication + ", "
         + connectionHelper.attributeTableauServerAuthMode + "='" + serverAuthMode + "', "
         + connectionHelper.attributeUsername + "='" + user + "', "
         + connectionHelper.attributeTableauServerUser + "='" + serverUser + "'";
+    log(debugMessage);
+    if (enableDebugging) {
+        props["jdbc-driver-debug"] = debugMessage;
     }
-    
-    if (!isEmpty(serverUser)) {
-        props["user"] = serverUser;
-        props["loginType"] = "2";
-    } else {
+
+    if (isEmpty(serverUser)) {
         props["user"] = user;
         props["password"] = attr[connectionHelper.attributePassword];
+    } else {
+        props["user"] = serverUser;
+        props["loginType"] = "2";
     }
 
     return props;

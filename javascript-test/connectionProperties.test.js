@@ -1,14 +1,13 @@
 const { defineGlobalObjects, evalFile, createDefaultAttr } = require("./common");
 
-defineGlobalObjects({ loggingEnabled: false });
+defineGlobalObjects({ loggingEnabled: true });
 
 const propertiesbuilder = evalFile("../src/exasol_jdbc/connectionProperties.js");
 
 function getProperties(attr) {
-    const result = propertiesbuilder(createDefaultAttr(attr));
-    console.log("Result", result);
-    return result;
+    return propertiesbuilder(createDefaultAttr(attr));
 }
+
 describe('Tableau Desktop', () => {
     test('Username & Password auth', () => {
         expect(getProperties({

@@ -16,27 +16,30 @@
     const hostName = attr[connectionHelper.attributeServer];
     const port = attr[connectionHelper.attributePort];
     const authentication = attr[connectionHelper.attributeAuthentication];
+    const serverAuthMode = attr[connectionHelper.attributeTableauServerAuthMode];
     const fingerprint = attr["v-fingerprint"];
     const validateServerCertificate = attr["v-validateservercertificate"];
     const clientVersion = attr["v-clientversion"];
+    const user = attr[connectionHelper.attributeUsername];
     const serverUser = attr[connectionHelper.attributeTableauServerUser];
     const runningOnServer = !isEmpty(serverUser);
 
     const fingerprintArg = !isEmpty(fingerprint) ? (";fingerprint=" + fingerprint.trim()) : "";
 
     const useKerberos = authentication === connectionHelper.valueAuthIntegrated;
+
+    log(connectionHelper.attributeAuthentication + "=" + authentication + ", "
+        + connectionHelper.attributeTableauServerAuthMode + "='" + serverAuthMode + "', "
+        + connectionHelper.attributeUsername + "='" + user + "', "
+        + connectionHelper.attributeTableauServerUser + "='" + serverUser + "', "
+        + "useKerberos=" + useKerberos);
+
     let kerberosArg = "";
     if (useKerberos) {
         // Required to activate Kerberos authentication
         // https://www.exasol.com/support/browse/SUPPORT-26947
         kerberosArg = ";kerberoshostname=" + hostName + ";kerberosservicename=" + kerberosServiceName;
     }
-
-    log("input args: authentication='" + authentication
-        + " -> use kerberos = " + useKerberos
-        + ", fingerprint='" + fingerprint
-        + "', validateServerCertificate='" + validateServerCertificate + "'");
-
     const clientName = runningOnServer ? "Tableau Server" : "Tableau Desktop";
     const clientVersionArg = !isEmpty(clientVersion) ? ";clientversion=" + clientVersion : "";
 
