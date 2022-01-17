@@ -8,6 +8,10 @@
 
 The Exasol Tableau Connector is an adapter, that maps Exasol's analytical capabilities to Tableau's external interface, allowing Tableau to use Exasol-specific features.
 
+## Note
+
+**Currently the Tableau connector developed in this repository is not yet signed, certificated and shipped by Tableau and is not recommended for production environments.**
+
 ## Features
 
 * Exasol-specific connection dialog
