@@ -1,4 +1,4 @@
-# Exasol Tableau Connector 0.4.0, released 2022-01-19
+# Exasol Tableau Connector 0.4.1, released 2022-01-19
  
 Code name: Remove database field
 
