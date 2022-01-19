@@ -63,11 +63,19 @@ public class TestConfig {
     }
 
     public Path getKerberosConfigFile() {
-        return Paths.get(getMandatoryProperty("kerberos_config_file"));
+        Path path = Paths.get(getMandatoryProperty("kerberos_config_file")).toAbsolutePath();
+        if (!Files.exists(path)) {
+            throw new AssertionError("Kerberos config file '" + path + "' does not exist");
+        }
+        return path;
     }
 
     public Path getKeytabFile() {
-        return Paths.get(getMandatoryProperty("keytab_file"));
+        Path path = Paths.get(getMandatoryProperty("keytab_file")).toAbsolutePath();
+        if (!Files.exists(path)) {
+            throw new AssertionError("Keytab file '" + path + "' does not exist");
+        }
+        return path;
     }
 
     public Path getLogDir() {

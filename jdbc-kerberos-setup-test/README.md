@@ -20,9 +20,6 @@ db_port = 8563
 # Fingerprint of the TLS certificate used by the database, e.g. ABD591342466880A16A4443DEEFF44A78A26E47514BE4D5E1C4CB712345F69CA
 db_certificate_fingerprint = <fingerprint>
 
-# Enable verbose log messages for Kerberos
-kerberos_debug = true
-
 # The RunAs user, e.g. tableauuser
 runas_user = <username>
 # The user to impersonate
@@ -49,6 +46,22 @@ mvn integration-test
 
 ## Troubleshooting
 
-Use Exasol JDBC driver 7.1.3 or later. Else the `impersonate` test will fail with error `SQLInvalidAuthorizationSpecException: No LoginModules configured for exasol`.
+* Use Exasol JDBC driver 7.1.3 or later. Else the `impersonate` test will fail with error `SQLInvalidAuthorizationSpecException: No LoginModules configured for exasol`.
+* Tests should finish in around 10 seconds. If they hang for a longer time or prompt for credentials, verify that your Kerberos credentials are valid. See above for using `klist` and `kinit`.
 
-Tests should finish in around 10 seconds. If they hang for a longer time, verify that your Kerberos credentials are valide. See above for using `klist` and `kinit`.
+### Test `sspi` Fails With `SQLInvalidAuthorizationSpecException: Kerberos authentication failed: No valid credentials provided (Mechanism level: Failed to find any Kerberos tgt)`
+
+```
+Caused by: java.sql.SQLInvalidAuthorizationSpecException: Kerberos authentication failed: No valid credentials provided (Mechanism level: Failed to find any Kerberos tgt)
+ at com.exasol.jdbc.AbstractEXAConnection.connectAndLogin(AbstractEXAConnection.java:2369)
+ at com.exasol.jdbc.AbstractEXAConnection.setupConnection(AbstractEXAConnection.java:1553)
+ at com.exasol.jdbc.AbstractEXAConnection.Connect(AbstractEXAConnection.java:1432)
+ at com.exasol.jdbc.AbstractEXAConnection.(AbstractEXAConnection.java:548)
+ at com.exasol.jdbc.EXAConnection.(EXAConnection.java:37)
+ at com.exasol.jdbc.EXADriver.connect(EXADriver.java:239)
+ at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:677)
+ at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:189)
+ at com.exasol.kerberos.KerberosConnectionFixture.createConnection(KerberosConnectionFixture.java:179)
+```
+
+Ensure that `klist` shows credentials for your current user. Run `kinit <user>@EXAMPLE.COM` to get valid credentials.

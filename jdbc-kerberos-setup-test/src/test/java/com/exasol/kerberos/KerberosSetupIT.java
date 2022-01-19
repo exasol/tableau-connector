@@ -26,8 +26,6 @@ class KerberosSetupIT {
 
     @Test
     void kerberosPassword() {
-        // This test requires valid credentials in the local credential cache. Run 'klist' to check if the credentials
-        // are still valid. Run `kinit` to retrieve new credentials.
         final String expectedUser = this.config.getImpersonatedUserDbName().orElse(this.config.getImpersonatedUser());
         assertDbUser(this.kerberosConnectionFixture::createConnectionWithKerberosPassword,
                 expectedUser);
@@ -37,7 +35,7 @@ class KerberosSetupIT {
     @EnabledOnOs({ OS.WINDOWS })
     void sspi() {
         final String expectedUser = System.getProperty("user.name");
-        assertDbUser(this.kerberosConnectionFixture::createConnectionWithSspi,
+        assertDbUser(() -> this.kerberosConnectionFixture.createConnectionWithSspi(this.config.getRunAsUser()),
                 expectedUser);
     }
 

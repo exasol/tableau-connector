@@ -12,6 +12,7 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.security.auth.Subject;
@@ -28,24 +29,13 @@ public class KerberosConnectionFixture {
 
     private static final Logger LOGGER = Logger.getLogger(KerberosConnectionFixture.class.getName());
 
-    private static final boolean KERBEROS_DEBUGGING_ENABLED = false;
+    private static final boolean KERBEROS_DEBUGGING_ENABLED = true;
     private final TestConfig config;
 
     KerberosConnectionFixture(final TestConfig config) {
         this.config = config;
         System.setProperty("java.security.krb5.conf", this.config.getKerberosConfigFile().toString());
         System.setProperty("sun.security.krb5.debug", String.valueOf(KERBEROS_DEBUGGING_ENABLED));
-        createJdbcDriverLogDir(config);
-    }
-
-    private void createJdbcDriverLogDir(final TestConfig config) {
-        try {
-            if (!Files.exists(config.getLogDir())) {
-                Files.createDirectories(config.getLogDir());
-            }
-        } catch (final IOException exception) {
-            throw new UncheckedIOException("Unable to create log dir", exception);
-        }
     }
 
     private static GSSCredential getImpersonationCredentials(final Subject subject, final String impersonatedUser) {
@@ -69,22 +59,25 @@ public class KerberosConnectionFixture {
                 return ((ExtendedGSSCredential) selfCreds).impersonate(dbUser);
             });
         } catch (final PrivilegedActionException exception) {
-            throw new IllegalStateException("Could not impersonate user", exception);
+            throw new IllegalStateException("Could not impersonate user: " + exception.getMessage(), exception);
         }
     }
 
-    private static Subject getServiceSubject(final String runAsUser, final Path keytabFile) {
+    private static Subject getServiceSubject(final String user, final Path keytabFile) {
+        LOGGER.info("Getting subject for user " + user + " and keytab file " + keytabFile);
         final Map<String, String> options = new HashMap<>();
-        options.put("principal", runAsUser);
+        options.put("principal", user);
         options.put("useKeyTab", "true");
         options.put("doNotPrompt", "true");
         options.put("keyTab", keytabFile.toString());
         options.put("isInitiator", "true");
-        options.put("refreshKrb5Config", "true");
+        options.put("refreshKrb5Config", String.valueOf(KERBEROS_DEBUGGING_ENABLED));
+        options.put("debug", "true");
         return login(options, null);
     }
 
     private static Subject getServiceSubject(final String user, final String password) {
+        LOGGER.info("Getting subject for user " + user + " with password " + password.replaceAll(".", "*"));
         final Map<String, String> options = new HashMap<>();
         options.put("principal", user);
         options.put("useKeyTab", "true");
@@ -92,6 +85,7 @@ public class KerberosConnectionFixture {
         options.put("isInitiator", "true");
         options.put("refreshKrb5Config", "true");
         options.put("storeKey", "true");
+        options.put("debug", String.valueOf(KERBEROS_DEBUGGING_ENABLED));
         return login(options, callbacks -> {
             for (final Callback callback : callbacks) {
                 if (callback instanceof PasswordCallback) {
@@ -109,17 +103,21 @@ public class KerberosConnectionFixture {
     private static Subject login(final Map<String, String> options, final CallbackHandler callbackHandler) {
         final Subject serviceSubject = new Subject();
         final LoginModule krb5Module = new Krb5LoginModule();
+        LOGGER.info("Initializing Kerberos login module with subject...");
         krb5Module.initialize(serviceSubject, callbackHandler, null, options);
         try {
+            LOGGER.info("Logging in to Kerberos module...");
             assertThat(krb5Module.login(), is(true));
+            LOGGER.info("Committing Kerberos module...");
             assertThat(krb5Module.commit(), is(true));
         } catch (final LoginException exception) {
             try {
                 krb5Module.abort();
-            } catch (final LoginException e1) {
-                LOGGER.info("Error aborting Kerberos authentication:  " + e1);
+            } catch (final LoginException loginException) {
+                LOGGER.log(Level.WARNING, "Error aborting Kerberos authentication: " + loginException.getMessage(),
+                        loginException);
             }
-            throw new IllegalStateException("Error during login", exception);
+            throw new IllegalStateException("Error during login: " + exception.getMessage(), exception);
         }
         assertThat(serviceSubject.getPrincipals(), hasSize(1));
         LOGGER.info("Logged in as " + serviceSubject.getPrincipals().iterator().next().getName());
@@ -152,12 +150,13 @@ public class KerberosConnectionFixture {
         return createPriviligedConnection(LoginType.GSSAPI, subject, this.config.getImpersonatedUser());
     }
 
-    Connection createConnectionWithSspi() {
-        return createPriviligedConnection(LoginType.SSPI, null, this.config.getImpersonatedUser());
+    Connection createConnectionWithSspi(final String user) {
+        return createPriviligedConnection(LoginType.SSPI, null, user);
     }
 
     Connection createPriviligedConnection(final LoginType loginType, final Subject subject,
             final String connectionUser) {
+        LOGGER.info("Creating connection using subject " + subject + " and connection user " + connectionUser);
         try {
             return Subject.doAs(subject, (PrivilegedExceptionAction<Connection>) () -> {
                 return createConnection(loginType, connectionUser);
@@ -175,10 +174,21 @@ public class KerberosConnectionFixture {
         final String jdbcUrl = this.config.getJdbcUrl();
         LOGGER.info("Connecting using url " + jdbcUrl);
         LOGGER.info(" properties: " + driverProperties);
+        createJdbcDriverLogDir();
         try {
             return DriverManager.getConnection(jdbcUrl, driverProperties);
         } catch (final SQLException exception) {
             throw new IllegalStateException("Error connecting to DB using URL " + jdbcUrl, exception);
+        }
+    }
+
+    private void createJdbcDriverLogDir() {
+        try {
+            if (!Files.exists(this.config.getLogDir())) {
+                Files.createDirectories(this.config.getLogDir());
+            }
+        } catch (final IOException exception) {
+            throw new UncheckedIOException("Unable to create log dir", exception);
         }
     }
 }
