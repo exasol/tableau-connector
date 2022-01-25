@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-project_dir=$(pwd)
+project_dir="$( cd "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )"
 readonly project_dir
 target_dir="$project_dir/target/"
 readonly target_dir

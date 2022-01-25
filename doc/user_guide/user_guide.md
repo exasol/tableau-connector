@@ -2,7 +2,7 @@
 
 ## Note
 
-**Currently the Tableau connector developed in this repository is not yet signed, certificated and shipped by Tableau and is not recommended for production environments.**
+**Currently the Tableau connector developed in this repository is signed by Exasol, but not certificated and shipped by Tableau and is not recommended for production environments.**
 
 The Exasol ODBC Tableau Connector is distributed together with Tableau Desktop and Tableau Server applications. We recommend using the latest available version of Tableau products to access the connector.
 
@@ -53,28 +53,28 @@ Download and install the latest Exasol ODBC driver for your operating system fro
 
 ### Install the Connectors With Tableau Desktop
 
-1. Copy the connector `.taco` files to
-  * `C:\Users\[Windows User]\Documents\My Tableau Repository\Connectors` (Windows)
-  * `/Users/[user]/Documents/My Tableau Repository/Connectors` (macOS)
-2. As the connectors are not signed, you need to start Tableau Desktop with command line argument `-DDisableVerifyConnectorPluginSignature`, e.g. by creating a `.bat` file with the following content:
+Download the latest JDBC or ODBC connector from the [GitHub release page](https://github.com/exasol/tableau-connector/releases) and copy the `.taco` file to
+* `C:\Users\[Windows User]\Documents\My Tableau Repository\Connectors` (Windows)
+* `/Users/[user]/Documents/My Tableau Repository/Connectors` (macOS)
 
-    ```bat
-    "C:\Program Files\Tableau\Tableau <version>\bin\tableau.exe" -DDisableVerifyConnectorPluginSignature
-    ```
+Starting with version 0.4.2 the connectors are signed, so you can omit command line argument `-DDisableVerifyConnectorPluginSignature`.
 
 See details in the documentation for [Tabeleau Desktop](https://help.tableau.com/current/pro/desktop/en-us/examples_connector_sdk.htm) and the [Tableau Connector SDK](https://tableau.github.io/connector-plugin-sdk/docs/run-taco).
 
 ### Install the Connectors With Tableau Server
 
-1. Copy the connector `.taco` files to
-  * `/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/` (Linux)
-  * `C:\Program Files\Tableau\Connectors` (Windows)
-2. As the connectors are not signed, you need to disable the signature verification and apply changes:
+Download the latest JDBC or ODBC connector from the [GitHub release page](https://github.com/exasol/tableau-connector/releases) and copy the `.taco` file to
+* `/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/` (Linux)
+* `C:\Program Files\Tableau\Connectors` (Windows)
 
-    ```shell
-    tsm configuration set -k native_api.disable_verify_connector_plugin_signature -v true --force-keys
-    tsm pending-changes apply
-    ```
+Then restart the server.
+
+Starting with version 0.4.2 the connectors are signed, so you can set option `native_api.disable_verify_connector_plugin_signature` to `false` if you have changed it to `true` before. This will switch on signature verification:
+
+```shell
+tsm configuration set -k native_api.disable_verify_connector_plugin_signature -v false --force-keys
+tsm pending-changes apply
+```
 
 ## Using the Connectors
 

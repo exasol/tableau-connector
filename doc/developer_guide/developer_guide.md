@@ -97,6 +97,23 @@ To use the connectors, copy them to
 
 As the connectors are not signed, you need to start Tableau Desktop with argument `-DDisableVerifyConnectorPluginSignature`.
 
+### Signing the connectors
+
+To sign the built connectors you will need the certificate as a `.pfx` file and the keystore password.
+
+Run the following command after building the connectors:
+
+```bash
+./tools/sign_connector.sh /path/to/certificate.pfx
+```
+
+This will ask you to enter the keystore password and write the signed connector files to
+
+```
+target/tableau-exasol-connector-jdbc-<version>.taco
+target/tableau-exasol-connector-odbc-<version>.taco
+```
+
 ## Running TDVT Tests
 
 You can run TDVT tests under Windows and macOS. This guide describes the setup for Windows. The setup for macOS is similar.

@@ -10,7 +10,7 @@ The Exasol Tableau Connector is an adapter, that maps Exasol's analytical capabi
 
 ## Note
 
-**Currently the Tableau connector developed in this repository is not yet signed, certificated and shipped by Tableau and is not recommended for production environments.**
+**Currently the Tableau connector developed in this repository is signed by Exasol, but not certificated and shipped by Tableau and is not recommended for production environments.**
 
 ## Features
 
