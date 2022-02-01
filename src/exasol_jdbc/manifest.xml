@@ -43,7 +43,7 @@
       <!-- JDBC -->
       <customization name="CAP_JDBC_EXPORT_DATA_BATCH" value="yes"/>
 
-      <!-- https://www.exasol.com/support/browse/SPOT-13158 -->
+      <!-- Not supported by JDBC driver -->
       <customization name="CAP_JDBC_SET_CLIENT_INFO" value="no"/>
 
       <!-- Requires JDBC driver option feedbackinterval=1 -->
