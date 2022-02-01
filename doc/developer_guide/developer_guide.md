@@ -97,7 +97,7 @@ To use the connectors, copy them to
 
 As the connectors are not signed, you need to start Tableau Desktop with argument `-DDisableVerifyConnectorPluginSignature`.
 
-### Signing the connectors
+### Signing the Connectors
 
 To sign the built connectors you will need the certificate as a `.pfx` file and the keystore password.
 
@@ -332,3 +332,16 @@ const enableDebugging = true;
 ```
 
 This will add value `jdbc-driver-debug` with a debug message to the JDBC driver properties. The JDBC driver will write this to its log file when debugging is enabled in `connectionBuilder.js`.
+
+## Building A Release
+
+To build a release of the JDBC and ODBC connectors follow these steps:
+
+1. Update version number the `plugin-version` element of the manifest files for JDBC and ODBC connectors:
+  * [src\exasol_jdbc\manifest.xml](../../src/exasol_jdbc/manifest.xml)
+  * [src\exasol_odbc\manifest.xml](../../src/exasol_odbc/manifest.xml)
+2. [Run the TDVT tests](#running-tdvt-tests) for JDBC and ODBC connectors.
+3. [Package](#packaging-the-connectors) and [sign](#signing-the-connectors) the JDBC and ODBC connectors.
+4. [Create a new GitHub release](https://github.com/exasol/tableau-connector/releases/new) and upload files
+  * `target/tableau-exasol-connector-jdbc-<version>.taco`
+  * `target/tableau-exasol-connector-odbc-<version>.taco`
