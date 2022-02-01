@@ -27,7 +27,7 @@
 
     const fingerprint = attr["v-fingerprint"];
     if(!isEmpty(fingerprint)) {
-        params["FINGERPRINT"] = fingerprint;
+        params["FINGERPRINT"] = fingerprint.trim();
     }
 
 

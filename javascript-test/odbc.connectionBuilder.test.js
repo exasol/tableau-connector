@@ -85,6 +85,6 @@ test('fingerprint non-default', () => {
     expect(getParameters({ 'v-fingerprint': "other-fingerprint" })).toEqual(["DRIVER=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "UID=user", "PWD=passwd", "FINGERPRINT=other-fingerprint"]);
 });
 
-test('fingerprint not trimmed', () => {
-    expect(getParameters({ 'v-fingerprint': " abc " })).toEqual(["DRIVER=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "UID=user", "PWD=passwd", "FINGERPRINT= abc "]);
+test('fingerprint trimmed', () => {
+    expect(getParameters({ 'v-fingerprint': " abc " })).toEqual(["DRIVER=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "UID=user", "PWD=passwd", "FINGERPRINT=abc"]);
 });
