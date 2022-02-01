@@ -10,7 +10,7 @@
   <connection class='federated'>
     <named-connections>
       <named-connection caption='exasol.test.lan' name='leaf'>
-        <connection class='exasol_jdbc' dbname='EXA_DB' one-time-sql='' port='8563' schema='TESTV1' server='exasol.test.lan' username='TABLEAU_TEST_USER' v-fingerprint='EE7372E7F5AE427F2C88A1DE8A6059B97D407ECC11306E2AC71B1A192531C726' v-validateservercertificate='1' tdvtconnection='exasol_jdbc_connection'  />
+        <connection class='exasol_jdbc' dbname='EXA_DB' one-time-sql='' port='8563' schema='TESTV1' server='exasol.test.lan' username='TABLEAU_TEST_USER' v-fingerprint='15F9CA9BC95E14F1F913FC449A26723841C118CFB644957866ABB73C1399A7FF' v-validateservercertificate='1' tdvtconnection='exasol_jdbc_connection'  />
       </named-connection>
     </named-connections>
     <_.fcp.ObjectModelEncapsulateLegacy.false...relation connection='leaf' name='Staples' table='[TESTV1].[Staples]' type='table' />

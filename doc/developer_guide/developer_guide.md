@@ -149,7 +149,23 @@ After modifying these files you need to re-generate the test suite by adding the
 
 See the [manual](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#ini-file-structure) for details about the available tests.
 
+### Run JavaScript Tests
+
+```bash
+cd javascript-test
+npm install
+npm test
+```
+
 ### Run Tests
+
+To run TDVT tests for the JDBC and ODBC connectors, run
+
+```bash
+./tools/run_tdvt_tests.sh
+```
+
+This will collect test results in `target/tdvt_results_jdbc/` resp. `target/tdvt_results_odbc/`. Alternatively you can run the tests manually:
 
 * JDBC Connector:
 
