@@ -9,13 +9,11 @@
         logging.Log("[connectionBuilder.js] " + str)
     }
 
-    const params = {};
-
-    if (odbcDriverDebugEnabled) {
-        log("ODBC Driver log enabled. Log file: " + odbcDriverLogFile);
-        params["EXALOGFILE"] = odbcDriverLogFile;
-        params["LOGMODE"] = "DEFAULT";
+    function isEmpty(str) {
+        return (!str || 0 === str.trim().length);
     }
+
+    const params = {};
 
     params["EXAHOST"] = attr[connectionHelper.attributeServer];
     params["EXAPORT"] = attr[connectionHelper.attributePort];
@@ -26,6 +24,18 @@
 
     params["UID"] = attr[connectionHelper.attributeUsername];
     params["PWD"] = attr[connectionHelper.attributePassword];
+
+    const fingerprint = attr["v-fingerprint"];
+    if(!isEmpty(fingerprint)) {
+        params["FINGERPRINT"] = fingerprint;
+    }
+
+
+    if (odbcDriverDebugEnabled) {
+        log("ODBC Driver log enabled. Log file: " + odbcDriverLogFile);
+        params["EXALOGFILE"] = odbcDriverLogFile;
+        params["LOGMODE"] = "DEFAULT";
+    }
 
     const formattedParams = [];
 
