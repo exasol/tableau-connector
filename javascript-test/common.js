@@ -36,6 +36,7 @@ exports.defineGlobalObjects = function ({ loggingEnabled }) {
         GetPlatform: () => "win",
         GetRTK: () => "SFTableau_9c9859940b1343bdb7c15d69b37ce1af_v1.0",
         FormatKeyValuePair: (key, value) => `${key}=${value}`,
+        SetImpersonateAttributes: () => { },
         attributeServer: 'server',
         attributeClass: 'class',
         attributeDatabase: 'dbname',
@@ -69,6 +70,7 @@ exports.defineGlobalObjects = function ({ loggingEnabled }) {
     };
     driverLocator = {
         LocateDriver: (attr) => "LocateDriver result",
-        keywordDriver: 'driver'
+        LocateDriverVersion: () => "LocateDriverVersion result",
+        keywordDriver: 'DRIVER'
     };
 }

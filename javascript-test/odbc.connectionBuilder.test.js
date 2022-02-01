@@ -1,6 +1,6 @@
 const { defineGlobalObjects, evalFile } = require("./common");
 
-defineGlobalObjects({ loggingEnabled: true });
+defineGlobalObjects({ loggingEnabled: false });
 
 const dsbuilder = evalFile("../src/exasol_odbc/connectionBuilder.js");
 
@@ -16,6 +16,8 @@ function createDefaultOdbcAttr(customAttributes) {
         password: 'passwd',
         ':thread-session': '2',
         ':subclass': 'exasol_odbc',
+        ':dialect-xml': '<dialect class="exasol_odbc"...',
+        ':driver-bitness': '64',
         'v-fingerprint': '15F9CA9',
         'v-validateservercertificate': '1'
     };
@@ -28,25 +30,37 @@ function getParameters(attr) {
 }
 
 test('default parameters', () => {
-    expect(getParameters({})).toEqual(["driver=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "UID=user", "PWD=passwd"]);
+    expect(getParameters({})).toEqual(["DRIVER=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "UID=user", "PWD=passwd"]);
 });
 
 test('schema defined', () => {
-    expect(getParameters({ schema: "dbSchema" })).toEqual(["driver=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "EXASCHEMA=dbSchema", "UID=user", "PWD=passwd"]);
+    expect(getParameters({ schema: "dbSchema" })).toEqual(["DRIVER=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "EXASCHEMA=dbSchema", "UID=user", "PWD=passwd"]);
+});
+
+test('schema undefined', () => {
+    expect(getParameters({ schema: undefined })).toEqual(["DRIVER=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "UID=user", "PWD=passwd"]);
+});
+
+test('schema empty string', () => {
+    expect(getParameters({ schema: "" })).toEqual(["DRIVER=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "UID=user", "PWD=passwd"]);
+});
+
+test('schema blank', () => {
+    expect(getParameters({ schema: " " })).toEqual(["DRIVER=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "EXASCHEMA= ", "UID=user", "PWD=passwd"]);
 });
 
 test('non-default server', () => {
-    expect(getParameters({ server: "myserver" })).toEqual(["driver=LocateDriver result", "EXAHOST=myserver", "EXAPORT=8563", "UID=user", "PWD=passwd"]);
+    expect(getParameters({ server: "myserver" })).toEqual(["DRIVER=LocateDriver result", "EXAHOST=myserver", "EXAPORT=8563", "UID=user", "PWD=passwd"]);
 });
 
 test('non-default port', () => {
-    expect(getParameters({ port: 1234 })).toEqual(["driver=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=1234", "UID=user", "PWD=passwd"]);
+    expect(getParameters({ port: 1234 })).toEqual(["DRIVER=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=1234", "UID=user", "PWD=passwd"]);
 });
 
 test('non-default user', () => {
-    expect(getParameters({ username: 'otheruser' })).toEqual(["driver=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "UID=otheruser", "PWD=passwd"]);
+    expect(getParameters({ username: 'otheruser' })).toEqual(["DRIVER=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "UID=otheruser", "PWD=passwd"]);
 });
 
 test('non-default password', () => {
-    expect(getParameters({ password: 'otherpassword' })).toEqual(["driver=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "UID=user", "PWD=otherpassword"]);
+    expect(getParameters({ password: 'otherpassword' })).toEqual(["DRIVER=LocateDriver result", "EXAHOST=exasoldb.example.com", "EXAPORT=8563", "UID=user", "PWD=otherpassword"]);
 });
