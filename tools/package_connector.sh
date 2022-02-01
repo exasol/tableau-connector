@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+set -euo pipefail
 
 project_dir="$( cd "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )"
 readonly project_dir
@@ -7,6 +7,10 @@ target_dir="$project_dir/target/"
 readonly target_dir
 sdk_dir="$target_dir/sdk"
 readonly sdk_dir
+packager_dir="$sdk_dir/connector-packager/"
+readonly packager_dir
+packaged_connector_dir="$packager_dir/packaged-connector/"
+readonly packaged_connector_dir
 
 set_up_environment () {
     clone_tableau_connector_plugin_sdk_repository
@@ -25,8 +29,8 @@ clone_tableau_connector_plugin_sdk_repository () {
 }
 
 change_to_connector_packager_directory () {
-    echo "# Changing to Connector Packager directory"
-    cd "$sdk_dir/connector-packager/"
+    echo "# Changing to Connector Packager directory $packager_dir"
+    cd "$packager_dir"
 }
 
 create_virtual_environment () {
@@ -57,18 +61,27 @@ install_packaging_module () {
 }
 
 package_connectors () {
+    echo "Clean output directory $packaged_connector_dir"
+    rm -rfv "$packaged_connector_dir"
     #the connector is created in ./packaged-connector/exasol_odbc.taco
     echo "# Packaging odbc connector"
     python -m connector_packager.package "$project_dir/src/exasol_odbc/"
+    if [ ! -f "$packaged_connector_dir/exasol_odbc.taco" ] ; then
+        echo "Warning: Packaging ODBC connector failed. See log output above."
+        exit 1
+    fi
+
     echo "# Packaging jdbc connector"
     python -m connector_packager.package "$project_dir/src/exasol_jdbc/"
+    if [ ! -f "$packaged_connector_dir/exasol_jdbc.taco" ] ; then
+        echo "Warning: Packaging JDBC connector failed. See log output above."
+        exit 1
+    fi
 }
 
 copy_packaged_connectors_to_target_folder () {
-    echo "# Copying packaged odbc connector to target folder"
-    cp ./packaged-connector/exasol_odbc.taco "$target_dir"
-    echo "# Copying packaged jdbc connector to target folder"
-    cp ./packaged-connector/exasol_jdbc.taco "$target_dir"
+    echo "# Copying packaged connectors to target folder"
+    cp -v "$packaged_connector_dir/exasol_odbc.taco" "$packaged_connector_dir/exasol_jdbc.taco" "$target_dir"
 }
 
 set_up_environment
