@@ -1,11 +1,11 @@
-const { defineGlobalObjects, evalFile ,createDefaultAttr} = require("./common");
+const { defineGlobalObjects, evalFile, createDefaultJdbcAttr } = require("./common");
 
-defineGlobalObjects({ loggingEnabled: true });
+defineGlobalObjects({ loggingEnabled: false });
 
 const dsbuilder = evalFile("../src/exasol_jdbc/connectionBuilder.js");
 
 function getJdbcUrl(attr) {
-    const result = dsbuilder(createDefaultAttr(attr));
+    const result = dsbuilder(createDefaultJdbcAttr(attr));
     expect(result).toHaveLength(1);
     return result[0];
 }

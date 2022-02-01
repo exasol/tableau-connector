@@ -10,7 +10,7 @@ exports.evalFile = function (path) {
     return eval(fileContent);
 }
 
-exports.createDefaultAttr = function (customAttributes) {
+exports.createDefaultJdbcAttr = function (customAttributes) {
     const defaultAttr = {
         port: '8563',
         class: 'jdbc',
@@ -35,6 +35,7 @@ exports.defineGlobalObjects = function ({ loggingEnabled }) {
     connectionHelper = {
         GetPlatform: () => "win",
         GetRTK: () => "SFTableau_9c9859940b1343bdb7c15d69b37ce1af_v1.0",
+        FormatKeyValuePair: (key, value) => `${key}=${value}`,
         attributeServer: 'server',
         attributeClass: 'class',
         attributeDatabase: 'dbname',
@@ -65,5 +66,9 @@ exports.defineGlobalObjects = function ({ loggingEnabled }) {
                 console.log(arg);
             }
         }
-    }
+    };
+    driverLocator = {
+        LocateDriver: (attr) => "LocateDriver result",
+        keywordDriver: 'driver'
+    };
 }

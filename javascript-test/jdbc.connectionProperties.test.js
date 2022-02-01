@@ -1,11 +1,11 @@
-const { defineGlobalObjects, evalFile, createDefaultAttr } = require("./common");
+const { defineGlobalObjects, evalFile, createDefaultJdbcAttr } = require("./common");
 
-defineGlobalObjects({ loggingEnabled: true });
+defineGlobalObjects({ loggingEnabled: false });
 
 const propertiesbuilder = evalFile("../src/exasol_jdbc/connectionProperties.js");
 
 function getProperties(attr) {
-    return propertiesbuilder(createDefaultAttr(attr));
+    return propertiesbuilder(createDefaultJdbcAttr(attr));
 }
 
 describe('Tableau Desktop', () => {
