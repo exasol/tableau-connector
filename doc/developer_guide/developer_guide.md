@@ -333,11 +333,11 @@ const enableDebugging = true;
 
 This will add value `jdbc-driver-debug` with a debug message to the JDBC driver properties. The JDBC driver will write this to its log file when debugging is enabled in `connectionBuilder.js`.
 
-## Building A Release
+## Building a Release
 
 To build a release of the JDBC and ODBC connectors follow these steps:
 
-1. Update version number the `plugin-version` element of the manifest files for JDBC and ODBC connectors:
+1. Update version number of the `plugin-version` element in the manifest files for JDBC and ODBC connectors:
   * [src\exasol_jdbc\manifest.xml](../../src/exasol_jdbc/manifest.xml)
   * [src\exasol_odbc\manifest.xml](../../src/exasol_odbc/manifest.xml)
 2. [Run the TDVT tests](#running-tdvt-tests) for JDBC and ODBC connectors.
