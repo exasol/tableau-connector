@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-project_version="0.4.2"
-
 project_dir="$( cd "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )"
 target_dir="$project_dir/target"
 
@@ -42,8 +40,10 @@ verify_signature() {
 }
 
 sign_jar() {
-    jar_file="$1"
-    signed_jar="$2"
+    type="$1"
+    version=$(get_version $type)
+    jar_file="$target_dir/exasol_$type.taco"
+    signed_jar="$target_dir/tableau-exasol-connector-$type-$version.taco"
 
     echo "Signing connector $jar_file"
     jarsigner "$jar_file" $key_alias \
@@ -55,5 +55,10 @@ sign_jar() {
       verify_signature "$signed_jar"
 }
 
-sign_jar "$target_dir/exasol_jdbc.taco" "$target_dir/tableau-exasol-connector-jdbc-$project_version.taco"
-sign_jar "$target_dir/exasol_odbc.taco" "$target_dir/tableau-exasol-connector-odbc-$project_version.taco"
+get_version() {
+    type="$1"
+    cat "src/exasol_$type/manifest.xml" | grep "plugin-version" | sed 's/^.*plugin-version="\([^"]*\)".*$/\1/'
+}
+
+sign_jar jdbc
+sign_jar odbc
