@@ -1,4 +1,4 @@
-# Exasol Tableau Connector 0.5.0, released 2022-02-??
+# Exasol Tableau Connector 0.5.0, released 2022-02-02
  
 Code name: TLS certificate fingerprint support for ODBC connector
 
