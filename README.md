@@ -34,7 +34,7 @@ The Exasol Tableau Connector is an adapter, that maps Exasol's analytical capabi
 
 ## Runtime Dependencies
 
-To use the Exasol Tableau Connector, you need Tableau Version 2021.4 or later either as desktop or server variant. We test with Tableau 2021.4. Older versions may also work.
+To use the Exasol Tableau Connector, you need Tableau Version 2021.1 or later either as desktop or server variant.
 
 ## Test Dependencies
 
