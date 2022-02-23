@@ -32,6 +32,7 @@
     } else {
         props["user"] = serverUser;
         props["loginType"] = "2";
+        props["logintype"] = "gss";
     }
 
     return props;

@@ -43,7 +43,7 @@ describe('Tableau Server', () => {
             username: '',
             ':tableau-server-user': 'tabuser',
             password: 'exapassword'
-        })).toEqual({ user: 'tabuser', loginType: '2' });
+        })).toEqual({ user: 'tabuser', logintype: 'gss', loginType: '2' });
     });
 
     test('Viewer Credentials auth', () => {
@@ -53,7 +53,7 @@ describe('Tableau Server', () => {
             username: '',
             ':tableau-server-user': 'normaluser',
             password: 'exapassword'
-        })).toEqual({ user: 'normaluser', loginType: '2' });
+        })).toEqual({ user: 'normaluser', logintype: 'gss', loginType: '2' });
     });
 });
 
@@ -65,5 +65,5 @@ test('Debugging enabled', () => {
         ':tableau-server-user': 'serveruser',
         password: 'exapassword',
         'v-debug': 'true'
-    })).toEqual({ user: 'serveruser', loginType: '2', 'jdbc-driver-debug': "authentication=auth-integrated, workgroup-auth-mode='kerberos-impersonate', username='normaluser', :tableau-server-user='serveruser'"});
+    })).toEqual({ user: 'serveruser', logintype: 'gss', loginType: '2', 'jdbc-driver-debug': "authentication=auth-integrated, workgroup-auth-mode='kerberos-impersonate', username='normaluser', :tableau-server-user='serveruser'"});
 });
