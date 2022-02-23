@@ -8,6 +8,8 @@ This release updates the JDBC connector and adds support for the renamed paramet
 
 The JDBC connector will continue to work with older and newer JDBC drivers by using both variants of the parameter.
 
+There where no changes for the ODBC connector.
+
 ## Features
 
 * #48: Added support for renamed JDBC parameter `logintype`
