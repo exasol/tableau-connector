@@ -41,7 +41,7 @@ verify_signature() {
 
 sign_jar() {
     type="$1"
-    version=$(get_version $type)
+    version=$(get_version "$type")
     jar_file="$target_dir/exasol_$type.taco"
     signed_jar="$target_dir/tableau-exasol-connector-$type-$version.taco"
 
@@ -57,7 +57,7 @@ sign_jar() {
 
 get_version() {
     type="$1"
-    cat "src/exasol_$type/manifest.xml" | grep "plugin-version" | sed 's/^.*plugin-version="\([^"]*\)".*$/\1/'
+    grep "plugin-version" < "$project_dir/src/exasol_$type/manifest.xml" | sed 's/^.*plugin-version="\([^"]*\)".*$/\1/'
 }
 
 sign_jar jdbc
