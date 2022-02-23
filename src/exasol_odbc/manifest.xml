@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<connector-plugin class="exasol_odbc" superclass="odbc" plugin-version="0.6.0" name="Exasol ODBC" version="18.1" min-version-tableau="2021.1">
+<connector-plugin class="exasol_odbc" superclass="odbc" plugin-version="0.6.1" name="Exasol ODBC" version="18.1" min-version-tableau="2021.1">
   <vendor-information>
     <company name="Exasol AG"/>
     <support-link url="https://www.exasol.com/"/>
