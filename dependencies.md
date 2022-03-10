@@ -56,7 +56,7 @@ See [pom.xml](./pom.xml) for detailed version numbers.
 Running the UI tests located in the [tableau-server-GUI-tests](./tableau-server-GUI-tests/) folder has the following dependencies:
 
 * Test compile dependencies:
-    * `org.seleniumhq.selenium:selenium-java`: [Apache License 2.0](https://github.com/SeleniumHQ/selenium/blob/trunk/LICENSE)
+    * `org.seleniumhq.selenium:selenium-java`: [Apache License Version 2.0](https://github.com/SeleniumHQ/selenium/blob/trunk/LICENSE)
     * `org.hamcrest:hamcrest`: [BSD License 3][BSD3]
     * `org.junit.jupiter:junit-jupiter`: [Eclipse Public License v2.0][EPL2]
     * `io.github.bonigarcia:webdrivermanager`: [Apache License 2.0](https://github.com/bonigarcia/webdrivermanager/blob/master/LICENSE)
