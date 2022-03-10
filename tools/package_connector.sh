@@ -63,7 +63,6 @@ install_packaging_module () {
 package_connectors () {
     echo "Clean output directory $packaged_connector_dir"
     rm -rfv "$packaged_connector_dir"
-    #the connector is created in ./packaged-connector/exasol_odbc.taco
     echo "# Packaging odbc connector"
     python -m connector_packager.package "$project_dir/src/exasol_odbc/"
     if [ ! -f "$packaged_connector_dir/exasol_odbc.taco" ] ; then

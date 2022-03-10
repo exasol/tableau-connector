@@ -30,12 +30,7 @@ The Exasol Tableau Connector is an adapter, that maps Exasol's analytical capabi
 
 * [Developer Guide](doc/developer_guide/developer_guide.md)
 
-# Dependencies
+## Additional Resources
 
-## Runtime Dependencies
-
-To use the Exasol Tableau Connector, you need Tableau Version 2021.1 or later either as desktop or server variant.
-
-## Test Dependencies
-
-To run the included tests, you require Python 3.9.0 or later and the TDVT test framework 2.3.0 or later. This is part of the [Tableau Connector SDK](https://github.com/tableau/connector-plugin-sdk). Check the documentation of TDVT for transitive dependencies.
+* [Dependencies](dependencies.md)
+* [Changelog](doc/changes/changelog.md)
