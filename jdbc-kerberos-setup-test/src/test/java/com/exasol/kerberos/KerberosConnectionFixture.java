@@ -35,10 +35,12 @@ public class KerberosConnectionFixture {
         this.config = config;
         System.setProperty("java.security.krb5.conf", this.config.getKerberosConfigFile().toString());
         System.setProperty("sun.security.krb5.debug", String.valueOf(KERBEROS_DEBUGGING_ENABLED));
+        System.setProperty("java.security.debug", String.valueOf(KERBEROS_DEBUGGING_ENABLED));
         createJdbcDriverLogDir(config);
     }
 
     private void createJdbcDriverLogDir(final TestConfig config) {
+        LOGGER.info("Using driver log dir " + config.getLogDir());
         try {
             if (!Files.exists(config.getLogDir())) {
                 Files.createDirectories(config.getLogDir());
@@ -69,7 +71,8 @@ public class KerberosConnectionFixture {
                 return ((ExtendedGSSCredential) selfCreds).impersonate(dbUser);
             });
         } catch (final PrivilegedActionException exception) {
-            throw new IllegalStateException("Could not impersonate user", exception);
+            throw new IllegalStateException(
+                    "Could impersonate user '" + impersonatedUser + "' with runAs user '" + runAsUser + "'", exception);
         }
     }
 
@@ -116,10 +119,10 @@ public class KerberosConnectionFixture {
         } catch (final LoginException exception) {
             try {
                 krb5Module.abort();
-            } catch (final LoginException e1) {
-                LOGGER.info("Error aborting Kerberos authentication:  " + e1);
+            } catch (final LoginException loginException) {
+                LOGGER.info("Error aborting Kerberos authentication: " + loginException.getMessage());
             }
-            throw new IllegalStateException("Error during login", exception);
+            throw new IllegalStateException("Error during login: " + exception.getMessage(), exception);
         }
         assertThat(serviceSubject.getPrincipals(), hasSize(1));
         LOGGER.info("Logged in as " + serviceSubject.getPrincipals().iterator().next().getName());

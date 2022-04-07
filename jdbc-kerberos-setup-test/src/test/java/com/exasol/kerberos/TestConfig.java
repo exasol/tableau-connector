@@ -63,15 +63,25 @@ public class TestConfig {
     }
 
     public Path getKerberosConfigFile() {
-        return Paths.get(getMandatoryProperty("kerberos_config_file"));
+        Path path = Paths.get(getMandatoryProperty("kerberos_config_file"));
+        verifyFileExists(path);
+        return path;
     }
 
     public Path getKeytabFile() {
-        return Paths.get(getMandatoryProperty("keytab_file"));
+        Path path = Paths.get(getMandatoryProperty("keytab_file"));
+        verifyFileExists(path);
+        return path;
     }
 
     public Path getLogDir() {
         return Paths.get("logs").toAbsolutePath();
+    }
+
+    private void verifyFileExists(Path path) {
+        if (!Files.exists(path)) {
+            throw new IllegalStateException("File not found: " + path.toAbsolutePath());
+        }
     }
 
     private String getMandatoryProperty(final String key) {
