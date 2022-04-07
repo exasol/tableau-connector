@@ -1,10 +1,14 @@
 # Exasol Tableau Connector 0.6.1, released 2022-??-??
  
-Code name: 
+Code name: Extend Troubleshooting Guide
 
 ## Summary
 
 ## Features
+
+## Documentation
+
+* Extended the troubleshooting guide for Tableau Server and improved error handling in JDBC Kerberos integration tests
 
 ## Dependency Updates
 

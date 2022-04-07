@@ -115,6 +115,8 @@ This is for database users created with Kerberos authentication:
 CREATE USER <user> IDENTIFIED BY KERBEROS PRINCIPAL "<user@EXAMPLE.COM>";
 ```
 
+Note: make sure to enter the Kerberos domain in upper case.
+
 To use this, select "Kerberos" in the "Authentication" drop-down-list. Entering username and password is not necessary, the connector will use the Kerberos credentials provided by your operating system to connect to Exasol.
 
 ##### Prerequisites
@@ -189,6 +191,25 @@ When using Kerberos authentication check the following:
     The keytab does not contain AES encrypted credentials. Generate a new keytab with option `-crypto All` (recommended) or disable AES for the Exasol service user in Active Directory via options *This account supports Kerberos AES 128 bit encryption* and *This account supports Kerberos AES 256 bit encryption*.
   * `Request ticket server exasol/exasoldb.example.com@EXAMPLE.COM kvno 10 not found in keytab; keytab is likely out of date`:
   The Exasol service user's password might have been changed. Generate a new keytab file and and upload it via EXAoperations.
+
+#### Unable to obtain password from user
+
+```
+An unexpected error occurred. If you continue to receive this error please contact your Tableau Server Administrator.
+
+Session ID: ABC123-1:0
+
+Unable to obtain password from user
+
+Unable to connect to the Exasol JDBC by Exasol AG server "exasoldb.example.com". Check that the server is running and that you have access privileges to the requested database.
+```
+
+This error may occur on Tableau Server when the keytab file is not configured correctly. Check that the correct keytab file is configured by executing the following commands:
+
+```sh
+tsm configuration get -k native_api.datasource_runas_keytab_path
+tsm configuration get -k native_api.datasource_impersonation_runas_keytab_path
+```
 
 #### Missing certificate on Tableau Server
 
