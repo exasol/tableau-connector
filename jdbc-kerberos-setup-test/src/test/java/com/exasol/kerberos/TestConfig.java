@@ -54,8 +54,8 @@ public class TestConfig {
         return getProperty("impersonated_user_db_name");
     }
 
-    public String getImpersonatedUserKerberosPassword() {
-        return getMandatoryProperty("impersonated_user_kerberos_password");
+    public String getRunAsUserKerberosPassword() {
+        return getMandatoryProperty("runasuser_kerberos_password");
     }
 
     public String getRunAsUser() {

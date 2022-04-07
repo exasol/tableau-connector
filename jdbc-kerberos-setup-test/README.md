@@ -25,10 +25,10 @@ kerberos_debug = true
 
 # The RunAs user, e.g. tableauuser
 runas_user = <username>
+# The kerberos password of the RunAs user
+runasuser_kerberos_password = ****
 # The user to impersonate
 impersonated_user = <username>
-# The kerberos password of the impersonated db user
-impersonated_user_kerberos_password = ****
 # Optional: The impersonated user's database user name if it is different from the Kerberos username
 impersonated_user_db_name = <username>
 

@@ -150,7 +150,7 @@ public class KerberosConnectionFixture {
 
     Connection createConnectionWithKerberosPassword() {
         final Subject subject = getServiceSubject(this.config.getRunAsUser(),
-                this.config.getImpersonatedUserKerberosPassword());
+                this.config.getRunAsUserKerberosPassword());
         return createPriviligedConnection(LoginType.GSSAPI, subject, this.config.getImpersonatedUser());
     }
 
