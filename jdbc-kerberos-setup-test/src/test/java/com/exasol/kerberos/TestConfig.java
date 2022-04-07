@@ -92,4 +92,8 @@ public class TestConfig {
     private Optional<String> getProperty(final String key) {
         return Optional.ofNullable((String) this.properties.get(key));
     }
+
+    public boolean isKerberosDebugEnabled() {
+        return getProperty("kerberos_debug").map(value -> "true".equalsIgnoreCase(value)).orElse(false);
+    }
 }

@@ -28,14 +28,13 @@ public class KerberosConnectionFixture {
 
     private static final Logger LOGGER = Logger.getLogger(KerberosConnectionFixture.class.getName());
 
-    private static final boolean KERBEROS_DEBUGGING_ENABLED = false;
     private final TestConfig config;
 
     KerberosConnectionFixture(final TestConfig config) {
         this.config = config;
         System.setProperty("java.security.krb5.conf", this.config.getKerberosConfigFile().toString());
-        System.setProperty("sun.security.krb5.debug", String.valueOf(KERBEROS_DEBUGGING_ENABLED));
-        System.setProperty("java.security.debug", String.valueOf(KERBEROS_DEBUGGING_ENABLED));
+        System.setProperty("sun.security.krb5.debug", String.valueOf(config.isKerberosDebugEnabled()));
+        System.setProperty("java.security.debug", String.valueOf(config.isKerberosDebugEnabled()));
         createJdbcDriverLogDir(config);
     }
 
