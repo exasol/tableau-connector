@@ -54,8 +54,8 @@ public class TestConfig {
         return getProperty("impersonated_user_db_name");
     }
 
-    public String getImpersonatedUserKerberosPassword() {
-        return getMandatoryProperty("impersonated_user_kerberos_password");
+    public String getRunAsUserKerberosPassword() {
+        return getMandatoryProperty("runasuser_kerberos_password");
     }
 
     public String getRunAsUser() {
@@ -63,15 +63,25 @@ public class TestConfig {
     }
 
     public Path getKerberosConfigFile() {
-        return Paths.get(getMandatoryProperty("kerberos_config_file"));
+        Path path = Paths.get(getMandatoryProperty("kerberos_config_file"));
+        verifyFileExists(path);
+        return path;
     }
 
     public Path getKeytabFile() {
-        return Paths.get(getMandatoryProperty("keytab_file"));
+        Path path = Paths.get(getMandatoryProperty("keytab_file"));
+        verifyFileExists(path);
+        return path;
     }
 
     public Path getLogDir() {
         return Paths.get("logs").toAbsolutePath();
+    }
+
+    private void verifyFileExists(Path path) {
+        if (!Files.exists(path)) {
+            throw new IllegalStateException("File not found: " + path.toAbsolutePath());
+        }
     }
 
     private String getMandatoryProperty(final String key) {
@@ -81,5 +91,9 @@ public class TestConfig {
 
     private Optional<String> getProperty(final String key) {
         return Optional.ofNullable((String) this.properties.get(key));
+    }
+
+    public boolean isKerberosDebugEnabled() {
+        return getProperty("kerberos_debug").map(value -> "true".equalsIgnoreCase(value)).orElse(false);
     }
 }

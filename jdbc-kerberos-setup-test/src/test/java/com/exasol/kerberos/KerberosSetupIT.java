@@ -22,6 +22,7 @@ class KerberosSetupIT {
         Class.forName("com.exasol.jdbc.EXADriver");
         this.config = TestConfig.load();
         this.kerberosConnectionFixture = new KerberosConnectionFixture(this.config);
+        LOGGER.info("Java Version: " + System.getProperty("java.version"));
     }
 
     @Test

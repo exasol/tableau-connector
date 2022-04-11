@@ -28,17 +28,18 @@ public class KerberosConnectionFixture {
 
     private static final Logger LOGGER = Logger.getLogger(KerberosConnectionFixture.class.getName());
 
-    private static final boolean KERBEROS_DEBUGGING_ENABLED = false;
     private final TestConfig config;
 
     KerberosConnectionFixture(final TestConfig config) {
         this.config = config;
         System.setProperty("java.security.krb5.conf", this.config.getKerberosConfigFile().toString());
-        System.setProperty("sun.security.krb5.debug", String.valueOf(KERBEROS_DEBUGGING_ENABLED));
+        System.setProperty("sun.security.krb5.debug", String.valueOf(config.isKerberosDebugEnabled()));
+        System.setProperty("java.security.debug", String.valueOf(config.isKerberosDebugEnabled()));
         createJdbcDriverLogDir(config);
     }
 
     private void createJdbcDriverLogDir(final TestConfig config) {
+        LOGGER.info("Using driver log dir " + config.getLogDir());
         try {
             if (!Files.exists(config.getLogDir())) {
                 Files.createDirectories(config.getLogDir());
@@ -69,7 +70,8 @@ public class KerberosConnectionFixture {
                 return ((ExtendedGSSCredential) selfCreds).impersonate(dbUser);
             });
         } catch (final PrivilegedActionException exception) {
-            throw new IllegalStateException("Could not impersonate user", exception);
+            throw new IllegalStateException(
+                    "Could impersonate user '" + impersonatedUser + "' with runAs user '" + runAsUser + "'", exception);
         }
     }
 
@@ -116,10 +118,10 @@ public class KerberosConnectionFixture {
         } catch (final LoginException exception) {
             try {
                 krb5Module.abort();
-            } catch (final LoginException e1) {
-                LOGGER.info("Error aborting Kerberos authentication:  " + e1);
+            } catch (final LoginException loginException) {
+                LOGGER.info("Error aborting Kerberos authentication: " + loginException.getMessage());
             }
-            throw new IllegalStateException("Error during login", exception);
+            throw new IllegalStateException("Error during login: " + exception.getMessage(), exception);
         }
         assertThat(serviceSubject.getPrincipals(), hasSize(1));
         LOGGER.info("Logged in as " + serviceSubject.getPrincipals().iterator().next().getName());
@@ -148,7 +150,7 @@ public class KerberosConnectionFixture {
 
     Connection createConnectionWithKerberosPassword() {
         final Subject subject = getServiceSubject(this.config.getRunAsUser(),
-                this.config.getImpersonatedUserKerberosPassword());
+                this.config.getRunAsUserKerberosPassword());
         return createPriviligedConnection(LoginType.GSSAPI, subject, this.config.getImpersonatedUser());
     }
 
