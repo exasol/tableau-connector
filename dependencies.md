@@ -66,7 +66,7 @@ Running the UI tests located in the [tableau-server-GUI-tests](./tableau-server-
     * `com.exasol:exasol-testcontainers`: [MIT](https://github.com/exasol/exasol-testcontainers/blob/main/LICENSE)
     * `com.exasol:test-db-builder-java`: [MIT](https://github.com/exasol/test-db-builder-java/blob/main/LICENSE)
 * Plugins
-    * `org.codehaus.mojo:exec-maven-plugin`: [Apache License 2](https://www.mojohaus.org/exec-maven-plugin/license.html)
+    * `org.codehaus.mojo:exec-maven-plugin`: [Apache License 2](https://www.mojohaus.org/exec-maven-plugin/licenses.html)
 
 See files [pom.xml](./pom.xml) and [tableau-server-GUI-tests/pom.xml](./tableau-server-GUI-tests/pom.xml) for detailed version numbers.
 
