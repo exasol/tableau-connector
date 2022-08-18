@@ -13,7 +13,7 @@ This developer guide describes how to
 To manually test the connectors in Tableau Desktop without packaging, add the following arguments when starting Tableau Desktop:
 
 ```bat
-"C:\Program Files\Tableau\Tableau 2021.3\bin\tableau.exe" -DConnectPluginsPath=%USERPROFILE%\git\tableau-connector\src -DLogLevel=Debug
+"C:\Program Files\Tableau\Tableau 2022.2\bin\tableau.exe" -DConnectPluginsPath=%USERPROFILE%\git\tableau-connector\src -DLogLevel=Debug
 ```
 
 * `-DConnectPluginsPath=path\to\tableau-connector\src`: Path to the `src` directory of this cloned repository.
@@ -48,11 +48,14 @@ tsm restart
 To verify which user account Tableau is using for connecting to Exasol, create the following view and check it from Tableau:
 
 ```sql
-CREATE OR REPLACE VIEW TESTV1.MYSESSION AS SELECT USER_NAME AS SESSION_USER_NAME, CURRENT_USER FROM SYS.EXA_ALL_SESSIONS WHERE SESSION_ID=CURRENT_SESSION;
-
+CREATE SCHEMA IF NOT EXISTS META;
+CREATE OR REPLACE VIEW META.MYSESSION AS
+  SELECT USER_NAME AS SESSION_USER_NAME, CURRENT_USER
+  FROM SYS.EXA_ALL_SESSIONS
+  WHERE SESSION_ID=CURRENT_SESSION;
 ```
 
-Then add view `TESTV1.MYSESSION` to a Tableau data source and add it to a workbook sheet.
+Then add view `META.MYSESSION` to a Tableau data source and add it to a workbook sheet.
 
 ## Packaging the Connectors
 
@@ -125,7 +128,7 @@ You can run TDVT tests under Windows and macOS. This guide describes the setup f
 * Configure hostname of the Exasol database: Add an entry to `C:\Windows\System32\Drivers\etc\hosts` (adapt the IP to your database):
 
     ```
-    10.0.0.2    exasol.test.lan
+    10.0.0.2    exasol.example.com
     ```
 
 * Install TDVT as described in the [TDVT documentation](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#set-up).
@@ -135,7 +138,7 @@ You can run TDVT tests under Windows and macOS. This guide describes the setup f
   * [tdvt_odbc/tds/Staples.exasol_odbc.tds](../../tdvt_odbc/tds/Staples.exasol_odbc.tds)
   * [tdvt_odbc/tds/cast_calcs.exasol_odbc.tds](../../tdvt_odbc/tds/cast_calcs.exasol_odbc.tds)
 
-* Update the path to `tabquerytool.exe` (e.g. `C:\Program Files\Tableau\Tableau 2021.3\bin\tabquerytool.exe`) in
+* Update the path to `tabquerytool.exe` (e.g. `C:\Program Files\Tableau\Tableau 2022.2\bin\tabquerytool.exe`) in
   * [tdvt_jdbc/config/tdvt/tdvt_override.ini](../../tdvt_jdbc/config/tdvt/tdvt_override.ini)
   * [tdvt_odbc/config/tdvt/tdvt_override.ini](../../tdvt_odbc/config/tdvt/tdvt_override.ini)
 

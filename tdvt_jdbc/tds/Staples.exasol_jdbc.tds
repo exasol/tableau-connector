@@ -9,8 +9,8 @@
   </document-format-change-manifest>
   <connection class='federated'>
     <named-connections>
-      <named-connection caption='exasol.test.lan' name='leaf'>
-        <connection class='exasol_jdbc' dbname='EXA_DB' one-time-sql='' port='8563' schema='TESTV1' server='exasol.test.lan' username='TABLEAU_TEST_USER' v-fingerprint='15F9CA9BC95E14F1F913FC449A26723841C118CFB644957866ABB73C1399A7FF' v-validateservercertificate='1' tdvtconnection='exasol_jdbc_connection'  />
+      <named-connection caption='exasol.example.com' name='leaf'>
+        <connection class='exasol_jdbc' dbname='EXA_DB' one-time-sql='' port='8563' schema='TESTV1' server='exasol.example.com' username='TABLEAU_TEST_USER' v-fingerprint='00A20CA197FA9D480C610367B345AF1D7C2A866B0BD673A0954641158E7177EE' v-validateservercertificate='1' tdvtconnection='exasol_jdbc_connection'  />
       </named-connection>
     </named-connections>
     <_.fcp.ObjectModelEncapsulateLegacy.false...relation connection='leaf' name='Staples' table='[TESTV1].[Staples]' type='table' />
