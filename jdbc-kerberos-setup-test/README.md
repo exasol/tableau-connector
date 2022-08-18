@@ -51,4 +51,4 @@ mvn integration-test
 
 Use Exasol JDBC driver 7.1.3 or later. Else the `impersonate` test will fail with error `SQLInvalidAuthorizationSpecException: No LoginModules configured for exasol`.
 
-Tests should finish in around 10 seconds. If they hang for a longer time, verify that your Kerberos credentials are valide. See above for using `klist` and `kinit`.
+Tests should finish in around 10 seconds. If they hang for a longer time, verify that your Kerberos credentials are valid. See above for using `klist` and `kinit`.
