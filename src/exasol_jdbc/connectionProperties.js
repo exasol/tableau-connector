@@ -28,5 +28,6 @@
     }
     props['clientname'] = connectionHelper.GetProductName();
     props['clientversion'] = connectionHelper.GetProductVersion();
+    props['feedbackinterval'] = 1;
     return props;
 })

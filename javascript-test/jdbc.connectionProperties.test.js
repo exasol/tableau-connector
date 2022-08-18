@@ -59,7 +59,7 @@ describe('Tableau Server', () => {
 });
 
 
-describe('Client details', () => {
+describe('Static properties', () => {
     test('client name', () => {
         const props = getProperties({})
         expect(props.clientname).toEqual("GetProductName()")
@@ -67,5 +67,9 @@ describe('Client details', () => {
     test('client version', () => {
         const props = getProperties({})
         expect(props.clientversion).toEqual("GetProductVersion()")
+    })
+    test('feedback interval', () => {
+        const props = getProperties({})
+        expect(props.feedbackinterval).toEqual(1)
     })
 })

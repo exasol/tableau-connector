@@ -32,7 +32,6 @@
         + portArg
         + ";validateservercertificate=" + validateServerCertificate
         + fingerprintArg
-        + ";feedbackinterval=1"
         + kerberosArg;
     return [url];
 })
