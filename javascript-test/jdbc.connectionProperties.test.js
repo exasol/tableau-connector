@@ -1,11 +1,12 @@
 const { defineGlobalObjects, evalFile, createDefaultJdbcAttr } = require("./common");
+const { describe, expect, test } = require("@jest/globals");
 
 defineGlobalObjects({ loggingEnabled: false });
 
-const propertiesbuilder = evalFile("../src/exasol_jdbc/connectionProperties.js");
+const propertiesBuilder = evalFile("../src/exasol_jdbc/connectionProperties.js");
 
 function getProperties(attr) {
-    return propertiesbuilder(createDefaultJdbcAttr(attr));
+    return propertiesBuilder(createDefaultJdbcAttr(attr));
 }
 
 describe('Tableau Desktop', () => {
@@ -14,14 +15,14 @@ describe('Tableau Desktop', () => {
             authentication: 'auth-user-pass',
             username: 'exauser',
             password: 'exapassword'
-        })).toEqual({ user: 'exauser', password: 'exapassword' });
+        })).toMatchObject({ user: 'exauser', password: 'exapassword' });
     });
 
     test('Kerberos auth', () => {
         expect(getProperties({
             authentication: 'auth-integrated',
             username: ''
-        })).toEqual({ user: '', password: undefined });
+        })).toMatchObject({ user: '', password: undefined });
     });
 });
 
@@ -33,7 +34,7 @@ describe('Tableau Server', () => {
             username: 'exauser',
             ':tableau-server-user': undefined,
             password: 'exapassword'
-        })).toEqual({ user: 'exauser', password: 'exapassword' });
+        })).toMatchObject({ user: 'exauser', password: 'exapassword' });
     });
 
     test('RunAs auth', () => {
@@ -43,7 +44,7 @@ describe('Tableau Server', () => {
             username: '',
             ':tableau-server-user': 'tabuser',
             password: 'exapassword'
-        })).toEqual({ user: 'tabuser', logintype: 'gss', loginType: '2' });
+        })).toMatchObject({ user: 'tabuser', logintype: 'gss', loginType: '2' });
     });
 
     test('Viewer Credentials auth', () => {
@@ -53,6 +54,18 @@ describe('Tableau Server', () => {
             username: '',
             ':tableau-server-user': 'normaluser',
             password: 'exapassword'
-        })).toEqual({ user: 'normaluser', logintype: 'gss', loginType: '2' });
+        })).toMatchObject({ user: 'normaluser', logintype: 'gss', loginType: '2' });
     });
 });
+
+
+describe('Client details', () => {
+    test('client name', () => {
+        const props = getProperties({})
+        expect(props.clientname).toEqual("GetProductName()")
+    })
+    test('client version', () => {
+        const props = getProperties({})
+        expect(props.clientversion).toEqual("GetProductVersion()")
+    })
+})

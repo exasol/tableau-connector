@@ -37,6 +37,8 @@ exports.defineGlobalObjects = function ({ loggingEnabled }) {
         GetRTK: () => "SFTableau_9c9859940b1343bdb7c15d69b37ce1af_v1.0",
         FormatKeyValuePair: (key, value) => `${key}=${value}`,
         SetImpersonateAttributes: () => { },
+        GetProductName: () => "GetProductName()",
+        GetProductVersion: () => "GetProductVersion()",
         attributeServer: 'server',
         attributeClass: 'class',
         attributeDatabase: 'dbname',
@@ -60,13 +62,6 @@ exports.defineGlobalObjects = function ({ loggingEnabled }) {
         valueAuthIntegrated: 'auth-integrated',
         valueAuthUserPass: 'auth-user-pass',
         valueAuthModeDBImpersonate: 'db-impersonate'
-    };
-    logging = {
-        Log: function (arg) {
-            if (loggingEnabled) {
-                console.log(arg);
-            }
-        }
     };
     driverLocator = {
         LocateDriver: (attr) => "LocateDriver result",

@@ -26,6 +26,7 @@
         props["user"] = attr[connectionHelper.attributeUsername];
         props["password"] = attr[connectionHelper.attributePassword];
     }
-
+    props['clientname'] = connectionHelper.GetProductName();
+    props['clientversion'] = connectionHelper.GetProductVersion();
     return props;
 })
