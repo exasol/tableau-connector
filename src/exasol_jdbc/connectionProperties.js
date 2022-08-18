@@ -6,19 +6,25 @@
     }
 
     const authentication = attr[connectionHelper.attributeAuthentication];
-    const user = attr[connectionHelper.attributeUsername];
-    const serverUser = attr[connectionHelper.attributeTableauServerUser];
     const serverAuthMode = attr[connectionHelper.attributeTableauServerAuthMode];
+
+    function getServerUser() {
+        return attr[connectionHelper.attributeTableauServerUser];
+    }
+
+    function useKerberos() {
+        return !isEmpty(getServerUser());
+    }
 
     const props = {};
 
-    if (isEmpty(serverUser)) {
-        props["user"] = user;
-        props["password"] = attr[connectionHelper.attributePassword];
-    } else {
-        props["user"] = serverUser;
+    if (useKerberos()) {
+        props["user"] = getServerUser();
         props["loginType"] = "2";
         props["logintype"] = "gss";
+    } else {
+        props["user"] = attr[connectionHelper.attributeUsername];
+        props["password"] = attr[connectionHelper.attributePassword];
     }
 
     return props;
