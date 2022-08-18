@@ -1,13 +1,6 @@
 (function dsbuilder(attr) {
     "use strict";
-    const jdbcDriverDebugEnabled = false;
-    const jdbcDriverLogDir = "C:\\tmp"; // Windows
-    //const jdbcDriverLogDir = "/tmp"; // Linux
     const kerberosServiceName = "exasol";
-
-    function log(str) {
-        logging.Log("[connectionBuilder.js] " + str)
-    }
 
     function isEmpty(str) {
         return (!str || 0 === str.trim().length);
@@ -28,12 +21,6 @@
 
     const useKerberos = authentication === connectionHelper.valueAuthIntegrated;
 
-    log(connectionHelper.attributeAuthentication + "=" + authentication + ", "
-        + connectionHelper.attributeTableauServerAuthMode + "='" + serverAuthMode + "', "
-        + connectionHelper.attributeUsername + "='" + user + "', "
-        + connectionHelper.attributeTableauServerUser + "='" + serverUser + "', "
-        + "useKerberos=" + useKerberos);
-
     let kerberosArg = "";
     if (useKerberos) {
         // Required to activate Kerberos authentication
@@ -43,7 +30,6 @@
     const clientName = runningOnServer ? "Tableau Server" : "Tableau Desktop";
     const clientVersionArg = !isEmpty(clientVersion) ? ";clientversion=" + clientVersion : "";
 
-    const debugArg = (jdbcDriverDebugEnabled || attr['v-debug']) ? (";debug=1;logdir=" + jdbcDriverLogDir) : "";
     const portArg = isEmpty(port) ? "" : ":" + port;
     // See https://docs.exasol.com/connect_exasol/drivers/jdbc.htm
     const url = "jdbc:exa:"
@@ -54,7 +40,6 @@
         + ";feedbackinterval=1"
         + ";clientname=" + clientName
         + clientVersionArg
-        + kerberosArg
-        + debugArg;
+        + kerberosArg;
     return [url];
 })

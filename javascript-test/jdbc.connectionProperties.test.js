@@ -56,14 +56,3 @@ describe('Tableau Server', () => {
         })).toEqual({ user: 'normaluser', logintype: 'gss', loginType: '2' });
     });
 });
-
-test('Debugging enabled', () => {
-    expect(getProperties({
-        authentication: 'auth-integrated',
-        'workgroup-auth-mode': 'kerberos-impersonate',
-        username: 'normaluser',
-        ':tableau-server-user': 'serveruser',
-        password: 'exapassword',
-        'v-debug': 'true'
-    })).toEqual({ user: 'serveruser', logintype: 'gss', loginType: '2', 'jdbc-driver-debug': "authentication=auth-integrated, workgroup-auth-mode='kerberos-impersonate', username='normaluser', :tableau-server-user='serveruser'"});
-});

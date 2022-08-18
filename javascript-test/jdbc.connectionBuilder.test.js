@@ -46,10 +46,6 @@ test('no kerberos', () => {
     expect(getJdbcUrl({authentication: 'auth-user-pass'})).toEqual("jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1;fingerprint=15F9CA9;feedbackinterval=1;clientname=Tableau Desktop");
 });
 
-test('enable debugging', () => {
-    expect(getJdbcUrl({'v-debug': true})).toEqual("jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1;fingerprint=15F9CA9;feedbackinterval=1;clientname=Tableau Desktop;kerberoshostname=exasoldb.example.com;kerberosservicename=exasol;debug=1;logdir=C:\\tmp");
-});
-
 test('client version available', () => {
     expect(getJdbcUrl({'v-clientversion': '1.2.3'})).toEqual("jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1;fingerprint=15F9CA9;feedbackinterval=1;clientname=Tableau Desktop;clientversion=1.2.3;kerberoshostname=exasoldb.example.com;kerberosservicename=exasol");
 });

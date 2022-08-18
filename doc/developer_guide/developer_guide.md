@@ -314,28 +314,6 @@ One possible root cause is an invalid license key. To check if the license is va
 
 Testing that Kerberos authentication works with the connector requires setting up a Windows Domain Controller and Active Directory. You can use the [JDBC Kerberos setup test](../../jdbc-kerberos-setup-test/README.md) to verify Kerberos delegation works in your setup. We recommend using this if Kerberos authentication does not work with Tableau Server.
 
-## Enable Debugging for the JDBC Connector
-
-To see log messages from the connector JavaScript files in Tableau Desktop's log, start Tableau with command line argument `-DLogLevel=Debug`. Then open file `%USERPROFILE%\Documents\My Tableau Repository\Logs\log.txt` and search for string `JavascriptLoggingHelper::Log`.
-
-Enable JDBC driver debugging and configure a log directory by editing `connectionBuilder.js`:
-
-```js
-const jdbcDriverDebugEnabled = true;
-const jdbcDriverLogDir = "C:\\tmp"; // Windows
-//const jdbcDriverLogDir = "/tmp"; // Linux
-```
-
-The JDBC driver will write log files to the specified directory.
-
-To enable debugging of JDBC driver properties, edit file `connectionProperties.js`:
-
-```js
-const enableDebugging = true;
-```
-
-This will add value `jdbc-driver-debug` with a debug message to the JDBC driver properties. The JDBC driver will write this to its log file when debugging is enabled in `connectionBuilder.js`.
-
 ## Building a Release
 
 To build a release of the JDBC and ODBC connectors follow these steps:
