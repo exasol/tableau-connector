@@ -1,10 +1,14 @@
-# Exasol Tableau Connector 0.6.1, released 2022-??-??
+# Exasol Tableau Connector 0.6.1, released 2022-08-18
  
-Code name: Extend Troubleshooting Guide
+Code name: Prepare for Extension Gallery
 
 ## Summary
 
-## Features
+In this release we prepared the JDBC connector for submitting it to the Tableau Extension Gallery. We also extended the Troubleshooting Guide.
+
+## Refactoring
+
+* #53: Prepared for Extension Gallery
 
 ## Documentation
 
