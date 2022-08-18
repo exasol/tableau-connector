@@ -12,10 +12,7 @@
     const serverAuthMode = attr[connectionHelper.attributeTableauServerAuthMode];
     const fingerprint = attr["v-fingerprint"];
     const validateServerCertificate = attr["v-validateservercertificate"];
-    const clientVersion = attr["v-clientversion"];
     const user = attr[connectionHelper.attributeUsername];
-    const serverUser = attr[connectionHelper.attributeTableauServerUser];
-    const runningOnServer = !isEmpty(serverUser);
 
     const fingerprintArg = !isEmpty(fingerprint) ? (";fingerprint=" + fingerprint.trim()) : "";
 
@@ -27,8 +24,6 @@
         // https://www.exasol.com/support/browse/SUPPORT-26947
         kerberosArg = ";kerberoshostname=" + hostName + ";kerberosservicename=" + kerberosServiceName;
     }
-    const clientName = runningOnServer ? "Tableau Server" : "Tableau Desktop";
-    const clientVersionArg = !isEmpty(clientVersion) ? ";clientversion=" + clientVersion : "";
 
     const portArg = isEmpty(port) ? "" : ":" + port;
     // See https://docs.exasol.com/connect_exasol/drivers/jdbc.htm
@@ -38,8 +33,6 @@
         + ";validateservercertificate=" + validateServerCertificate
         + fingerprintArg
         + ";feedbackinterval=1"
-        + ";clientname=" + clientName
-        + clientVersionArg
         + kerberosArg;
     return [url];
 })
