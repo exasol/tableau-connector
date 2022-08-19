@@ -72,6 +72,42 @@ describe('Tableau Server', () => {
     });
 });
 
+describe('Certificate', () => {
+    describe('Validate server certificate', () => {
+        const VALIDATE = "1"
+        const DO_NOT_VALIDATE = "0"
+        const tests = [
+            { value: 0, expected: DO_NOT_VALIDATE },
+            { value: "0", expected: DO_NOT_VALIDATE },
+            { value: 1, expected: VALIDATE },
+            { value: "1", expected: VALIDATE },
+            { value: undefined, expected: VALIDATE },
+            { value: "unknown", expected: VALIDATE },
+        ];
+        for (const t of tests) {
+            test(`Value ${t.value} of type ${typeof (t.value)} -> validate = ${t.expected}`, () => {
+                expect(getProperties({ "v-validateservercertificate": t.value })).toMatchObject({ validateservercertificate: t.expected })
+            })
+        }
+    })
+    describe('Server certificate', () => {
+        test('Fingerprint missing', () => {
+            expect(getProperties({ "v-fingerprint": undefined }).fingerprint).toBeUndefined()
+        })
+        test('Fingerprint empty string', () => {
+            expect(getProperties({ "v-fingerprint": '' }).fingerprint).toBeUndefined()
+        })
+        test('Fingerprint defined', () => {
+            expect(getProperties({ "v-fingerprint": 'Abc123' })).toMatchObject({ fingerprint: 'Abc123' })
+        })
+        test('Blank Fingerprint omitted', () => {
+            expect(getProperties({ "v-fingerprint": '\t ' }).fingerprint).toBeUndefined()
+        })
+        test('Fingerprint trimmed', () => {
+            expect(getProperties({ "v-fingerprint": ' \tAbc123\t ' })).toMatchObject({ fingerprint: 'Abc123' })
+        })
+    })
+})
 
 describe('Static properties are always present', () => {
     test('client name', () => {

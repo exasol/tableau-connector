@@ -10,42 +10,58 @@ function getJdbcUrl(attr) {
     return result[0];
 }
 
-test('default url', () => {
-    expect(getJdbcUrl({})).toEqual("jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1;fingerprint=15F9CA9");
-});
+describe('JDBC URL', () => {
 
-test('missing port', () => {
-    expect(getJdbcUrl({port: undefined})).toEqual("jdbc:exa:exasoldb.example.com;validateservercertificate=1;fingerprint=15F9CA9");
-});
+    test('default url', () => {
+        expect(getJdbcUrl({})).toEqual("jdbc:exa:exasoldb.example.com:8563");
+    });
 
-test('do not validate certificate', () => {
-    expect(getJdbcUrl({'v-validateservercertificate': 0})).toEqual("jdbc:exa:exasoldb.example.com:8563;validateservercertificate=0;fingerprint=15F9CA9");
-});
+    describe('Port number', () => {
+        test('custom port', () => {
+            expect(getJdbcUrl({ port: "1234" })).toEqual("jdbc:exa:exasoldb.example.com:1234");
+        });
+        test('missing port', () => {
+            expect(getJdbcUrl({ port: undefined })).toEqual("jdbc:exa:exasoldb.example.com");
+        });
+        test('empty port', () => {
+            expect(getJdbcUrl({ port: "" })).toEqual("jdbc:exa:exasoldb.example.com");
+        });
+        test('blank port', () => {
+            expect(getJdbcUrl({ port: " \t" })).toEqual("jdbc:exa:exasoldb.example.com");
+        });
+        test('port is trimmed', () => {
+            expect(getJdbcUrl({ port: " 1234 \t" })).toEqual("jdbc:exa:exasoldb.example.com:1234");
+        });
+    })
 
-test('no fingerprint', () => {
-    expect(getJdbcUrl({'v-fingerprint': undefined})).toEqual("jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1");
-});
+    describe('Host name', () => {
+        test('custom hostname', () => {
+            expect(getJdbcUrl({ server: "db" })).toEqual("jdbc:exa:db:8563");
+        });
+        test('undefined hostname', () => {
+            expect(getJdbcUrl({ server: undefined })).toEqual("jdbc:exa::8563");
+        });
+        test('hostname trimmed', () => {
+            expect(getJdbcUrl({ server: " \tdb\t " })).toEqual("jdbc:exa:db:8563");
+        });
+        test('hostname blank', () => {
+            expect(getJdbcUrl({ server: " \t " })).toEqual("jdbc:exa::8563");
+        });
+        test('hostname empty', () => {
+            expect(getJdbcUrl({ server: "" })).toEqual("jdbc:exa::8563");
+        });
+        test('hostname trimmed', () => {
+            expect(getJdbcUrl({ server: " \thostName\t " })).toEqual("jdbc:exa:hostName:8563");
+        });
+    });
 
-test('empty fingerprint', () => {
-    expect(getJdbcUrl({'v-fingerprint': ""})).toEqual("jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1");
-});
 
-test('blank fingerprint', () => {
-    expect(getJdbcUrl({'v-fingerprint': " "})).toEqual("jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1");
-});
+    test('no kerberos', () => {
+        expect(getJdbcUrl({ authentication: 'auth-user-pass' })).toEqual("jdbc:exa:exasoldb.example.com:8563");
+    });
 
-test('fingerprint is trimmed', () => {
-    expect(getJdbcUrl({'v-fingerprint': " abc "})).toEqual("jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1;fingerprint=abc");
-});
+    test('running on Server', () => {
+        expect(getJdbcUrl({ ':tableau-server-user': 'user' })).toEqual("jdbc:exa:exasoldb.example.com:8563");
+    });
 
-test('custom hostname', () => {
-    expect(getJdbcUrl({server: "db"})).toEqual("jdbc:exa:db:8563;validateservercertificate=1;fingerprint=15F9CA9");
-});
-
-test('no kerberos', () => {
-    expect(getJdbcUrl({authentication: 'auth-user-pass'})).toEqual("jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1;fingerprint=15F9CA9");
-});
-
-test('running on Server', () => {
-    expect(getJdbcUrl({':tableau-server-user': 'user'})).toEqual("jdbc:exa:exasoldb.example.com:8563;validateservercertificate=1;fingerprint=15F9CA9");
 });

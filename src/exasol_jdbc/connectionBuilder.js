@@ -1,3 +1,5 @@
+const { hostname } = require("os");
+
 (function dsbuilder(attr) {
     "use strict";
     const kerberosServiceName = "exasol";
@@ -6,25 +8,29 @@
         return (!str || 0 === str.trim().length);
     }
 
-    const hostName = attr[connectionHelper.attributeServer];
-    const port = attr[connectionHelper.attributePort];
-    const authentication = attr[connectionHelper.attributeAuthentication];
-    const serverAuthMode = attr[connectionHelper.attributeTableauServerAuthMode];
-    const fingerprint = attr["v-fingerprint"];
-    const validateServerCertificate = attr["v-validateservercertificate"];
-    const user = attr[connectionHelper.attributeUsername];
-
-    const fingerprintArg = !isEmpty(fingerprint) ? (";fingerprint=" + fingerprint.trim()) : "";
 
 
 
+    function getHostName() {
+        const hostName = attr[connectionHelper.attributeServer];
+        if (isEmpty(hostName) || isEmpty(hostName.trim())) {
+            return ""
+        }
+        return hostName.trim()
+    }
 
-    const portArg = isEmpty(port) ? "" : ":" + port;
+    function getPort() {
+        const port = attr[connectionHelper.attributePort];
+        if (isEmpty(port)||isEmpty(port.trim())) {
+            return "";
+        }
+        return ":"+ port.trim();
+    }
+
+
     // See https://docs.exasol.com/connect_exasol/drivers/jdbc.htm
     const url = "jdbc:exa:"
-        + hostName
-        + portArg
-        + ";validateservercertificate=" + validateServerCertificate
-        + fingerprintArg;
+        + getHostName()
+        + getPort();
     return [url];
 })
