@@ -12,13 +12,25 @@
         return attr[connectionHelper.attributeTableauServerUser];
     }
 
-    function useKerberos() {
+    function runningOnServer() {
         return !isEmpty(getServerUser());
     }
 
+
+    function useKerberos() {
+        return attr[connectionHelper.attributeAuthentication] === connectionHelper.valueAuthIntegrated
+    }
+
+
     const props = {};
 
-    if (useKerberos()) {
+    if(useKerberos()) {
+        const hostName = attr[connectionHelper.attributeServer]
+        props["kerberoshostname"] = hostName
+        props["kerberosservicename"] = "exasol"
+    }
+    
+    if (runningOnServer()) {
         props["user"] = getServerUser();
         props["loginType"] = "2";
         props["logintype"] = "gss";

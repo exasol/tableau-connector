@@ -11,55 +11,69 @@ function getProperties(attr) {
 
 describe('Tableau Desktop', () => {
     test('Username & Password auth', () => {
-        expect(getProperties({
+        const actual = getProperties({
             authentication: 'auth-user-pass',
             username: 'exauser',
             password: 'exapassword'
-        })).toMatchObject({ user: 'exauser', password: 'exapassword' });
+        });
+        expect(actual).toMatchObject({ user: 'exauser', password: 'exapassword' });
+        expect(actual.kerberoshostname).toBeUndefined();
+        expect(actual.kerberosservicename).toBeUndefined();
     });
 
     test('Kerberos auth', () => {
-        expect(getProperties({
+        const actual = getProperties({
             authentication: 'auth-integrated',
             username: ''
-        })).toMatchObject({ user: '', password: undefined });
+        });
+        expect(actual).toMatchObject({ user: '', kerberoshostname: 'exasoldb.example.com', kerberosservicename: 'exasol' });
+        expect(actual.password).toBeUndefined();
+        expect(actual.logintype).toBeUndefined();
+        expect(actual.loginType).toBeUndefined();
     });
 });
 
 describe('Tableau Server', () => {
     test('Username & password auth', () => {
-        expect(getProperties({
+        const actual = getProperties({
             authentication: 'auth-user-pass',
             'workgroup-auth-mode': 'prompt',
             username: 'exauser',
             ':tableau-server-user': undefined,
             password: 'exapassword'
-        })).toMatchObject({ user: 'exauser', password: 'exapassword' });
+        });
+        expect(actual).toMatchObject({ user: 'exauser', password: 'exapassword' });
+        expect(actual.kerberoshostname).toBeUndefined();
+        expect(actual.kerberosservicename).toBeUndefined();
     });
 
     test('RunAs auth', () => {
-        expect(getProperties({
+        const actual = getProperties({
             authentication: 'auth-integrated',
             'workgroup-auth-mode': 'as-is',
             username: '',
             ':tableau-server-user': 'tabuser',
             password: 'exapassword'
-        })).toMatchObject({ user: 'tabuser', logintype: 'gss', loginType: '2' });
+        });
+        expect(actual).toMatchObject({ user: 'tabuser', logintype: 'gss', loginType: '2', kerberoshostname: 'exasoldb.example.com', kerberosservicename: 'exasol' });
+        expect(actual.password).toBeUndefined();
     });
 
     test('Viewer Credentials auth', () => {
-        expect(getProperties({
+        const actual = getProperties({
             authentication: 'auth-integrated',
             'workgroup-auth-mode': 'kerberos-impersonate',
             username: '',
             ':tableau-server-user': 'normaluser',
             password: 'exapassword'
-        })).toMatchObject({ user: 'normaluser', logintype: 'gss', loginType: '2' });
+        });
+        expect(actual).toMatchObject({ user: 'normaluser', logintype: 'gss', loginType: '2', kerberoshostname: 'exasoldb.example.com', kerberosservicename: 'exasol' });
+        expect(actual.password).toBeUndefined();
     });
 });
 
 
-describe('Static properties', () => {
+describe('Static properties are always present', () => {
     test('client name', () => {
         const props = getProperties({})
         expect(props.clientname).toEqual("GetProductName()")

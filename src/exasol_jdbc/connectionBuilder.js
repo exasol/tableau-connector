@@ -16,14 +16,8 @@
 
     const fingerprintArg = !isEmpty(fingerprint) ? (";fingerprint=" + fingerprint.trim()) : "";
 
-    const useKerberos = authentication === connectionHelper.valueAuthIntegrated;
 
-    let kerberosArg = "";
-    if (useKerberos) {
-        // Required to activate Kerberos authentication
-        // https://www.exasol.com/support/browse/SUPPORT-26947
-        kerberosArg = ";kerberoshostname=" + hostName + ";kerberosservicename=" + kerberosServiceName;
-    }
+
 
     const portArg = isEmpty(port) ? "" : ":" + port;
     // See https://docs.exasol.com/connect_exasol/drivers/jdbc.htm
@@ -31,7 +25,6 @@
         + hostName
         + portArg
         + ";validateservercertificate=" + validateServerCertificate
-        + fingerprintArg
-        + kerberosArg;
+        + fingerprintArg;
     return [url];
 })
