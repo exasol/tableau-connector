@@ -27,11 +27,7 @@ exports.createDefaultJdbcAttr = function (customAttributes) {
     return { ...defaultAttr, ...customAttributes };
 }
 
-/**
- * @param {Object} arg
- * @param {boolean} arg.loggingEnabled
- */
-exports.defineGlobalObjects = function ({ loggingEnabled }) {
+exports.defineGlobalObjects = function () {
     connectionHelper = {
         GetPlatform: () => "win",
         GetRTK: () => "SFTableau_9c9859940b1343bdb7c15d69b37ce1af_v1.0",

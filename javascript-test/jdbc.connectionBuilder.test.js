@@ -1,6 +1,6 @@
 const { defineGlobalObjects, evalFile, createDefaultJdbcAttr } = require("./common");
 
-defineGlobalObjects({ loggingEnabled: false });
+defineGlobalObjects();
 
 const dsbuilder = evalFile("../src/exasol_jdbc/connectionBuilder.js");
 

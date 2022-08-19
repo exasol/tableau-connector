@@ -1,6 +1,6 @@
 const { defineGlobalObjects, evalFile } = require("./common");
 
-defineGlobalObjects({ loggingEnabled: false });
+defineGlobalObjects();
 
 const dsbuilder = evalFile("../src/exasol_odbc/connectionBuilder.js");
 

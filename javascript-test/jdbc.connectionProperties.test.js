@@ -1,7 +1,7 @@
 const { defineGlobalObjects, evalFile, createDefaultJdbcAttr } = require("./common");
 const { describe, expect, test } = require("@jest/globals");
 
-defineGlobalObjects({ loggingEnabled: false });
+defineGlobalObjects();
 
 const propertiesBuilder = evalFile("../src/exasol_jdbc/connectionProperties.js");
 
