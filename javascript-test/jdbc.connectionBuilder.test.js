@@ -1,4 +1,5 @@
 const { defineGlobalObjects, evalFile, createDefaultJdbcAttr } = require("./common");
+const { describe, expect, test } = require("@jest/globals");
 
 defineGlobalObjects();
 

@@ -1,4 +1,5 @@
 const { defineGlobalObjects, evalFile } = require("./common");
+const { expect, test } = require("@jest/globals");
 
 defineGlobalObjects();
 
