@@ -28,11 +28,11 @@ exports.createDefaultJdbcAttr = function (customAttributes) {
 }
 
 exports.defineGlobalObjects = function () {
-    connectionHelper = {
+    global.connectionHelper = {
         GetPlatform: () => "win",
         GetRTK: () => "SFTableau_9c9859940b1343bdb7c15d69b37ce1af_v1.0",
         FormatKeyValuePair: (key, value) => `${key}=${value}`,
-        SetImpersonateAttributes: () => { },
+        SetImpersonateAttributes: () => { /* ignore */ },
         GetProductName: () => "GetProductName()",
         GetProductVersion: () => "GetProductVersion()",
         attributeServer: 'server',
@@ -59,8 +59,8 @@ exports.defineGlobalObjects = function () {
         valueAuthUserPass: 'auth-user-pass',
         valueAuthModeDBImpersonate: 'db-impersonate'
     };
-    driverLocator = {
-        LocateDriver: (attr) => "LocateDriver result",
+    global.driverLocator = {
+        LocateDriver: (_attr) => "LocateDriver result",
         LocateDriverVersion: () => "LocateDriverVersion result",
         keywordDriver: 'DRIVER'
     };
