@@ -49,13 +49,13 @@ To verify which user account Tableau is using for connecting to Exasol, create t
 
 ```sql
 CREATE SCHEMA IF NOT EXISTS META;
-CREATE OR REPLACE VIEW META.MYSESSION AS
-  SELECT USER_NAME AS SESSION_USER_NAME, CURRENT_USER
-  FROM SYS.EXA_ALL_SESSIONS
-  WHERE SESSION_ID=CURRENT_SESSION;
+CREATE OR REPLACE VIEW META.CURRENT_SESSION_INFO AS
+   SELECT SESSION_ID, LOGIN_TIME, DURATION, USER_NAME AS SESSION_USER_NAME, CLIENT, DRIVER, ENCRYPTED
+   FROM SYS.EXA_ALL_SESSIONS
+   WHERE SESSION_ID=CURRENT_SESSION;
 ```
 
-Then add view `META.MYSESSION` to a Tableau data source and add it to a workbook sheet.
+Then add view `META.CURRENT_SESSION_INFO` to a Tableau data source and add it to a workbook sheet.
 
 ## Packaging the Connectors
 
