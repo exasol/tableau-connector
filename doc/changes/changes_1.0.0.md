@@ -4,7 +4,7 @@ Code name: Prepare for Tableau Extension Gallery
 
 ## Summary
 
-In this release we prepared the JDBC connector for submitting it to the Tableau Extension Gallery. We also extended the Troubleshooting Guide.
+In this release Exasol developers prepared the JDBC connector for submitting it to the Tableau Extension Gallery. Exasol developers also extended the Troubleshooting Guide.
 
 **Important:** Version 1.0.0 requires Tableau version 2022.1 or later because the connector now uses the new `connectionHelper.GetProductName()` and `connectionHelper.GetProductVersion()` API to report the correct client information to the Exasol database.
 
