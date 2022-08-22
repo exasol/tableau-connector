@@ -52,7 +52,7 @@ sign_jar() {
       -tsa "$timestamp_authority_server" \
       -strict
 
-      verify_signature "$signed_jar"
+    verify_signature "$signed_jar"
 }
 
 get_version() {
