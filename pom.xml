@@ -1,10 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <version>${revision}</version>
     <artifactId>tableau-connector</artifactId>
     <name>Exasol Connector for Tableau</name>
+    <description>Exasol Connector for Tableau</description>
     <packaging>pom</packaging>
+    <url>https://github.com/exasol/tableau-connector/</url>
+    <parent>
+        <relativePath>pk_generated_parent.pom</relativePath>
+        <artifactId>tableau-connector-generated-parent</artifactId>
+        <groupId>com.exasol</groupId>
+        <version>${revision}</version>
+    </parent>
     <properties>
         <revision>1.0.0</revision>
         <maven.compiler.source>11</maven.compiler.source>
@@ -26,6 +35,18 @@
     </modules>
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.exasol</groupId>
+                <artifactId>project-keeper-maven-plugin</artifactId>
+                <version>2.6.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

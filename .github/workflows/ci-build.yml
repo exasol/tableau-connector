@@ -10,11 +10,11 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Cache npm files
         uses: actions/cache@v3
@@ -32,11 +32,27 @@ jobs:
       - name: Build connectors
         run: ./tools/package_connector.sh
 
-      - name: Upload connectors
+      - name: Upload unsigned connectors
         uses: actions/upload-artifact@v2
         with:
-          name: Exasol Tableau Connectors
-          path: target/*.taco
+          name: Unsigned Exasol Tableau Connectors
+          path: target/exasol_*.taco
+
+      - name: Retrieve code signing certificate
+        run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.pfx
+        env:
+          CODE_SIGNING_CERTIFICATE_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}
+
+      - name: Sign connectors
+        run: ./tools/sign_connector.sh target/cert.pfx
+        env:
+          CODE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}
+
+      - name: Upload signed connectors
+        uses: actions/upload-artifact@v2
+        with:
+          name: Signed Exasol Tableau Connectors
+          path: target/tableau-exasol-connector-*.taco
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3
@@ -46,4 +62,4 @@ jobs:
           cache: 'maven'
 
       - name: Run unit tests
-        run: mvn --batch-mode test -DtrimStackTrace=false
+        run: mvn --batch-mode -DtrimStackTrace=false --projects . test com.exasol:project-keeper-maven-plugin:verify
