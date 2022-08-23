@@ -27,16 +27,14 @@ exports.createDefaultJdbcAttr = function (customAttributes) {
     return { ...defaultAttr, ...customAttributes };
 }
 
-/**
- * @param {Object} arg
- * @param {boolean} arg.loggingEnabled
- */
-exports.defineGlobalObjects = function ({ loggingEnabled }) {
-    connectionHelper = {
+exports.defineGlobalObjects = function () {
+    global.connectionHelper = {
         GetPlatform: () => "win",
         GetRTK: () => "SFTableau_9c9859940b1343bdb7c15d69b37ce1af_v1.0",
         FormatKeyValuePair: (key, value) => `${key}=${value}`,
-        SetImpersonateAttributes: () => { },
+        SetImpersonateAttributes: () => { /* ignore */ },
+        GetProductName: () => "GetProductName()",
+        GetProductVersion: () => "GetProductVersion()",
         attributeServer: 'server',
         attributeClass: 'class',
         attributeDatabase: 'dbname',
@@ -61,15 +59,8 @@ exports.defineGlobalObjects = function ({ loggingEnabled }) {
         valueAuthUserPass: 'auth-user-pass',
         valueAuthModeDBImpersonate: 'db-impersonate'
     };
-    logging = {
-        Log: function (arg) {
-            if (loggingEnabled) {
-                console.log(arg);
-            }
-        }
-    };
-    driverLocator = {
-        LocateDriver: (attr) => "LocateDriver result",
+    global.driverLocator = {
+        LocateDriver: (_attr) => "LocateDriver result",
         LocateDriverVersion: () => "LocateDriverVersion result",
         keywordDriver: 'DRIVER'
     };

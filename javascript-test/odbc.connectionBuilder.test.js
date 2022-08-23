@@ -1,6 +1,7 @@
 const { defineGlobalObjects, evalFile } = require("./common");
+const { expect, test } = require("@jest/globals");
 
-defineGlobalObjects({ loggingEnabled: false });
+defineGlobalObjects();
 
 const dsbuilder = evalFile("../src/exasol_odbc/connectionBuilder.js");
 

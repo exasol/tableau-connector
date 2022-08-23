@@ -2,9 +2,6 @@ package com.exasol.tableau;
 
 import static com.exasol.tableau.TableauServerConfiguration.EXASOL_PORT;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.junit.jupiter.api.Test;
 
 import com.exasol.tableau.Workbook.Builder;
@@ -25,18 +22,7 @@ class JdbcConnectorIT extends TableauServerUiBaseIT {
     }
 
     private String getActualFingerprint() {
-        return extractFingerprint(EXASOL.getJdbcUrl());
-    }
-
-    private static String extractFingerprint(final String jdbcUrl) {
-        if (jdbcUrl.contains("validateservercertificate=0")) {
-            throw new AssertionError("JDBC url '" + jdbcUrl + "' does not validate certificate");
-        }
-        final Matcher matcher = Pattern.compile("jdbc:exa:[^/]+/([^:]+):.*").matcher(jdbcUrl);
-        if (!matcher.matches()) {
-            throw new IllegalStateException("Error extracting fingerprint from '" + jdbcUrl + "'");
-        }
-        return matcher.group(1);
+        return EXASOL.getTlsCertificateFingerprint().get();
     }
 
     @Test

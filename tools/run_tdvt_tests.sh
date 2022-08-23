@@ -37,7 +37,7 @@ run_tests () {
     rm -f "$test_results_archive"
     echo "Copy test results to $test_results_dir"
     mkdir -p "$test_results_dir"
-    cp tabquery_logs.zip tdvt_actuals_combined.zip tdvt_output_combined.json test_results_combined.csv tdvt.log_combined.txt "$test_results_dir"
+    cp tabquery_logs.zip tdvt_actuals_combined.zip tdvt_output_combined.json test_results_combined.csv "$test_results_dir"
     cd "$test_results_dir/.."
     tar -czf "${test_results_archive}" "$test_results_dir_name"
     echo "Created test result archive $test_results_archive"
