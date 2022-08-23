@@ -1,11 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tableau-server-GUI-tests</artifactId>
     <name>Tableau Server GUI Tests</name>
+    <description>UI tests for the connector with Tableau Server</description>
+    <url>https://github.com/exasol/tableau-connector/</url>
     <parent>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>pk_generated_parent.pom</relativePath>
         <groupId>com.exasol</groupId>
-        <artifactId>tableau-connector</artifactId>
+        <artifactId>tableau-server-GUI-tests-generated-parent</artifactId>
         <version>${revision}</version>
     </parent>
     <dependencies>
@@ -66,6 +69,18 @@
     </dependencies>
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.exasol</groupId>
+                <artifactId>project-keeper-maven-plugin</artifactId>
+                <version>2.6.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>

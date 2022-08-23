@@ -24,6 +24,67 @@ In this release Exasol developers prepared the JDBC connector for submitting it 
 
 ## Dependency Updates
 
-### Test Dependencies
+### JDBC Kerberos Setup Tests
 
-* Upgraded JavaScript test library `jest ^27.4.7` to `^27.5.1` to fix [CVE-2021-44906](https://github.com/advisories/GHSA-xvch-5gv4-984h) in `minimist`
+#### Runtime Dependency Updates
+
+* Updated `com.exasol:exasol-jdbc:7.1.2` to `7.1.11`
+
+#### Test Dependency Updates
+
+* Updated `org.junit.jupiter:junit-jupiter:5.8.1` to `5.9.0`
+
+#### Plugin Dependency Updates
+
+* Added `com.exasol:error-code-crawler-maven-plugin:1.1.2`
+* Added `com.exasol:project-keeper-maven-plugin:2.6.2`
+* Added `io.github.zlika:reproducible-build-maven-plugin:0.15`
+* Updated `org.apache.maven.plugins:maven-compiler-plugin:3.8.1` to `3.10.1`
+* Updated `org.apache.maven.plugins:maven-enforcer-plugin:3.0.0` to `3.1.0`
+* Updated `org.apache.maven.plugins:maven-failsafe-plugin:3.0.0-M5` to `3.0.0-M6`
+* Added `org.codehaus.mojo:flatten-maven-plugin:1.2.7`
+* Updated `org.codehaus.mojo:versions-maven-plugin:2.8.1` to `2.10.0`
+* Added `org.jacoco:jacoco-maven-plugin:0.8.8`
+* Added `org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.1.2184`
+* Added `org.sonatype.ossindex.maven:ossindex-maven-plugin:3.2.0`
+
+### Tableau Server GUI Tests
+
+#### Test Dependency Updates
+
+* Updated `com.exasol:exasol-testcontainers:5.1.1` to `6.2.0`
+* Updated `com.exasol:test-db-builder-java:3.2.1` to `3.3.4`
+* Updated `io.github.bonigarcia:webdrivermanager:5.0.3` to `5.3.0`
+* Updated `org.json:json:20210307` to `20220320`
+* Updated `org.junit.jupiter:junit-jupiter:5.8.1` to `5.9.0`
+* Updated `org.mockito:mockito-junit-jupiter:4.0.0` to `4.7.0`
+* Updated `org.seleniumhq.selenium:selenium-java:4.0.0` to `4.4.0`
+* Updated `org.testcontainers:junit-jupiter:1.16.2` to `1.17.3`
+
+#### Plugin Dependency Updates
+
+* Added `com.exasol:error-code-crawler-maven-plugin:1.1.2`
+* Added `com.exasol:project-keeper-maven-plugin:2.6.2`
+* Added `io.github.zlika:reproducible-build-maven-plugin:0.15`
+* Updated `org.apache.maven.plugins:maven-compiler-plugin:3.8.1` to `3.10.1`
+* Updated `org.apache.maven.plugins:maven-enforcer-plugin:3.0.0` to `3.1.0`
+* Updated `org.apache.maven.plugins:maven-failsafe-plugin:3.0.0-M5` to `3.0.0-M6`
+* Added `org.codehaus.mojo:flatten-maven-plugin:1.2.7`
+* Updated `org.codehaus.mojo:versions-maven-plugin:2.8.1` to `2.10.0`
+* Added `org.jacoco:jacoco-maven-plugin:0.8.8`
+* Added `org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.1.2184`
+* Added `org.sonatype.ossindex.maven:ossindex-maven-plugin:3.2.0`
+
+### Exasol Connector for Tableau
+
+#### Plugin Dependency Updates
+
+* Added `com.exasol:error-code-crawler-maven-plugin:1.1.2`
+* Added `com.exasol:project-keeper-maven-plugin:2.6.2`
+* Added `io.github.zlika:reproducible-build-maven-plugin:0.15`
+* Updated `org.apache.maven.plugins:maven-failsafe-plugin:3.0.0-M5` to `3.0.0-M6`
+* Updated `org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M5` to `3.0.0-M6`
+* Added `org.codehaus.mojo:flatten-maven-plugin:1.2.7`
+* Added `org.jacoco:jacoco-maven-plugin:0.8.8`
+* Added `org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.1.2184`
+* Added `org.sonatype.ossindex.maven:ossindex-maven-plugin:3.2.0`
