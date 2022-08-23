@@ -20,7 +20,14 @@ if [[ ! -f "$keystore" ]] ; then
     exit 1
 fi
 
+get_sha256() {
+    file="$1"
+    sha256sum --binary "$file"
+}
+
 echo "Signing JDBC and ODBC connectors using keystore $keystore"
+keystore_sha256=$(get_sha256 "$keystore")
+echo "Sha256 sum: $keystore_sha256"
 
 storepass=${CODE_SIGNING_CERTIFICATE_PASSWORD-}
 
