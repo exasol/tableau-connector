@@ -28,6 +28,7 @@ get_sha256() {
 echo "Signing JDBC and ODBC connectors using keystore $keystore"
 keystore_sha256=$(get_sha256 "$keystore")
 echo "Sha256 sum: $keystore_sha256"
+ls -la "$keystore"
 
 storepass=${CODE_SIGNING_CERTIFICATE_PASSWORD-}
 
@@ -38,6 +39,9 @@ if [[ -z "${storepass}" ]] ; then
 else
     echo "Using keystore password from environment variable CODE_SIGNING_CERTIFICATE_PASSWORD"
 fi
+
+echo "password: sha256sum:"
+echo -n "$storepass" | sha256sum
 
 verify_signature() {
     signed_jar="$1"
