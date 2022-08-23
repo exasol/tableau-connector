@@ -1,4 +1,4 @@
-# Exasol Tableau Connector 1.0.0, released 2022-08-??
+# Exasol Tableau Connector 1.0.0, released 2022-08-23
  
 Code name: Prepare for Tableau Extension Gallery
 
@@ -7,6 +7,8 @@ Code name: Prepare for Tableau Extension Gallery
 In this release Exasol developers prepared the JDBC connector for submitting it to the Tableau Extension Gallery. Exasol developers also extended the Troubleshooting Guide.
 
 **Important:** Version 1.0.0 requires Tableau version 2022.1 or later because the connector now uses the new `connectionHelper.GetProductName()` and `connectionHelper.GetProductVersion()` API to report the correct client information to the Exasol database.
+
+**Important:** The certificate used to sign this version is valid until 2023-09-11. In [#55](https://github.com/exasol/tableau-connector/issues/55) we will update the certificate.
 
 ## Refactoring
 
