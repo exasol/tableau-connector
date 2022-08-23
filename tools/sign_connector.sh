@@ -21,9 +21,16 @@ if [[ ! -f "$keystore" ]] ; then
 fi
 
 echo "Signing JDBC and ODBC connectors using keystore $keystore"
-echo -n "Enter password for keystore:"
-read -rs storepass
-echo
+
+storepass=${CODE_SIGNING_CERTIFICATE_PASSWORD-}
+
+if [[ -z "${storepass}" ]] ; then
+    echo -n "Enter password for keystore:"
+    read -rs storepass
+    echo
+else
+    echo "Using keystore password from environment variable CODE_SIGNING_CERTIFICATE_PASSWORD"
+fi
 
 verify_signature() {
     signed_jar="$1"

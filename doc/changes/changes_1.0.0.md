@@ -10,6 +10,10 @@ In this release Exasol developers prepared the JDBC connector for submitting it 
 
 **Important:** The certificate used to sign this version is valid until 2023-09-11. In [#55](https://github.com/exasol/tableau-connector/issues/55) we will update the certificate.
 
+## Features
+
+* #56: Sign connectors during CI build
+
 ## Refactoring
 
 * #53: Prepared for Extension Gallery
