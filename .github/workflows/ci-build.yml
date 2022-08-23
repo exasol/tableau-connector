@@ -62,4 +62,4 @@ jobs:
           cache: 'maven'
 
       - name: Run unit tests
-        run: mvn --batch-mode test -DtrimStackTrace=false
+        run: mvn --batch-mode -DtrimStackTrace=false --projects . test com.exasol:project-keeper-maven-plugin:verify
