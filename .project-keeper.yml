@@ -20,7 +20,6 @@ version:
   fromSource: pom.xml
 excludes:
   - regex: "(?s)E-PK-CORE-62: The project's README\\.md does not contain a valid badges block\\. Please add or replace the following badges.*"
-  - regex: "(?s)E-PK-CORE-53: The dependencies.md file has outdated content.*"
   - "E-PK-CORE-18: Outdated content: '.github/workflows/ci-build.yml'"
   - "E-PK-CORE-17: Missing required file: '.github/workflows/ci-build-next-java.yml'"
   - "E-PK-CORE-17: Missing required file: '.github/workflows/dependencies_check.yml'"

@@ -1,87 +1,148 @@
-
+<!-- @formatter:off -->
 # Dependencies
 
-## Runtime Dependencies
+## Jdbc Kerberos Setup Tests
 
-To use the Exasol Tableau Connector, you need [Tableau Desktop](https://www.tableau.com/products/desktop) or [Tableau Server](https://www.tableau.com/products/server), both in version 2021.1 or later. See the respective websites for transitive dependencies.
+### Test Dependencies
 
-## Build Time Dependencies
+| Dependency                      | License                          |
+| ------------------------------- | -------------------------------- |
+| [Hamcrest][0]                   | [BSD License 3][1]               |
+| [JUnit Jupiter (Aggregator)][2] | [Eclipse Public License v2.0][3] |
 
-Building the Exasol Tableau Connector using [package_connector.sh](./tools/package_connector.sh) has the following dependencies:
+### Runtime Dependencies
 
-* Bash: [GNU General Public License 3.0][GPL3]
-* Python 3: [PSF License](https://docs.python.org/3/license.html#psf-license-agreement-for-python-release)
-* The [connector-packager](https://github.com/tableau/connector-plugin-sdk/tree/master/connector-packager) provided by Tableau. See the [repository](https://github.com/tableau/connector-plugin-sdk) for transitive dependencies. License: [MIT](https://github.com/tableau/connector-plugin-sdk/blob/master/connector-packager/LICENSE)
+| Dependency                   | License                |
+| ---------------------------- | ---------------------- |
+| [EXASolution JDBC Driver][4] | [EXAClient License][5] |
 
-Signing the Exasol Tableau Connector using [sign_connector.sh](./tools/sign_connector.sh) has the following dependencies:
+### Plugin Dependencies
 
-* Bash: [GNU General Public License 3.0][GPL3]
-* `jarsigner` from a Java Development Kit, e.g. [Adoptium](https://adoptium.net/). License of Adoptium: [Eclipse Public License - v 2.0][EPL2]
+| Dependency                                              | License                                        |
+| ------------------------------------------------------- | ---------------------------------------------- |
+| [SonarQube Scanner for Maven][6]                        | [GNU LGPL 3][7]                                |
+| [Project keeper maven plugin][8]                        | [The MIT License][9]                           |
+| [Apache Maven Compiler Plugin][10]                      | [Apache License, Version 2.0][11]              |
+| [Apache Maven Enforcer Plugin][12]                      | [Apache License, Version 2.0][11]              |
+| [Maven Flatten Plugin][13]                              | [Apache Software Licenese][14]                 |
+| [org.sonatype.ossindex.maven:ossindex-maven-plugin][15] | [ASL2][14]                                     |
+| [Maven Surefire Plugin][16]                             | [Apache License, Version 2.0][11]              |
+| [Maven Failsafe Plugin][17]                             | [Apache License, Version 2.0][11]              |
+| [Versions Maven Plugin][18]                             | [Apache License, Version 2.0][11]              |
+| [JaCoCo :: Maven Plugin][19]                            | [Eclipse Public License 2.0][20]               |
+| [error-code-crawler-maven-plugin][21]                   | [MIT License][22]                              |
+| [Reproducible Build Maven Plugin][23]                   | [Apache 2.0][14]                               |
+| [Maven Clean Plugin][24]                                | [The Apache Software License, Version 2.0][14] |
+| [Maven Resources Plugin][25]                            | [The Apache Software License, Version 2.0][14] |
+| [Maven JAR Plugin][26]                                  | [The Apache Software License, Version 2.0][14] |
+| [Maven Install Plugin][27]                              | [The Apache Software License, Version 2.0][14] |
+| [Maven Deploy Plugin][28]                               | [The Apache Software License, Version 2.0][14] |
+| [Maven Site Plugin 3][29]                               | [The Apache Software License, Version 2.0][14] |
 
-## Test Dependencies
+## Tableau Server gui Tests
 
-### Tableau Connector TDVT Tests
+### Test Dependencies
 
-Running the TDVT tests for the connectors has the following dependencies:
+| Dependency                                      | License                                        |
+| ----------------------------------------------- | ---------------------------------------------- |
+| [org.seleniumhq.selenium:selenium-java][30]     | [The Apache Software License, Version 2.0][14] |
+| [Hamcrest][0]                                   | [BSD License 3][1]                             |
+| [JUnit Jupiter (Aggregator)][2]                 | [Eclipse Public License v2.0][3]               |
+| [WebDriverManager][31]                          | [Apache 2.0][32]                               |
+| [mockito-junit-jupiter][33]                     | [The MIT License][34]                          |
+| [JSON in Java][35]                              | [The JSON License][36]                         |
+| [Testcontainers :: JUnit Jupiter Extension][37] | [MIT][38]                                      |
+| [Test containers for Exasol on Docker][39]      | [MIT License][40]                              |
+| [Test Database Builder for Java][41]            | [MIT License][42]                              |
 
-* Python 3.9.0 or later: [PSF License](https://docs.python.org/3/license.html#psf-license-agreement-for-python-release)
-* [TDVT Test framework](https://github.com/tableau/connector-plugin-sdk/tree/master/tdvt) 2.6.1 or later. See the [repository](https://github.com/tableau/connector-plugin-sdk) for transitive dependencies. License: [MIT](https://github.com/tableau/connector-plugin-sdk/blob/master/tdvt/LICENSE.txt)
+### Plugin Dependencies
 
-### Tableau Connector JavaScript Tests
+| Dependency                                              | License                                        |
+| ------------------------------------------------------- | ---------------------------------------------- |
+| [SonarQube Scanner for Maven][6]                        | [GNU LGPL 3][7]                                |
+| [Project keeper maven plugin][8]                        | [The MIT License][9]                           |
+| [Apache Maven Compiler Plugin][10]                      | [Apache License, Version 2.0][11]              |
+| [Apache Maven Enforcer Plugin][12]                      | [Apache License, Version 2.0][11]              |
+| [Maven Flatten Plugin][13]                              | [Apache Software Licenese][14]                 |
+| [org.sonatype.ossindex.maven:ossindex-maven-plugin][15] | [ASL2][14]                                     |
+| [Maven Surefire Plugin][16]                             | [Apache License, Version 2.0][11]              |
+| [Maven Failsafe Plugin][17]                             | [Apache License, Version 2.0][11]              |
+| [Versions Maven Plugin][18]                             | [Apache License, Version 2.0][11]              |
+| [JaCoCo :: Maven Plugin][19]                            | [Eclipse Public License 2.0][20]               |
+| [error-code-crawler-maven-plugin][21]                   | [MIT License][22]                              |
+| [Reproducible Build Maven Plugin][23]                   | [Apache 2.0][14]                               |
+| [Exec Maven Plugin][43]                                 | [Apache License 2][14]                         |
+| [Maven Clean Plugin][24]                                | [The Apache Software License, Version 2.0][14] |
+| [Maven Resources Plugin][25]                            | [The Apache Software License, Version 2.0][14] |
+| [Maven JAR Plugin][26]                                  | [The Apache Software License, Version 2.0][14] |
+| [Maven Install Plugin][27]                              | [The Apache Software License, Version 2.0][14] |
+| [Maven Deploy Plugin][28]                               | [The Apache Software License, Version 2.0][14] |
+| [Maven Site Plugin 3][29]                               | [The Apache Software License, Version 2.0][14] |
 
-Running the tests located in the [javascript-test](./javascript-test/) folder has the following dependencies:
+## Exasol Connector for Tableau
 
-* Node.js 16 or later: [Node.js License](https://raw.githubusercontent.com/nodejs/node/master/LICENSE)
-* Npm: [The Artistic License 2.0](https://github.com/npm/cli/blob/latest/LICENSE)
-* jest: [MIT](https://github.com/facebook/jest/blob/main/LICENSE)
+### Plugin Dependencies
 
-See [package.json](./javascript-test/package.json) for detailed version numbers.
+| Dependency                                              | License                                        |
+| ------------------------------------------------------- | ---------------------------------------------- |
+| [SonarQube Scanner for Maven][6]                        | [GNU LGPL 3][7]                                |
+| [Project keeper maven plugin][8]                        | [The MIT License][9]                           |
+| [Apache Maven Compiler Plugin][10]                      | [Apache License, Version 2.0][11]              |
+| [Apache Maven Enforcer Plugin][12]                      | [Apache License, Version 2.0][11]              |
+| [Maven Flatten Plugin][13]                              | [Apache Software Licenese][14]                 |
+| [org.sonatype.ossindex.maven:ossindex-maven-plugin][15] | [ASL2][14]                                     |
+| [Maven Surefire Plugin][16]                             | [Apache License, Version 2.0][11]              |
+| [Maven Failsafe Plugin][17]                             | [Apache License, Version 2.0][11]              |
+| [Versions Maven Plugin][18]                             | [Apache License, Version 2.0][11]              |
+| [JaCoCo :: Maven Plugin][19]                            | [Eclipse Public License 2.0][20]               |
+| [error-code-crawler-maven-plugin][21]                   | [MIT License][22]                              |
+| [Reproducible Build Maven Plugin][23]                   | [Apache 2.0][14]                               |
+| [Maven Clean Plugin][24]                                | [The Apache Software License, Version 2.0][14] |
+| [Maven Install Plugin][27]                              | [The Apache Software License, Version 2.0][14] |
+| [Maven Deploy Plugin][28]                               | [The Apache Software License, Version 2.0][14] |
+| [Maven Site Plugin 3][29]                               | [The Apache Software License, Version 2.0][14] |
 
-### Common Dependencies for Maven Test Modules
-
-Maven Test Modules [tableau-server-GUI-tests](./tableau-server-GUI-tests/) and [jdbc-kerberos-setup-test](./jdbc-kerberos-setup-test/) have the following common dependencies:
-
-* Apache Maven 3.6.3 or later: [Apache License Version 2.0][Apache2]
-* Plugins:
-    * `org.apache.maven.plugins:maven-compiler-plugin`: [Apache License Version 2.0][Apache2]
-    * `org.apache.maven.plugins:maven-surefire-plugin`: [Apache License Version 2.0][Apache2]
-    * `org.apache.maven.plugins:maven-failsafe-plugin`: [Apache License Version 2.0][Apache2]
-    * `org.apache.maven.pluginsmaven-enforcer-plugin`: [Apache License Version 2.0][Apache2]
-    * `org.codehaus.mojo:versions-maven-plugin`: [Apache License Version 2.0][Apache2]
-
-See [pom.xml](./pom.xml) for detailed version numbers.
-
-### Tableau Server GUI Tests
-
-Running the UI tests located in the [tableau-server-GUI-tests](./tableau-server-GUI-tests/) folder has the following dependencies:
-
-* Test compile dependencies:
-    * `org.seleniumhq.selenium:selenium-java`: [Apache License Version 2.0](https://github.com/SeleniumHQ/selenium/blob/trunk/LICENSE)
-    * `org.hamcrest:hamcrest`: [BSD License 3][BSD3]
-    * `org.junit.jupiter:junit-jupiter`: [Eclipse Public License v2.0][EPL2]
-    * `io.github.bonigarcia:webdrivermanager`: [Apache License 2.0](https://github.com/bonigarcia/webdrivermanager/blob/master/LICENSE)
-    * `org.mockito:mockito-junit-jupiter`: [MIT](https://github.com/mockito/mockito/blob/main/LICENSE)
-    * `org.json:json`: [The JSON License](https://json.org/license.html) (The Software shall be used for Good, not Evil.)
-    * `org.testcontainers:junit-jupiter`: [MIT](https://github.com/testcontainers/testcontainers-java/blob/master/LICENSE)
-    * `com.exasol:exasol-testcontainers`: [MIT](https://github.com/exasol/exasol-testcontainers/blob/main/LICENSE)
-    * `com.exasol:test-db-builder-java`: [MIT](https://github.com/exasol/test-db-builder-java/blob/main/LICENSE)
-* Plugins
-    * `org.codehaus.mojo:exec-maven-plugin`: [Apache License 2](https://www.mojohaus.org/exec-maven-plugin/licenses.html)
-
-See files [pom.xml](./pom.xml) and [tableau-server-GUI-tests/pom.xml](./tableau-server-GUI-tests/pom.xml) for detailed version numbers.
-
-### JDBC Kerberos Test Setup
-
-Running the JDBC Kerberos setup tests located in [jdbc-kerberos-setup-test](./jdbc-kerberos-setup-test/) has the following dependencies:
-
-* Test compile dependencies:
-    * `org.hamcrest:hamcrest`: [BSD License 3][BSD3]
-    * `org.junit.jupiter:junit-jupiter`: [Eclipse Public License v2.0][EPL2]
-    * `com.exasol:exasol-jdbc`: [EXAClient License](https://docs.exasol.com/connect_exasol/drivers/jdbc.htm)
-
-See files [pom.xml](./pom.xml) and [jdbc-kerberos-setup-test/pom.xml](./jdbc-kerberos-setup-test/pom.xml) for detailed version numbers.
-
-[Apache2]: https://www.apache.org/licenses/LICENSE-2.0
-[BSD3]: http://opensource.org/licenses/BSD-3-Clause
-[EPL2]: https://www.eclipse.org/legal/epl-2.0/
-[GPL3]: https://www.gnu.org/licenses/gpl-3.0
+[0]: http://hamcrest.org/JavaHamcrest/
+[1]: http://opensource.org/licenses/BSD-3-Clause
+[2]: https://junit.org/junit5/
+[3]: https://www.eclipse.org/legal/epl-v20.html
+[4]: http://www.exasol.com
+[5]: https://docs.exasol.com/connect_exasol/drivers/jdbc.htm
+[6]: http://sonarsource.github.io/sonar-scanner-maven/
+[7]: http://www.gnu.org/licenses/lgpl.txt
+[8]: https://github.com/exasol/project-keeper/
+[9]: https://github.com/exasol/project-keeper/blob/main/LICENSE
+[10]: https://maven.apache.org/plugins/maven-compiler-plugin/
+[11]: https://www.apache.org/licenses/LICENSE-2.0.txt
+[12]: https://maven.apache.org/enforcer/maven-enforcer-plugin/
+[13]: https://www.mojohaus.org/flatten-maven-plugin/
+[14]: http://www.apache.org/licenses/LICENSE-2.0.txt
+[15]: https://sonatype.github.io/ossindex-maven/maven-plugin/
+[16]: https://maven.apache.org/surefire/maven-surefire-plugin/
+[17]: https://maven.apache.org/surefire/maven-failsafe-plugin/
+[18]: http://www.mojohaus.org/versions-maven-plugin/
+[19]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
+[20]: https://www.eclipse.org/legal/epl-2.0/
+[21]: https://github.com/exasol/error-code-crawler-maven-plugin/
+[22]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
+[23]: http://zlika.github.io/reproducible-build-maven-plugin
+[24]: http://maven.apache.org/plugins/maven-clean-plugin/
+[25]: http://maven.apache.org/plugins/maven-resources-plugin/
+[26]: http://maven.apache.org/plugins/maven-jar-plugin/
+[27]: http://maven.apache.org/plugins/maven-install-plugin/
+[28]: http://maven.apache.org/plugins/maven-deploy-plugin/
+[29]: http://maven.apache.org/plugins/maven-site-plugin/
+[30]: https://selenium.dev/
+[31]: https://bonigarcia.dev/webdrivermanager/
+[32]: https://www.apache.org/licenses/LICENSE-2.0
+[33]: https://github.com/mockito/mockito
+[34]: https://github.com/mockito/mockito/blob/main/LICENSE
+[35]: https://github.com/douglascrockford/JSON-java
+[36]: http://json.org/license.html
+[37]: https://testcontainers.org
+[38]: http://opensource.org/licenses/MIT
+[39]: https://github.com/exasol/exasol-testcontainers/
+[40]: https://github.com/exasol/exasol-testcontainers/blob/main/LICENSE
+[41]: https://github.com/exasol/test-db-builder-java/
+[42]: https://github.com/exasol/test-db-builder-java/blob/main/LICENSE
+[43]: http://www.mojohaus.org/exec-maven-plugin

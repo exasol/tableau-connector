@@ -32,5 +32,6 @@ The Exasol Tableau Connector is an adapter, that maps Exasol's analytical capabi
 
 ## Additional Resources
 
-* [Dependencies](dependencies.md)
+* [Tableau Dependencies](tableau_dependencies.md)
++ [Dependencies](dependencies.md)
 * [Changelog](doc/changes/changelog.md)
