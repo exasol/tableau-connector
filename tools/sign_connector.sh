@@ -4,7 +4,8 @@ set -euo pipefail
 project_dir="$( cd "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )"
 target_dir="$project_dir/target"
 
-timestamp_authority_server="http://ts.ssl.com"
+#timestamp_authority_server="http://ts.ssl.com"
+timestamp_authority_server="http://timestamp.sectigo.com"
 key_alias="1"
 
 if [[ -z "${1+x}" ]] ; then
