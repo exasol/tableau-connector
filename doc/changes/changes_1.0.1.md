@@ -9,3 +9,27 @@ Starting with this release the connector is now signed with a certificate that i
 ## Features
 
 * #55: Sign connectors with new certificate
+
+## Dependency Updates
+
+### JDBC Kerberos Setup Tests
+
+#### Plugin Dependency Updates
+
+* Removed `org.apache.maven.plugins:maven-failsafe-plugin:3.0.0-M6`
+
+### Tableau Server GUI Tests
+
+#### Plugin Dependency Updates
+
+* Removed `org.apache.maven.plugins:maven-failsafe-plugin:3.0.0-M6`
+
+### Exasol Connector for Tableau
+
+#### Plugin Dependency Updates
+
+* Updated `org.apache.maven.plugins:maven-compiler-plugin:3.8.1` to `3.10.1`
+* Updated `org.apache.maven.plugins:maven-enforcer-plugin:3.0.0` to `3.1.0`
+* Removed `org.apache.maven.plugins:maven-failsafe-plugin:3.0.0-M6`
+* Updated `org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M6` to `3.0.0-M5`
+* Updated `org.codehaus.mojo:versions-maven-plugin:2.8.1` to `2.10.0`

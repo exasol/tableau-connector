@@ -61,5 +61,5 @@ jobs:
           java-version: 11
           cache: 'maven'
 
-      - name: Run unit tests
+      - name: Project Keeper Verify
         run: mvn --batch-mode -DtrimStackTrace=false --projects . test com.exasol:project-keeper-maven-plugin:verify
