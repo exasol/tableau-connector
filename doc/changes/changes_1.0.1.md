@@ -1,10 +1,10 @@
-# Tableau Connector 1.0.1, released 2022-09-02
+# Tableau Connector 1.0.1, released 2022-09-14
 
 Code name: New certificate
 
 ## Summary
 
-Starting with this release the connector is now signed with a certificate that is valid until 2023-09-11. The timestamp service certificate is valid until 2033-08-10.
+Starting with this release the connector is now signed with a certificate that is valid until 2023-09-11. The timestamp service certificate is valid until 2033-08-11.
 
 ## Features
 
