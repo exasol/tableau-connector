@@ -26,7 +26,7 @@ describe('Tableau Desktop', () => {
             authentication: 'auth-integrated',
             username: ''
         });
-        expect(actual).toMatchObject({ user: '', kerberoshostname: 'exasoldb.example.com', kerberosservicename: 'exasol' });
+        expect(actual).toMatchObject({ kerberoshostname: 'exasoldb.example.com', kerberosservicename: 'exasol' });
         expect(actual.password).toBeUndefined();
         expect(actual.logintype).toBeUndefined();
         expect(actual.loginType).toBeUndefined();

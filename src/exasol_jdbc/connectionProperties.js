@@ -42,12 +42,11 @@
         const hostName = attr[connectionHelper.attributeServer];
         props["kerberoshostname"] = hostName;
         props["kerberosservicename"] = "exasol";
-    }
-
-    if (runningOnServer()) {
-        props["user"] = getServerUser();
-        props["loginType"] = "2";
-        props["logintype"] = "gss";
+        if (runningOnServer()) {
+            props["user"] = getServerUser();
+            props["loginType"] = "2";
+            props["logintype"] = "gss";
+        }
     } else {
         props["user"] = attr[connectionHelper.attributeUsername];
         props["password"] = attr[connectionHelper.attributePassword];
