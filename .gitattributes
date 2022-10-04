@@ -1,7 +1,6 @@
-*.sh    text eol=lf
-*.bat   text eol=crlf
+*.sh text eol=lf
 
-pk_generated_parent.pom       linguist-generated=true
-dependencies.md               linguist-generated=true
-versionsMavenPluginRules.xml  linguist-generated=true
-doc/changes/changelog.md      linguist-generated=true
+.github/workflows/broken_links_checker.yml linguist-generated=true
+dependencies.md                            linguist-generated=true
+pk_generated_parent.pom                    linguist-generated=true
+doc/changes/changelog.md                   linguist-generated=true
