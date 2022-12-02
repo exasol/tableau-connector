@@ -49,7 +49,7 @@
 | [JUnit Jupiter (Aggregator)][2]                 | [Eclipse Public License v2.0][3]               |
 | [WebDriverManager][30]                          | [Apache 2.0][31]                               |
 | [mockito-junit-jupiter][32]                     | [The MIT License][33]                          |
-| [JSON in Java][34]                              | [The JSON License][35]                         |
+| [JSON in Java][34]                              | [Public Domain][35]                            |
 | [Testcontainers :: JUnit Jupiter Extension][36] | [MIT][37]                                      |
 | [Test containers for Exasol on Docker][38]      | [MIT License][39]                              |
 | [Test Database Builder for Java][40]            | [MIT License][41]                              |
@@ -134,7 +134,7 @@
 [32]: https://github.com/mockito/mockito
 [33]: https://github.com/mockito/mockito/blob/main/LICENSE
 [34]: https://github.com/douglascrockford/JSON-java
-[35]: http://json.org/license.html
+[35]: https://github.com/stleary/JSON-java/blob/master/LICENSE
 [36]: https://testcontainers.org
 [37]: http://opensource.org/licenses/MIT
 [38]: https://github.com/exasol/exasol-testcontainers/
