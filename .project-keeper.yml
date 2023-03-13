@@ -16,6 +16,9 @@ sources:
       relativePath: "../pom.xml"
   - type: maven
     path: pom.xml
+# Will be added in https://github.com/exasol/tableau-connector/issues/66
+#  - type: npm
+#    path: javascript-test/package.json
 version:
   fromSource: pom.xml
 excludes:
