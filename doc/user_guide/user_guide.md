@@ -2,29 +2,31 @@
 
 ## Note
 
-**Currently the Tableau connector developed in this repository is signed by Exasol, but not certificated and shipped by Tableau and is not recommended for production environments.**
-
 The Exasol ODBC Tableau Connector is distributed together with Tableau Desktop and Tableau Server applications. We recommend using the latest available version of Tableau products to access the connector.
 
 ![JDBC connection dialog](../images/jdbc_connection_dialog_kerberos.png "JDBC connection dialog")
 
-If you want to use the currently developed versions of connector for JDBC and ODBC, you can follow the guide below and install the connector disabling sign verification.
+If you want to use the connector for JDBC, you can download it from the [Tableau Exchange Extension Gallery](https://exchange.tableau.com/products/698).
 
-## Testing In-Development Connector
-
-You can download the latest connectors for JDBC and ODBC as `.taco` files from the [GitHub release page](https://github.com/exasol/tableau-connector/releases).
+You can also download the latest connectors for JDBC and ODBC as `.taco` files from the [GitHub release page](https://github.com/exasol/tableau-connector/releases).
 
 ### Preconditions
 
-#### Install the JDBC Driver
+#### JDBC Driver
 
 The connector for JDBC requires the Exasol JDBC driver to be installed for Tableau Desktop and Server.
 
 Download and install the latest Exasol JDBC driver for your operating system from the [Exasol download page](https://downloads.exasol.com/clients-and-drivers/jdbc).
 
+##### JDBC Driver Version
+
 **Important note for Kerberos:** When using Kerberos on Tableau Server you need at least version 7.1.3 of the Exasol JDBC driver.
 
 **Important note for Windows:** Make sure to download and install file `EXASOL_JDBC-<version>.msi`. This will install the JDBC driver to `C:\Program Files\Exasol\EXASolution-7.1\JDBC\exajdbc.jar`. Only the JDBC driver for Windows supports Kerberos under Windows.
+
+We recommend to use JDBC driver version 7.1.16 or later because starting with this version the JDBC driver reports error status code 28000 (`SQLSTATE_INVALID_AUTH_MODE`) when authentication fails. This status code allows Tableau to display an appropriate error message in case of authentication errors.
+
+##### Install the JDBC Driver
 
 Copy the JDBC driver `exajdbc.jar` to the Tableau installation directory:
 
@@ -37,7 +39,7 @@ Copy the JDBC driver `exajdbc.jar` to the Tableau installation directory:
 
 #### Install the ODBC Driver
 
-The connector for ODBC requres the Exasol ODBC driver to be installed for Tableau Desktop and Server.
+The connector for ODBC requires the Exasol ODBC driver to be installed for Tableau Desktop and Server.
 
 Download and install the latest Exasol ODBC driver for your operating system from the [Exasol download page](https://downloads.exasol.com/clients-and-drivers/odbc).
 
