@@ -20,7 +20,7 @@ You can download the latest connectors for JDBC and ODBC as `.taco` files from t
 
 The connector for JDBC requires the Exasol JDBC driver to be installed for Tableau Desktop and Server.
 
-Download and install the latest Exasol JDBC driver for your operating system from the [Exasol download page](https://www.exasol.com/portal/display/DOWNLOAD/).
+Download and install the latest Exasol JDBC driver for your operating system from the [Exasol download page](https://downloads.exasol.com/clients-and-drivers/jdbc).
 
 **Important note for Kerberos:** When using Kerberos on Tableau Server you need at least version 7.1.3 of the Exasol JDBC driver.
 
@@ -39,7 +39,7 @@ Copy the JDBC driver `exajdbc.jar` to the Tableau installation directory:
 
 The connector for ODBC requres the Exasol ODBC driver to be installed for Tableau Desktop and Server.
 
-Download and install the latest Exasol ODBC driver for your operating system from the [Exasol download page](https://www.exasol.com/portal/display/DOWNLOAD/).
+Download and install the latest Exasol ODBC driver for your operating system from the [Exasol download page](https://downloads.exasol.com/clients-and-drivers/odbc).
 
 * Windows and macOS: install the driver by executing the installer.
 * Linux:
