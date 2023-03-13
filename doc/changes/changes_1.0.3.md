@@ -1,4 +1,4 @@
-# Tableau Connector 1.0.3, released 2023-03-13
+# Tableau Connector 1.0.3, released 2023-03-14
 
 Code name: Update Exasol JDBC driver Maven repo
 
