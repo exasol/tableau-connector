@@ -1,10 +1,12 @@
-# Tableau Connector 1.0.3, released 2022-12-??
+# Tableau Connector 1.0.3, released 2023-03-13
 
 Code name: Update Exasol JDBC driver Maven repo
 
 ## Summary
 
 The integration tests download the Exasol JDBC driver from the deprecated Exasol Maven repository. Instead the JDBC driver is now available on Maven Central. We updated the build scripts to use the new location.
+
+We also updated the user guide with the new download URLs for the JDBC and ODBC drivers and added a note to use JDBC driver 7.1.16 or later for improved handling of authentication errors.
 
 ## Features
 
@@ -14,6 +16,10 @@ The integration tests download the Exasol JDBC driver from the deprecated Exasol
 
 * #64: Added note about Tableau Exchange
 * #61: Added note to use JDBC driver 7.1.16 or later
+
+## Bugfixes
+
+* #65: Fixed vulnerability in test dependency
 
 ## Dependency Updates
 
