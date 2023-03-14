@@ -7,6 +7,11 @@ function readXmlFile(path) {
     return xmlParser.toJson(content, { object: true })
 }
 
+function readJsonFile(path) {
+    const content = fs.readFileSync(path, 'utf8');
+    return JSON.parse(content)
+}
+
 /**
  * @param {string} version the version to split
  */
@@ -49,6 +54,12 @@ describe(`Latest version number ${changelogVersion}`, () => {
         const pom = readXmlFile("../pom.xml");
         const pomRevision = pom.project.properties.revision;
         expect(pomRevision).toBe(changelogVersion);
+    });
+
+    test("NPM package.json", () => {
+        const packageJson = readJsonFile("package.json");
+        const packageJsonVersion = packageJson.version;
+        expect(packageJsonVersion).toBe(changelogVersion);
     });
 
     ["jdbc", "odbc"].forEach(type => {

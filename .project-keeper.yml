@@ -16,6 +16,8 @@ sources:
       relativePath: "../pom.xml"
   - type: maven
     path: pom.xml
+  - type: npm
+    path: javascript-test/package.json
 version:
   fromSource: pom.xml
 excludes:
