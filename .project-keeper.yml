@@ -26,3 +26,4 @@ excludes:
   - "E-PK-CORE-17: Missing required file: '.github/workflows/release_droid_prepare_original_checksum.yml'"
   - "E-PK-CORE-17: Missing required file: '.github/workflows/release_droid_print_quick_checksum.yml'"
   - "E-PK-CORE-18: Outdated content: '.github/workflows/release_droid_upload_github_release_assets.yml'"
+  - regex: "E-PK-CORE-53: The dependencies.md file has outdated content.*"

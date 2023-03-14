@@ -4,7 +4,7 @@
   <vendor-information>
     <company name="Exasol AG"/>
     <support-link url="https://www.exasol.com"/>
-    <driver-download-link url="https://www.exasol.com/portal/display/DOWNLOAD/"/>
+    <driver-download-link url="https://downloads.exasol.com/clients-and-drivers/jdbc/"/>
   </vendor-information>
   <connection-customization class="exasol_jdbc" enabled="true" version="10.0">
     <vendor name="vendor"/>

@@ -1,4 +1,4 @@
-# Tableau Connector 1.0.3, released 2022-12-??
+# Tableau Connector 1.0.3, released 2023-03-14
 
 Code name: Update Exasol JDBC driver Maven repo
 
@@ -6,9 +6,20 @@ Code name: Update Exasol JDBC driver Maven repo
 
 The integration tests download the Exasol JDBC driver from the deprecated Exasol Maven repository. Instead the JDBC driver is now available on Maven Central. We updated the build scripts to use the new location.
 
+We also updated the user guide with the new download URLs for the JDBC and ODBC drivers and added a note to use JDBC driver 7.1.16 or later for improved handling of authentication errors.
+
 ## Features
 
 * #62: Updated Maven repository for Exasol JDBC driver
+
+## Documentation
+
+* #64: Added note about Tableau Exchange
+* #61: Added note to use JDBC driver 7.1.16 or later
+
+## Bugfixes
+
+* #65: Fixed vulnerability in test dependency
 
 ## Dependency Updates
 
@@ -24,12 +35,12 @@ The integration tests download the Exasol JDBC driver from the deprecated Exasol
 
 #### Plugin Dependency Updates
 
-* Updated `com.exasol:error-code-crawler-maven-plugin:1.1.2` to `1.2.1`
-* Updated `com.exasol:project-keeper-maven-plugin:2.8.0` to `2.9.1`
+* Updated `com.exasol:error-code-crawler-maven-plugin:1.1.2` to `1.2.2`
+* Updated `com.exasol:project-keeper-maven-plugin:2.8.0` to `2.9.3`
 * Updated `io.github.zlika:reproducible-build-maven-plugin:0.15` to `0.16`
-* Updated `org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M5` to `3.0.0-M7`
+* Updated `org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M5` to `3.0.0-M8`
 * Updated `org.codehaus.mojo:flatten-maven-plugin:1.2.7` to `1.3.0`
-* Updated `org.codehaus.mojo:versions-maven-plugin:2.10.0` to `2.13.0`
+* Updated `org.codehaus.mojo:versions-maven-plugin:2.10.0` to `2.14.2`
 
 ### Tableau Server GUI Tests
 
@@ -46,20 +57,20 @@ The integration tests download the Exasol JDBC driver from the deprecated Exasol
 
 #### Plugin Dependency Updates
 
-* Updated `com.exasol:error-code-crawler-maven-plugin:1.1.2` to `1.2.1`
-* Updated `com.exasol:project-keeper-maven-plugin:2.8.0` to `2.9.1`
+* Updated `com.exasol:error-code-crawler-maven-plugin:1.1.2` to `1.2.2`
+* Updated `com.exasol:project-keeper-maven-plugin:2.8.0` to `2.9.3`
 * Updated `io.github.zlika:reproducible-build-maven-plugin:0.15` to `0.16`
-* Updated `org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M5` to `3.0.0-M7`
+* Updated `org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M5` to `3.0.0-M8`
 * Updated `org.codehaus.mojo:flatten-maven-plugin:1.2.7` to `1.3.0`
-* Updated `org.codehaus.mojo:versions-maven-plugin:2.10.0` to `2.13.0`
+* Updated `org.codehaus.mojo:versions-maven-plugin:2.10.0` to `2.14.2`
 
 ### Exasol Connector for Tableau
 
 #### Plugin Dependency Updates
 
-* Updated `com.exasol:error-code-crawler-maven-plugin:1.1.2` to `1.2.1`
-* Updated `com.exasol:project-keeper-maven-plugin:2.8.0` to `2.9.1`
+* Updated `com.exasol:error-code-crawler-maven-plugin:1.1.2` to `1.2.2`
+* Updated `com.exasol:project-keeper-maven-plugin:2.8.0` to `2.9.3`
 * Updated `io.github.zlika:reproducible-build-maven-plugin:0.15` to `0.16`
-* Updated `org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M5` to `3.0.0-M7`
+* Updated `org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M5` to `3.0.0-M8`
 * Updated `org.codehaus.mojo:flatten-maven-plugin:1.2.7` to `1.3.0`
-* Updated `org.codehaus.mojo:versions-maven-plugin:2.10.0` to `2.13.0`
+* Updated `org.codehaus.mojo:versions-maven-plugin:2.10.0` to `2.14.2`
