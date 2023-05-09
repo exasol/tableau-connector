@@ -66,6 +66,27 @@
             <version>3.4.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <!-- Upgrade to fix CVE-2020-0187 -->
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.70</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- Upgrade to fix CVE-2020-25649, CVE-2020-36518, CVE-2022-42003, CVE-2022-42004 -->
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- Upgrade to fix CVE-2021-29425 -->
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

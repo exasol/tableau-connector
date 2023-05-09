@@ -46,7 +46,10 @@ This release fixes CVE-2022-45688 in test dependency `org.json:json`.
 
 * Updated `com.exasol:exasol-testcontainers:6.3.1` to `6.5.2`
 * Updated `com.exasol:test-db-builder-java:3.4.1` to `3.4.2`
+* Added `com.fasterxml.jackson.core:jackson-databind:2.15.0`
+* Added `commons-io:commons-io:2.11.0`
 * Updated `io.github.bonigarcia:webdrivermanager:5.3.1` to `5.3.2`
+* Added `org.bouncycastle:bcprov-jdk15on:1.70`
 * Updated `org.json:json:20220924` to `20230227`
 * Updated `org.junit.jupiter:junit-jupiter:5.9.1` to `5.9.3`
 * Updated `org.seleniumhq.selenium:selenium-java:4.7.0` to `4.9.1`
