@@ -123,9 +123,9 @@ To use this, select "Kerberos" in the "Authentication" drop-down-list. Entering 
 
 ##### Prerequisites
 
-These preprequisites are necessary for using Kerberos with both Tableau Desktop and Server:
+These prerequisites are necessary for using Kerberos with both Tableau Desktop and Server:
 
-* The Exasol database is configured to use [Kerberos Single Sign-On](https://docs.exasol.com/administration/on-premise/access_management/kerberos_sso.htm). You can create the keytab file by executing this command on the Windows Domain Controller:
+* The Exasol database is configured to use [Kerberos Single Sign-On](https://docs.exasol.com/db/7.1/administration/on-premise/access_management/kerberos_sso.htm). You can create the keytab file by executing this command on the Windows Domain Controller:
 
   ```sh
   ktpass -out exasol.keytab -mapuser <user> -princ exasol/<fully qualified hostname>@<REALM> -pass <user password> -ptype KRB5_NT_PRINCIPAL -target <REALM> -crypto All
