@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8' ?>
 
-<!-- build 20213.21.0917.1006                               -->
-<datasource formatted-name='federated.0bxc4ga19jaji310r4cjy06num8t' inline='true' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+<!-- build 20233.23.1017.0948                               -->
+<datasource formatted-name='cast_calcs.exasol_jdbc' inline='true' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
   <document-format-change-manifest>
     <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
     <_.fcp.ObjectModelTableType.true...ObjectModelTableType />
@@ -10,7 +10,7 @@
   <connection class='federated'>
     <named-connections>
       <named-connection caption='exasol.example.com' name='leaf'>
-        <connection class='exasol_jdbc' dbname='EXA_DB' one-time-sql='' port='8563' schema='TESTV1' server='exasol.example.com' username='TABLEAU_TEST_USER' v-fingerprint='00A20CA197FA9D480C610367B345AF1D7C2A866B0BD673A0954641158E7177EE' v-validateservercertificate='1' tdvtconnection='exasol_jdbc_connection'  />
+        <connection authentication='auth-user-pass' class='exasol_jdbc' dbname='EXA_DB' one-time-sql='' port='8563' schema='TESTV1' server='exasol.example.com' tdvtconnection='exasol_jdbc_connection' username='TABLEAU_TEST_USER' v-fingerprint='00A20CA197FA9D480C610367B345AF1D7C2A866B0BD673A0954641158E7177EE' v-validateservercertificate='1' />
       </named-connection>
     </named-connections>
     <_.fcp.ObjectModelEncapsulateLegacy.false...relation connection='leaf' name='Calcs' table='[TESTV1].[Calcs]' type='table' />
