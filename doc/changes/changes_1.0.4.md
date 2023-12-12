@@ -1,12 +1,14 @@
-# Tableau Connector 1.0.4, released 2023-??-??
+# Tableau Connector 1.0.4, released 2023-12-13
 
-Code name:
+Code name: Fix signature
 
 ## Summary
 
-This release fixes CVE-2022-45688 in test dependency `org.json:json`.
+This release fixes the certificate chain used for signing the connectors. The release also fixes CVE-2022-45688 in test dependency `org.json:json`.
 
-## Features
+## Bugfixes
+
+* #72: Fixed signature certificate chain
 
 ## Refactoring
 
