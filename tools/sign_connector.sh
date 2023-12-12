@@ -9,19 +9,29 @@ timestamp_authority_server="http://timestamp.sectigo.com"
 key_alias="1"
 
 if [[ -z "${1+x}" ]] ; then
-    echo "Path to keystore not specifified. Usage:"
-    echo "  $0 </path/to/keystore>"
+    echo "ERROR: Path to .p12 keystore not specifified. Usage:"
+    echo "  $0 </path/to/keystore.p12> </path/to/cert-chain.p7b>"
     exit 1
 fi
-
-keystore="$1"
-
+readonly keystore="$1"
 if [[ ! -f "$keystore" ]] ; then
-    echo "Keystore file does not exist: $keystore"
+    echo "ERROR: Keystore file does not exist: $keystore"
     exit 1
 fi
 
-echo "Signing JDBC and ODBC connectors using keystore $keystore"
+if [[ -z "${2+x}" ]] ; then
+    echo "ERROR: Path to .p7b certificate chain not specifified. Usage:"
+    echo "  $0 </path/to/keystore.p12> </path/to/cert-chain.p7b>"
+    exit 1
+fi
+readonly cert_chain="$2"
+if [[ ! -f "$cert_chain" ]] ; then
+    echo "ERROR: Certificate chain file does not exist: $cert_chain"
+    exit 1
+fi
+
+echo "Using keystore $keystore"
+echo "Using certificate chain $cert_chain"
 
 storepass=${CODE_SIGNING_CERTIFICATE_PASSWORD-}
 
@@ -55,7 +65,9 @@ sign_jar() {
 
     echo "Signing connector $jar_file"
     jarsigner "$jar_file" $key_alias \
-      -keystore "$keystore" -storepass "$storepass" \
+      -keystore "$keystore" \
+      -storepass "$storepass" \
+      -certchain "$cert_chain" \
       -signedjar "$signed_jar" \
       -tsa "$timestamp_authority_server" \
       -strict
