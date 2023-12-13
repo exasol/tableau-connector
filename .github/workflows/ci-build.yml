@@ -8,20 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
-
-      - name: Cache npm files
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "javascript-test/package-lock.json"
 
       - name: Run JavaScript tests
         run: |
@@ -39,12 +34,17 @@ jobs:
           path: target/exasol_*.taco
 
       - name: Retrieve code signing certificate
-        run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.pfx
+        run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.p12
         env:
           CODE_SIGNING_CERTIFICATE_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}
 
+      - name: Retrieve code signing certificate chain
+        run: echo $CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 | base64 --decode > target/cert_chain.p7b
+        env:
+          CODE_SIGNING_CERTIFICATE_CHAIN_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 }}
+
       - name: Sign connectors
-        run: ./tools/sign_connector.sh target/cert.pfx
+        run: ./tools/sign_connector.sh target/cert.p12 target/cert_chain.p7b
         env:
           CODE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}
 
@@ -55,7 +55,7 @@ jobs:
           path: target/tableau-exasol-connector-*.taco
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: 11

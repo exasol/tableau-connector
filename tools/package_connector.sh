@@ -9,8 +9,6 @@ sdk_dir="$target_dir/sdk"
 readonly sdk_dir
 packager_dir="$sdk_dir/connector-packager/"
 readonly packager_dir
-packaged_connector_dir="$packager_dir/packaged-connector/"
-readonly packaged_connector_dir
 
 set_up_environment () {
     clone_tableau_connector_plugin_sdk_repository
@@ -60,29 +58,28 @@ install_packaging_module () {
     python setup.py install
 }
 
-package_connectors () {
-    echo "Clean output directory $packaged_connector_dir"
-    rm -rfv "$packaged_connector_dir"
-    echo "# Packaging odbc connector"
-    python -m connector_packager.package "$project_dir/src/exasol_odbc/"
-    if [ ! -f "$packaged_connector_dir/exasol_odbc.taco" ] ; then
-        echo "Warning: Packaging ODBC connector failed. See log output above."
-        exit 1
-    fi
+package_connector () {
+    local -r type=$1
+    echo "# Packaging $type connector"
+    python -m connector_packager.package --verbose --dest "$target_dir" --log "$target_dir/logs_$type" "$project_dir/src/exasol_$type/"
 
-    echo "# Packaging jdbc connector"
-    python -m connector_packager.package "$project_dir/src/exasol_jdbc/"
-    if [ ! -f "$packaged_connector_dir/exasol_jdbc.taco" ] ; then
-        echo "Warning: Packaging JDBC connector failed. See log output above."
+    files=( "$target_dir"/exasol_"$type"-v*.taco )
+    if [ "${#files[@]}" -ge 2 ]
+    then
+        echo "ERROR: Found more than one file when building $type connector:" "${files[@]}"
         exit 1
+    elif [ ! -e "${files[0]}" ]
+    then
+        echo "ERROR: Packaging $type connector failed, .taco file not found in $target_dir. See log output above."
+        exit 1
+    else
+        local -r file="${files[0]}"
+        local -r new_name="exasol_$type.taco"
+        echo "Successfully created $type connector: $file, rename to $new_name"
+        mv -v "$file" "$target_dir/$new_name"
     fi
-}
-
-copy_packaged_connectors_to_target_folder () {
-    echo "# Copying packaged connectors to target folder"
-    cp -v "$packaged_connector_dir/exasol_odbc.taco" "$packaged_connector_dir/exasol_jdbc.taco" "$target_dir"
 }
 
 set_up_environment
-package_connectors
-copy_packaged_connectors_to_target_folder
+package_connector odbc
+package_connector jdbc

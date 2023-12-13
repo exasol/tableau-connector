@@ -50,5 +50,5 @@ if [[ -z "${test_type}" ]] ; then
     run_tests jdbc
     run_tests odbc
 else
-    run_tests $test_type
+    run_tests "$test_type"
 fi

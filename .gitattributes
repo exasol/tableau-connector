@@ -7,3 +7,12 @@ versionsMavenPluginRules.xml                linguist-generated=true
 doc/changes/changelog.md                    linguist-generated=true
 pk_generated_parent.pom                     linguist-generated=true
 .github/workflows/broken_links_checker.yml  linguist-generated=true
+
+.settings/org.eclipse.jdt.core.prefs                          linguist-generated=true
+.settings/org.eclipse.jdt.ui.prefs                            linguist-generated=true
+jdbc-kerberos-setup-test/.settings/org.eclipse.jdt.core.prefs linguist-generated=true
+jdbc-kerberos-setup-test/.settings/org.eclipse.jdt.ui.prefs   linguist-generated=true
+tableau-server-GUI-tests/.settings/org.eclipse.jdt.core.prefs linguist-generated=true
+tableau-server-GUI-tests/.settings/org.eclipse.jdt.ui.prefs   linguist-generated=true
+
+javascript-test/package-lock.json           linguist-generated=true

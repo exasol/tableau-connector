@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       upload_url:
-        description: 'Assets upload URL'
+        description: "Assets upload URL"
         required: true
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
@@ -20,12 +20,17 @@ jobs:
         run: ./tools/package_connector.sh
 
       - name: Retrieve code signing certificate
-        run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.pfx
+        run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.p12
         env:
           CODE_SIGNING_CERTIFICATE_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}
 
+      - name: Retrieve code signing certificate chain
+        run: echo $CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 | base64 --decode > target/cert_chain.p7b
+        env:
+          CODE_SIGNING_CERTIFICATE_CHAIN_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 }}
+
       - name: Sign connectors
-        run: ./tools/sign_connector.sh target/cert.pfx
+        run: ./tools/sign_connector.sh target/cert.p12 target/cert_chain.p7b
         env:
           CODE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}
 

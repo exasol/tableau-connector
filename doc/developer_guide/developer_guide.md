@@ -27,14 +27,14 @@ Restart Tableau after modifying any connector file to reload changes.
 
 To allow using unsigned connectors, run
 
-```bash
+```sh
 tsm configuration set -k native_api.disable_verify_connector_plugin_signature -v true --force-keys
 tsm pending-changes apply --ignore-prompt
 ```
 
 Package the connectors as described below then copy them to `C:\Program Files\Tableau\Connectors` (Windows) or `/var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/` (Linux) and restart Tableau Server:
 
-```bash
+```sh
 ./tools/package_connector.sh
 # Linux:
 cp -v target/*.taco /var/opt/tableau/tableau_server/data/tabsvc/vizqlserver/Connectors/
@@ -81,7 +81,7 @@ Download and install the following packages:
 
 To package the JDBC and ODBC connectors, execute the following command in a `bash` shell:
 
-```bash
+```sh
 ./tools/package_connector.sh
 ```
 
@@ -106,7 +106,7 @@ To sign the built connectors you will need the certificate as a `.pfx` file and 
 
 Run the following command after building the connectors:
 
-```bash
+```sh
 ./tools/sign_connector.sh /path/to/certificate.pfx
 ```
 
@@ -117,7 +117,15 @@ target/tableau-exasol-connector-jdbc-<version>.taco
 target/tableau-exasol-connector-odbc-<version>.taco
 ```
 
-## Running TDVT Tests
+## Run JavaScript Tests
+
+```sh
+cd javascript-test
+npm install
+npm test
+```
+
+## TDVT Tests
 
 You can run TDVT tests under Windows and macOS. This guide describes the setup for Windows. The setup for macOS is similar.
 
@@ -138,9 +146,10 @@ You can run TDVT tests under Windows and macOS. This guide describes the setup f
   * [tdvt_odbc/tds/Staples.exasol_odbc.tds](../../tdvt_odbc/tds/Staples.exasol_odbc.tds)
   * [tdvt_odbc/tds/cast_calcs.exasol_odbc.tds](../../tdvt_odbc/tds/cast_calcs.exasol_odbc.tds)
 
-* Update the path to `tabquerytool.exe` (e.g. `C:\Program Files\Tableau\Tableau 2022.2\bin\tabquerytool.exe`) in
+* Update the path to `tabquerytool.exe` (e.g. `C:\Program Files\Tableau\Tableau 2023.3\bin\tabquerytool.exe`) in
   * [tdvt_jdbc/config/tdvt/tdvt_override.ini](../../tdvt_jdbc/config/tdvt/tdvt_override.ini)
   * [tdvt_odbc/config/tdvt/tdvt_override.ini](../../tdvt_odbc/config/tdvt/tdvt_override.ini)
+* Ensure that directory `C:\Program Files\Tableau\Connectors\` does not contain any `.tabco` files as tests would use them instead of the sources. 
 
 ### Configure Test Suites
 
@@ -152,19 +161,11 @@ After modifying these files you need to re-generate the test suite by adding the
 
 See the [manual](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#ini-file-structure) for details about the available tests.
 
-### Run JavaScript Tests
-
-```bash
-cd javascript-test
-npm install
-npm test
-```
-
 ### Run Tests
 
 To run TDVT tests for the JDBC and ODBC connectors, run
 
-```bash
+```sh
 ./tools/run_tdvt_tests.sh
 ```
 
@@ -172,7 +173,7 @@ This will collect test results in `target/tdvt_results_jdbc/` resp. `target/tdvt
 
 * JDBC Connector:
 
-    ```bash
+    ```sh
     cd tdvt_jdbc
     python -m tdvt.tdvt run exasol_jdbc --generate
     python -m tdvt.tdvt run exasol_jdbc
@@ -180,7 +181,7 @@ This will collect test results in `target/tdvt_results_jdbc/` resp. `target/tdvt
 
 * ODBC Connector:
 
-    ```bash
+    ```sh
     cd tdvt_odbc
     python -m tdvt.tdvt run exasol_odbc --generate
     python -m tdvt.tdvt run exasol_odbc
@@ -236,7 +237,7 @@ The UI tests verify that the Exasol connector works with Tableau Server.
 3. Update constant `DEFAULT_DOCKER_DB_REFERENCE` in class `TableauServerGUITestIT` to the latest Exasol release.
 4. Build a new container including the Exasol ODBC and JDBC drivers by running
 
-    ```bash
+    ```sh
     cd tableau-server-GUI-tests/set_up_scripts
     docker build . --tag tablau_server_with_exasol_drivers
     ```
@@ -321,7 +322,7 @@ To build a release of the JDBC and ODBC connectors follow these steps:
 1. Update version number of the `plugin-version` element in the manifest files for JDBC and ODBC connectors:
   * [src\exasol_jdbc\manifest.xml](../../src/exasol_jdbc/manifest.xml)
   * [src\exasol_odbc\manifest.xml](../../src/exasol_odbc/manifest.xml)
-2. [Run the TDVT tests](#running-tdvt-tests) for JDBC and ODBC connectors.
+2. [Run the TDVT tests](#tdvt-tests) for JDBC and ODBC connectors.
 3. [Package](#packaging-the-connectors) and [sign](#signing-the-connectors) the JDBC and ODBC connectors.
 4. [Create a new GitHub release](https://github.com/exasol/tableau-connector/releases/new) and upload files
   * `target/tableau-exasol-connector-jdbc-<version>.taco`
