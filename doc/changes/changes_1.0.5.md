@@ -1,12 +1,14 @@
-# Tableau Connector 1.0.5, released 2024-??-??
+# Tableau Connector 1.0.5, released 2024-01-17
 
-Code name:
+Code name: Fix `DATEADD` function for `DATE` argument
 
 ## Summary
 
-## Features
+This release fixes the return type of the `DATEADD` when using a `DATE` as argument. Before, the function returned a `DATE` type when adding an hour, minute or second. This is fixed now and `DATEADD` always returns a `TIMESTAMP` when adding an hour, minute or second even when a `DATE` was used as argument.
 
-* ISSUE_NUMBER: description
+## Bugfixes
+
+* #74: Fixed return type of `DATEADD` function
 
 ## Dependency Updates
 
