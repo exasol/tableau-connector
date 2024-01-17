@@ -3,12 +3,10 @@ set -euo pipefail
 
 project_dir="$( cd "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )"
 readonly project_dir
-target_dir="$project_dir/target/"
-readonly target_dir
-sdk_dir="$target_dir/sdk"
-readonly sdk_dir
-packager_dir="$sdk_dir/connector-packager/"
-readonly packager_dir
+readonly target_dir="$project_dir/target/"
+readonly sdk_dir="$target_dir/connector-plugin-sdk/"
+readonly packager_dir="$sdk_dir/connector-packager/"
+
 
 set_up_environment () {
     clone_tableau_connector_plugin_sdk_repository

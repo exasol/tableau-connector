@@ -132,14 +132,13 @@ You can run TDVT tests under Windows and macOS. This guide describes the setup f
 ### Initial Setup
 
 * Create a new Exasol database running on port `8563`.
-* Prepare database schema by running [tools/load_tvdt_test_data.sql](../../tools/load_tvdt_test_data.sql).
+* Prepare database schema `TESTV1` by running [tools/load_tvdt_test_data.sql](../../tools/load_tvdt_test_data.sql).
 * Configure hostname of the Exasol database: Add an entry to `C:\Windows\System32\Drivers\etc\hosts` (adapt the IP to your database):
 
     ```
     10.0.0.2    exasol.example.com
     ```
 
-* Install TDVT as described in the [TDVT documentation](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#set-up).
 * Update the Exasol certificate fingerprint in the four `*.tds` files:
   * [tdvt_jdbc/tds/cast_calcs.exasol_jdbc.tds](../../tdvt_jdbc/tds/cast_calcs.exasol_jdbc.tds)
   * [tdvt_jdbc/tds/Staples.exasol_jdbc.tds](../../tdvt_jdbc/tds/Staples.exasol_jdbc.tds)
@@ -151,13 +150,25 @@ You can run TDVT tests under Windows and macOS. This guide describes the setup f
   * [tdvt_odbc/config/tdvt/tdvt_override.ini](../../tdvt_odbc/config/tdvt/tdvt_override.ini)
 * Ensure that directory `C:\Program Files\Tableau\Connectors\` does not contain any `.tabco` files as tests would use them instead of the sources. 
 
+#### Install TDVT
+
+TDVT library must be installed in a Python virtual environment (venv). The [TDVT documentation](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#set-up) describes how to do this.
+
+However we provide a script that automatically clones and installs TDVT into a new venv at `target/tdvt-venv`:
+
+```sh
+./tools/setup_tdvt.sh
+```
+
+Script `tools/run_tdvt_tests.sh` will automatically use this venv.
+
 ### Configure Test Suites
 
-You can configure the tests suites to run in files
-* [tdvt_jdbc/config/exasol_jdbc.ini](../../tdvt_jdbc/config/exasol_jdbc.ini)
-* [tdvt_odbc/config/exasol_odbc.ini](../../tdvt_odbc/config/exasol_odbc.ini)
+You can configure test suites to enable or disable tests using the following `.ini` files.
+* JDBC: [tdvt_jdbc/config/exasol_jdbc.ini](../../tdvt_jdbc/config/exasol_jdbc.ini)
+* ODBC: [tdvt_odbc/config/exasol_odbc.ini](../../tdvt_odbc/config/exasol_odbc.ini)
 
-After modifying these files you need to re-generate the test suite by adding the `--generate` argument to the `tdvt.tdvt run` command.
+After modifying these files you need to re-generate the test suite by adding the `--generate` argument to the `tdvt.tdvt run` command. Script `tools/run_tdvt_tests.sh` uses this option by default.
 
 See the [manual](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#ini-file-structure) for details about the available tests.
 
@@ -174,6 +185,7 @@ This will collect test results in `target/tdvt_results_jdbc/` resp. `target/tdvt
 * JDBC Connector:
 
     ```sh
+    source target/tdvt-venv/Scripts/activate
     cd tdvt_jdbc
     python -m tdvt.tdvt run exasol_jdbc --generate
     python -m tdvt.tdvt run exasol_jdbc
@@ -182,6 +194,7 @@ This will collect test results in `target/tdvt_results_jdbc/` resp. `target/tdvt
 * ODBC Connector:
 
     ```sh
+    source target/tdvt-venv/Scripts/activate
     cd tdvt_odbc
     python -m tdvt.tdvt run exasol_odbc --generate
     python -m tdvt.tdvt run exasol_odbc
