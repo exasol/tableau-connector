@@ -1,11 +1,16 @@
 name: CI Build
-
 on:
-  - push
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
@@ -54,11 +59,13 @@ jobs:
           name: Signed Exasol Tableau Connectors
           path: target/tableau-exasol-connector-*.taco
 
-      - name: Set up JDK 11
+      - name: Set up JDKs
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 11
+          java-version: |
+            11
+            17
           cache: "maven"
 
       - name: Project Keeper Verify

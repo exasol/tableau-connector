@@ -15,7 +15,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.16.0</version>
+            <version>4.16.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -33,13 +33,13 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.6.2</version>
+            <version>5.6.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.8.0</version>
+            <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -77,7 +77,7 @@
             <!-- Upgrade to fix CVE-2020-25649, CVE-2020-36518, CVE-2022-42003, CVE-2022-42004 -->
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.16.0</version>
+            <version>2.16.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -93,7 +93,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>2.9.17</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <goals>

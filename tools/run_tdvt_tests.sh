@@ -3,10 +3,29 @@ set -euo pipefail
 
 project_dir="$( cd "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )"
 readonly project_dir
-target_dir="$project_dir/target"
-readonly target_dir
+readonly target_dir="$project_dir/target"
+readonly venv_dir="$target_dir/tdvt-venv"
 
 skip_generate=false
+
+verify_no_connector_installed() {
+    readonly connector_dir=$(cygpath "C:\Program Files\Tableau\Connectors")
+    echo "$connector_dir"
+    if [ "$(ls -A "$connector_dir")" ]; then
+        echo "ERROR: Connectors are installed in $connector_dir that might override code under test: $(ls -A "$connector_dir")"
+        echo "ERROR: Please delete all files in $connector_dir"
+        exit 1
+    fi
+}
+
+activate_venv() {
+    if [ ! -d "$venv_dir" ]; then
+        echo "ERROR: Python venv not found at $venv_dir. Please run tools\setup_tdvt.sh"
+        exit 1
+    fi
+    echo "Activating venv at $venv_dir"
+    source "$venv_dir/Scripts/activate"
+}
 
 get_version() {
     type="$1"
@@ -42,6 +61,10 @@ run_tests () {
     tar -czf "${test_results_archive}" "$test_results_dir_name"
     echo "Created test result archive $test_results_archive"
 }
+
+verify_no_connector_installed
+
+activate_venv
 
 test_type=${1-}
 
