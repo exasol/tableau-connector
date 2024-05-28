@@ -43,19 +43,27 @@ cp -v target/*.taco "/c/Program Files/Tableau/Connectors"
 tsm restart
 ```
 
-### Verify Connected User
+### Verify Database Metadata
 
-To verify which user account Tableau is using for connecting to Exasol, create the following view and check it from Tableau:
+To verify details about the Exasol database or which user account Tableau is using for connecting to Exasol, create the following views and check their content from Tableau:
 
 ```sql
 CREATE SCHEMA IF NOT EXISTS META;
+
 CREATE OR REPLACE VIEW META.CURRENT_SESSION_INFO AS
    SELECT SESSION_ID, LOGIN_TIME, DURATION, USER_NAME AS SESSION_USER_NAME, CLIENT, DRIVER, ENCRYPTED
    FROM SYS.EXA_ALL_SESSIONS
    WHERE SESSION_ID=CURRENT_SESSION;
+
+CREATE OR REPLACE VIEW META.DATABASE_INFO (KEY, VAL) AS
+   SELECT 'DB Version', PARAM_VALUE FROM EXA_METADATA WHERE PARAM_NAME = 'databaseProductVersion';
+
+CREATE OR REPLACE VIEW META.DATA_TYPES AS
+  SELECT TYPE_NAME, PRECISION, CREATE_PARAMS, FIXED_PREC_SCALE, MINIMUM_SCALE, MAXIMUM_SCALE
+  FROM SYS.EXA_SQL_TYPES;
 ```
 
-Then add view `META.CURRENT_SESSION_INFO` to a Tableau data source and add it to a workbook sheet.
+Then add one of the views to a Tableau data source and add it to a workbook sheet.
 
 ## Packaging the Connectors
 
