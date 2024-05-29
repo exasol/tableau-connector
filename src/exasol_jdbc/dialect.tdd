@@ -290,11 +290,11 @@
       <argument type='str' />
     </function>
     <function group='string' name='SPACE' return-type='str'>
-      <formula>CASE WHEN %1 &lt; 1 THEN NULL WHEN %1 = 0 THEN &apos;&apos; ELSE REPEAT(&apos; &apos;,%1) END</formula>
+      <formula>CASE WHEN %1 &lt; 0 THEN NULL WHEN %1 = 0 THEN &apos;&apos; ELSE REPEAT(&apos; &apos;,%1) END</formula>
       <argument type='int' />
     </function>
     <function group='string' name='SPACE' return-type='str'>
-      <formula>CASE WHEN %1 &lt; 1 THEN NULL WHEN %1 = 0 THEN &apos;&apos; ELSE REPEAT(&apos; &apos;,%1) END</formula>
+      <formula>CASE WHEN %1 &lt; 0 THEN NULL WHEN %1 = 0 THEN &apos;&apos; ELSE REPEAT(&apos; &apos;,%1) END</formula>
       <argument type='real' />
     </function>
     <function group='date' name='DAY' return-type='int'>
