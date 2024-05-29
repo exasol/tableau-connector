@@ -94,7 +94,7 @@ build:
     - name: "release.yml"
       stepCustomizations:
         - action: INSERT_AFTER
-          stepId: setup-java
+          stepId: setup-jdks
           content:
             id: setup-node
             uses: actions/setup-node@v4

@@ -12,9 +12,9 @@
 
 ### Runtime Dependencies
 
-| Dependency                   | License                |
-| ---------------------------- | ---------------------- |
-| [EXASolution JDBC Driver][4] | [EXAClient License][5] |
+| Dependency              | License                |
+| ----------------------- | ---------------------- |
+| [Exasol JDBC Driver][4] | [EXAClient License][5] |
 
 ### Plugin Dependencies
 
@@ -98,8 +98,8 @@
 [1]: http://opensource.org/licenses/BSD-3-Clause
 [2]: https://junit.org/junit5/
 [3]: https://www.eclipse.org/legal/epl-v20.html
-[4]: http://www.exasol.com
-[5]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/7.1.20/exasol-jdbc-7.1.20-license.txt
+[4]: http://www.exasol.com/
+[5]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/24.1.0/exasol-jdbc-24.1.0-license.txt
 [6]: http://sonarsource.github.io/sonar-scanner-maven/
 [7]: http://www.gnu.org/licenses/lgpl.txt
 [8]: https://maven.apache.org/plugins/maven-toolchains-plugin/

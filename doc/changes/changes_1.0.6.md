@@ -12,6 +12,14 @@ Code name:
 
 ### JDBC Kerberos Setup Tests
 
+#### Runtime Dependency Updates
+
+* Updated `com.exasol:exasol-jdbc:7.1.20` to `24.1.0`
+
+#### Test Dependency Updates
+
+* Updated `org.junit.jupiter:junit-jupiter:5.10.1` to `5.10.2`
+
 #### Plugin Dependency Updates
 
 * Updated `com.exasol:error-code-crawler-maven-plugin:1.3.1` to `2.0.3`
@@ -24,6 +32,19 @@ Code name:
 * Updated `org.sonarsource.scanner.maven:sonar-maven-plugin:3.10.0.2594` to `3.11.0.3922`
 
 ### Tableau Server GUI Tests
+
+#### Test Dependency Updates
+
+* Updated `com.exasol:exasol-testcontainers:7.0.0` to `7.1.0`
+* Updated `com.exasol:test-db-builder-java:3.5.3` to `3.5.4`
+* Updated `com.fasterxml.jackson.core:jackson-databind:2.16.1` to `2.17.1`
+* Updated `commons-io:commons-io:2.15.1` to `2.16.1`
+* Updated `io.github.bonigarcia:webdrivermanager:5.6.3` to `5.8.0`
+* Updated `org.json:json:20231013` to `20240303`
+* Updated `org.junit.jupiter:junit-jupiter:5.10.1` to `5.10.2`
+* Updated `org.mockito:mockito-junit-jupiter:5.9.0` to `5.12.0`
+* Updated `org.seleniumhq.selenium:selenium-java:4.16.1` to `4.21.0`
+* Updated `org.testcontainers:junit-jupiter:1.19.3` to `1.19.8`
 
 #### Plugin Dependency Updates
 

@@ -71,6 +71,13 @@ jobs:
             11
             17
           cache: maven
+      - id: setup-node
+        uses: actions/setup-node@v4
+        with: {
+          node-version: '22',
+          cache: npm,
+          cache-dependency-path: javascript-test/package-lock.json
+        }
       - name: Fail if not running on main branch
         id: check-main-branch
         if: ${{ github.ref != 'refs/heads/main' }}
@@ -105,10 +112,28 @@ jobs:
           GITHUB_TOKEN: '${{ github.token }}'
         }
       - {
-        name: Build project,
+        name: Build connectors,
         id: build,
-        run: mvn --batch-mode -DskipTests clean verify
+        run: ./tools/package_connector.sh
       }
+      - name: Retrieve code signing certificate
+        id: retrieve-code-signing-certificate
+        run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.p12
+        env: {
+          CODE_SIGNING_CERTIFICATE_BASE64: '${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}'
+        }
+      - name: Retrieve code signing certificate chain
+        id: retrieve-code-signing-certificate-chain
+        run: echo $CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 | base64 --decode > target/cert_chain.p7b
+        env: {
+          CODE_SIGNING_CERTIFICATE_CHAIN_BASE64: '${{ secrets.CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 }}'
+        }
+      - name: Sign connectors
+        id: sign-connectors
+        run: ./tools/sign_connector.sh target/cert.p12 target/cert_chain.p7b
+        env: {
+          CODE_SIGNING_CERTIFICATE_PASSWORD: '${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}'
+        }
       - {
         name: List secret GPG keys,
         id: list-secret-gpg-keys,
