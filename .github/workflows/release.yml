@@ -116,6 +116,11 @@ jobs:
         id: build,
         run: ./tools/package_connector.sh
       }
+      - {
+        name: Generate dummy error code report,
+        id: generate-dummy-error-code-report,
+        run: 'echo ''{"$schema":"https://schemas.exasol.com/error_code_report-1.0.0.json","errorCodes":[]}'' > target/error_code_report.json'
+      }
       - name: Retrieve code signing certificate
         id: retrieve-code-signing-certificate
         run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.p12

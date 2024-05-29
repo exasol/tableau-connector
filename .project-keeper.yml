@@ -91,6 +91,13 @@ build:
             id: build-pk-verify
             run: mvn --batch-mode -DtrimStackTrace=false --projects . test com.exasol:project-keeper-maven-plugin:verify
 
+        - action: INSERT_AFTER
+          stepId: build-pk-verify
+          content:
+            name: Generate dummy error code report
+            id: generate-dummy-error-code-report
+            run: echo '{"$schema":"https://schemas.exasol.com/error_code_report-1.0.0.json","errorCodes":[]}' > target/error_code_report.json
+
     - name: "release.yml"
       stepCustomizations:
         - action: INSERT_AFTER
@@ -136,3 +143,10 @@ build:
             run: ./tools/sign_connector.sh target/cert.p12 target/cert_chain.p7b
             env:
               CODE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}
+
+        - action: INSERT_AFTER
+          stepId: build
+          content:
+            name: Generate dummy error code report
+            id: generate-dummy-error-code-report
+            run: echo '{"$schema":"https://schemas.exasol.com/error_code_report-1.0.0.json","errorCodes":[]}' > target/error_code_report.json
