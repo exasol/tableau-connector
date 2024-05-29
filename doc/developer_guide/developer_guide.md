@@ -43,19 +43,27 @@ cp -v target/*.taco "/c/Program Files/Tableau/Connectors"
 tsm restart
 ```
 
-### Verify Connected User
+### Verify Database Metadata
 
-To verify which user account Tableau is using for connecting to Exasol, create the following view and check it from Tableau:
+To verify details about the Exasol database or which user account Tableau is using for connecting to Exasol, create the following views and check their content from Tableau:
 
 ```sql
 CREATE SCHEMA IF NOT EXISTS META;
+
 CREATE OR REPLACE VIEW META.CURRENT_SESSION_INFO AS
    SELECT SESSION_ID, LOGIN_TIME, DURATION, USER_NAME AS SESSION_USER_NAME, CLIENT, DRIVER, ENCRYPTED
    FROM SYS.EXA_ALL_SESSIONS
    WHERE SESSION_ID=CURRENT_SESSION;
+
+CREATE OR REPLACE VIEW META.DATABASE_INFO (KEY, VAL) AS
+   SELECT 'DB Version', PARAM_VALUE FROM EXA_METADATA WHERE PARAM_NAME = 'databaseProductVersion';
+
+CREATE OR REPLACE VIEW META.DATA_TYPES AS
+  SELECT TYPE_NAME, PRECISION, CREATE_PARAMS, FIXED_PREC_SCALE, MINIMUM_SCALE, MAXIMUM_SCALE
+  FROM SYS.EXA_SQL_TYPES;
 ```
 
-Then add view `META.CURRENT_SESSION_INFO` to a Tableau data source and add it to a workbook sheet.
+Then add one of the views to a Tableau data source and add it to a workbook sheet.
 
 ## Packaging the Connectors
 
@@ -145,7 +153,7 @@ You can run TDVT tests under Windows and macOS. This guide describes the setup f
   * [tdvt_odbc/tds/Staples.exasol_odbc.tds](../../tdvt_odbc/tds/Staples.exasol_odbc.tds)
   * [tdvt_odbc/tds/cast_calcs.exasol_odbc.tds](../../tdvt_odbc/tds/cast_calcs.exasol_odbc.tds)
 
-* Update the path to `tabquerytool.exe` (e.g. `C:\Program Files\Tableau\Tableau 2023.3\bin\tabquerytool.exe`) in
+* Update the path to `tabquerytool.exe` (e.g. `C:\Program Files\Tableau\Tableau 2024.1\bin\tabquerytool.exe`) in
   * [tdvt_jdbc/config/tdvt/tdvt_override.ini](../../tdvt_jdbc/config/tdvt/tdvt_override.ini)
   * [tdvt_odbc/config/tdvt/tdvt_override.ini](../../tdvt_odbc/config/tdvt/tdvt_override.ini)
 * Ensure that directory `C:\Program Files\Tableau\Connectors\` does not contain any `.tabco` files as tests would use them instead of the sources. 
@@ -214,8 +222,6 @@ Log files of Tableau Desktop: `%USERPROFILE%\Documents\My Tableau Repository\Log
 
 Also see the [FAQ and troubleshooting section of the manual](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#frequently-found-issues-and-troubleshooting).
 
-If tests fail, check file `test_results_combined.csv`.
-
 #### Smoke Test Fail With Message `Package signature verification failed during connection creation.`
 
 Error message in `test_results_combined.csv`:
@@ -236,6 +242,39 @@ LoadDatasource TableauException: Unable to establish connection: Data source 'Ex
 ```
 
 This could mean that you are connecting the test machine via SSH. Start the tests by logging in to the machine directly.
+
+#### Other Tests Fail
+
+If TDVT tests fail follow these steps:
+
+1. View test results using the [workbook](#viewing-test-results) or check file `test_results_combined.csv`, searching for text `Actual does not match expected`.
+    
+    Example failure:
+    ```
+    exasol_odbc,expression.standard.exasol_odbc,cast_calcs.exasol_odbc,string.space.empty,C:\Users\$USER\git\tableau-connector\target\connector-plugin-sdk\tdvt\tdvt\exprtests/standard\setup.string.space.empty.txt,False,0,1,SPACE(0),expression,unknown,unknown,unknown,,"Actual does not match expected. To run this test: 
+    python -m run-pattern exasol_odbc --exp exprtests/standard/setup.string.space.empty.txt --tdp cast_calcs.exasol_odbc.tds",Actual does not match expected.,171.0,"
+          SELECT CASE WHEN 0 < 1 THEN NULL WHEN 0 = 0 THEN '' ELSE REPEAT(' ',0) END AS ""TEMP_Test_______________""
+    FROM ""TESTV1"".""Calcs"" ""Calcs""
+    HAVING (COUNT(1) > 0)
+    ",%null%,""""""
+    ```
+    The last two fields contain the actual and expected query results.
+2. Execute the query and verify the result.
+3. Open the test case in the TDVT repo (`exprtests/standard/setup.string.space.empty.txt` in this case with content `SPACE(0)`).
+4. Find the executed function in file `dialect.tdd` (`SPACE`) in this case.
+  * If possible adjust the function definition.
+  * If the failure is caused by an incompatibility of the Exasol database, [exclude the test](#excluding-tests).
+
+#### Excluding Tests
+
+Some tests are expected to fail because the Exasol database behaves different than the expectations. A common example is that Exasol returns `NULL` instead of empty strings. In this case you can exclude the test.
+
+In file `config\exasol_jdbc.ini` add the test name (`string.space.empty` in the example above) to section `StandardTests` / option `ExpressionExclusions_Standard` and add a rationale for the exclusion:
+
+```ini
+[StandardTests]
+ExpressionExclusions_Standard = string.split,calcs_data.time,string.endswith.empty,string.startswith.empty,string.find.empty,string.space.empty
+```
 
 ## Tableau Server UI Tests
 

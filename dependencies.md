@@ -12,16 +12,16 @@
 
 ### Runtime Dependencies
 
-| Dependency                   | License                |
-| ---------------------------- | ---------------------- |
-| [EXASolution JDBC Driver][4] | [EXAClient License][5] |
+| Dependency              | License                |
+| ----------------------- | ---------------------- |
+| [Exasol JDBC Driver][4] | [EXAClient License][5] |
 
 ### Plugin Dependencies
 
 | Dependency                                              | License                          |
 | ------------------------------------------------------- | -------------------------------- |
 | [SonarQube Scanner for Maven][6]                        | [GNU LGPL 3][7]                  |
-| [Apache Maven Toolchains Plugin][8]                     | [Apache License, Version 2.0][9] |
+| [Apache Maven Toolchains Plugin][8]                     | [Apache-2.0][9]                  |
 | [Apache Maven Compiler Plugin][10]                      | [Apache-2.0][9]                  |
 | [Apache Maven Enforcer Plugin][11]                      | [Apache-2.0][9]                  |
 | [Maven Flatten Plugin][12]                              | [Apache Software Licenese][9]    |
@@ -30,7 +30,7 @@
 | [Maven Surefire Plugin][17]                             | [Apache-2.0][9]                  |
 | [Versions Maven Plugin][18]                             | [Apache License, Version 2.0][9] |
 | [duplicate-finder-maven-plugin Maven Mojo][19]          | [Apache License 2.0][20]         |
-| [JaCoCo :: Maven Plugin][21]                            | [Eclipse Public License 2.0][22] |
+| [JaCoCo :: Maven Plugin][21]                            | [EPL-2.0][22]                    |
 | [error-code-crawler-maven-plugin][23]                   | [MIT License][24]                |
 | [Reproducible Build Maven Plugin][25]                   | [Apache 2.0][16]                 |
 
@@ -58,7 +58,7 @@
 | Dependency                                              | License                          |
 | ------------------------------------------------------- | -------------------------------- |
 | [SonarQube Scanner for Maven][6]                        | [GNU LGPL 3][7]                  |
-| [Apache Maven Toolchains Plugin][8]                     | [Apache License, Version 2.0][9] |
+| [Apache Maven Toolchains Plugin][8]                     | [Apache-2.0][9]                  |
 | [Apache Maven Compiler Plugin][10]                      | [Apache-2.0][9]                  |
 | [Apache Maven Enforcer Plugin][11]                      | [Apache-2.0][9]                  |
 | [Maven Flatten Plugin][12]                              | [Apache Software Licenese][9]    |
@@ -67,7 +67,7 @@
 | [Maven Surefire Plugin][17]                             | [Apache-2.0][9]                  |
 | [Versions Maven Plugin][18]                             | [Apache License, Version 2.0][9] |
 | [duplicate-finder-maven-plugin Maven Mojo][19]          | [Apache License 2.0][20]         |
-| [JaCoCo :: Maven Plugin][21]                            | [Eclipse Public License 2.0][22] |
+| [JaCoCo :: Maven Plugin][21]                            | [EPL-2.0][22]                    |
 | [error-code-crawler-maven-plugin][23]                   | [MIT License][24]                |
 | [Reproducible Build Maven Plugin][25]                   | [Apache 2.0][16]                 |
 | [Exec Maven Plugin][43]                                 | [Apache License 2][9]            |
@@ -79,7 +79,7 @@
 | Dependency                                              | License                          |
 | ------------------------------------------------------- | -------------------------------- |
 | [SonarQube Scanner for Maven][6]                        | [GNU LGPL 3][7]                  |
-| [Apache Maven Toolchains Plugin][8]                     | [Apache License, Version 2.0][9] |
+| [Apache Maven Toolchains Plugin][8]                     | [Apache-2.0][9]                  |
 | [Apache Maven Compiler Plugin][10]                      | [Apache-2.0][9]                  |
 | [Apache Maven Enforcer Plugin][11]                      | [Apache-2.0][9]                  |
 | [Maven Flatten Plugin][12]                              | [Apache Software Licenese][9]    |
@@ -88,7 +88,7 @@
 | [Maven Surefire Plugin][17]                             | [Apache-2.0][9]                  |
 | [Versions Maven Plugin][18]                             | [Apache License, Version 2.0][9] |
 | [duplicate-finder-maven-plugin Maven Mojo][19]          | [Apache License 2.0][20]         |
-| [JaCoCo :: Maven Plugin][21]                            | [Eclipse Public License 2.0][22] |
+| [JaCoCo :: Maven Plugin][21]                            | [EPL-2.0][22]                    |
 | [error-code-crawler-maven-plugin][23]                   | [MIT License][24]                |
 | [Reproducible Build Maven Plugin][25]                   | [Apache 2.0][16]                 |
 
@@ -98,8 +98,8 @@
 [1]: http://opensource.org/licenses/BSD-3-Clause
 [2]: https://junit.org/junit5/
 [3]: https://www.eclipse.org/legal/epl-v20.html
-[4]: http://www.exasol.com
-[5]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/7.1.20/exasol-jdbc-7.1.20-license.txt
+[4]: http://www.exasol.com/
+[5]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/24.1.0/exasol-jdbc-24.1.0-license.txt
 [6]: http://sonarsource.github.io/sonar-scanner-maven/
 [7]: http://www.gnu.org/licenses/lgpl.txt
 [8]: https://maven.apache.org/plugins/maven-toolchains-plugin/
