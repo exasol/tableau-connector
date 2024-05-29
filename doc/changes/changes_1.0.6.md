@@ -1,12 +1,14 @@
 # Tableau Connector 1.0.6, released 2024-??-??
 
-Code name:
+Code name: Upgrade dependencies
 
 ## Summary
 
+This release upgrades dependencies.
+
 ## Features
 
-* ISSUE_NUMBER: description
+* #77: Test with Exasol's `TIMESTAMP(9)` data type
 
 ## Dependency Updates
 
