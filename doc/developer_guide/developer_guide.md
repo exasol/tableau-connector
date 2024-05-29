@@ -222,8 +222,6 @@ Log files of Tableau Desktop: `%USERPROFILE%\Documents\My Tableau Repository\Log
 
 Also see the [FAQ and troubleshooting section of the manual](https://tableau.github.io/connector-plugin-sdk/docs/tdvt#frequently-found-issues-and-troubleshooting).
 
-If tests fail, check file `test_results_combined.csv`.
-
 #### Smoke Test Fail With Message `Package signature verification failed during connection creation.`
 
 Error message in `test_results_combined.csv`:
@@ -244,6 +242,39 @@ LoadDatasource TableauException: Unable to establish connection: Data source 'Ex
 ```
 
 This could mean that you are connecting the test machine via SSH. Start the tests by logging in to the machine directly.
+
+#### Other Tests Fail
+
+If TDVT tests fail follow these steps:
+
+1. View test results using the [workbook](#viewing-test-results) or check file `test_results_combined.csv`, searching for text `Actual does not match expected`.
+    
+    Example failure:
+    ```
+    exasol_odbc,expression.standard.exasol_odbc,cast_calcs.exasol_odbc,string.space.empty,C:\Users\$USER\git\tableau-connector\target\connector-plugin-sdk\tdvt\tdvt\exprtests/standard\setup.string.space.empty.txt,False,0,1,SPACE(0),expression,unknown,unknown,unknown,,"Actual does not match expected. To run this test: 
+    python -m run-pattern exasol_odbc --exp exprtests/standard/setup.string.space.empty.txt --tdp cast_calcs.exasol_odbc.tds",Actual does not match expected.,171.0,"
+          SELECT CASE WHEN 0 < 1 THEN NULL WHEN 0 = 0 THEN '' ELSE REPEAT(' ',0) END AS ""TEMP_Test_______________""
+    FROM ""TESTV1"".""Calcs"" ""Calcs""
+    HAVING (COUNT(1) > 0)
+    ",%null%,""""""
+    ```
+    The last two fields contain the actual and expected query results.
+2. Execute the query and verify the result.
+3. Open the test case in the TDVT repo (`exprtests/standard/setup.string.space.empty.txt` in this case with content `SPACE(0)`).
+4. Find the executed function in file `dialect.tdd` (`SPACE`) in this case.
+  * If possible adjust the function definition.
+  * If the failure is caused by an incompatibility of the Exasol database, [exclude the test](#excluding-tests).
+
+#### Excluding Tests
+
+Some tests are expected to fail because the Exasol database behaves different than the expectations. A common example is that Exasol returns `NULL` instead of empty strings. In this case you can exclude the test.
+
+In file `config\exasol_jdbc.ini` add the test name (`string.space.empty` in the example above) to section `StandardTests` / option `ExpressionExclusions_Standard` and add a rationale for the exclusion:
+
+```ini
+[StandardTests]
+ExpressionExclusions_Standard = string.split,calcs_data.time,string.endswith.empty,string.startswith.empty,string.find.empty,string.space.empty
+```
 
 ## Tableau Server UI Tests
 
