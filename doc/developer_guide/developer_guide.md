@@ -153,7 +153,7 @@ You can run TDVT tests under Windows and macOS. This guide describes the setup f
   * [tdvt_odbc/tds/Staples.exasol_odbc.tds](../../tdvt_odbc/tds/Staples.exasol_odbc.tds)
   * [tdvt_odbc/tds/cast_calcs.exasol_odbc.tds](../../tdvt_odbc/tds/cast_calcs.exasol_odbc.tds)
 
-* Update the path to `tabquerytool.exe` (e.g. `C:\Program Files\Tableau\Tableau 2023.3\bin\tabquerytool.exe`) in
+* Update the path to `tabquerytool.exe` (e.g. `C:\Program Files\Tableau\Tableau 2024.1\bin\tabquerytool.exe`) in
   * [tdvt_jdbc/config/tdvt/tdvt_override.ini](../../tdvt_jdbc/config/tdvt/tdvt_override.ini)
   * [tdvt_odbc/config/tdvt/tdvt_override.ini](../../tdvt_odbc/config/tdvt/tdvt_override.ini)
 * Ensure that directory `C:\Program Files\Tableau\Connectors\` does not contain any `.tabco` files as tests would use them instead of the sources. 
