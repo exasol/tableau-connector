@@ -35,6 +35,19 @@
             <artifactId>webdrivermanager</artifactId>
             <version>5.8.0</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcpkix-jdk18on</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <!-- Fix CVE-2024-34447 in transitive dependency of webdrivermanager -->
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+            <version>1.78.1</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -67,13 +80,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <!-- Upgrade to fix CVE-2020-0187 -->
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.70</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <!-- Upgrade to fix CVE-2020-25649, CVE-2020-36518, CVE-2022-42003, CVE-2022-42004 -->
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -93,7 +99,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>4.3.1</version>
+                <version>4.3.2</version>
                 <executions>
                     <execution>
                         <goals>
