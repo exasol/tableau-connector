@@ -972,6 +972,11 @@
       <argument type='str' />
       <argument type='localint' />
     </function>
+    <date-function name='DATEPARSE' return-type='datetime'>
+      <formula>TO_TIMESTAMP(%2, %1)</formula>
+      <argument type='localstr' />
+      <argument type='str' />
+    </date-function>
     <date-function name='DATEADD' return-type='datetime'>
       <formula>(%3 + %2 * INTERVAL &apos;1&apos; %1)</formula>
       <formula part='quarter'>ADD_MONTHS(%3, (3 * %2))</formula>
