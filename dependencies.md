@@ -7,7 +7,7 @@
 
 | Dependency                      | License                          |
 | ------------------------------- | -------------------------------- |
-| [Hamcrest][0]                   | [BSD License 3][1]               |
+| [Hamcrest][0]                   | [BSD-3-Clause][1]                |
 | [JUnit Jupiter (Aggregator)][2] | [Eclipse Public License v2.0][3] |
 
 ### Runtime Dependencies
@@ -41,7 +41,7 @@
 | Dependency                                                              | License                                        |
 | ----------------------------------------------------------------------- | ---------------------------------------------- |
 | [org.seleniumhq.selenium:selenium-java][26]                             | [The Apache Software License, Version 2.0][16] |
-| [Hamcrest][0]                                                           | [BSD License 3][1]                             |
+| [Hamcrest][0]                                                           | [BSD-3-Clause][1]                              |
 | [JUnit Jupiter (Aggregator)][2]                                         | [Eclipse Public License v2.0][3]               |
 | [WebDriverManager][27]                                                  | [Apache 2.0][28]                               |
 | [Bouncy Castle PKIX, CMS, EAC, TSP, PKCS, OCSP, CMP, and CRMF APIs][29] | [Bouncy Castle Licence][30]                    |
@@ -95,11 +95,11 @@
 ## Javascript-test
 
 [0]: http://hamcrest.org/JavaHamcrest/
-[1]: http://opensource.org/licenses/BSD-3-Clause
+[1]: https://raw.githubusercontent.com/hamcrest/JavaHamcrest/master/LICENSE
 [2]: https://junit.org/junit5/
 [3]: https://www.eclipse.org/legal/epl-v20.html
 [4]: http://www.exasol.com/
-[5]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/24.1.0/exasol-jdbc-24.1.0-license.txt
+[5]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/24.1.1/exasol-jdbc-24.1.1-license.txt
 [6]: http://sonarsource.github.io/sonar-scanner-maven/
 [7]: http://www.gnu.org/licenses/lgpl.txt
 [8]: https://maven.apache.org/plugins/maven-toolchains-plugin/
