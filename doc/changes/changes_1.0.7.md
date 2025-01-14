@@ -1,12 +1,14 @@
-# Tableau Connector 1.0.7, released 2025-??-??
+# Tableau Connector 1.0.7, released 2025-01-15
 
-Code name:
+Code name: Fix CVE-2020-36604 in test dependency `hoek`
 
 ## Summary
 
-## Features
+This release fixes vulnerability CVE-2020-36604 in test dependency `hoek`.
 
-* ISSUE_NUMBER: description
+## Security
+
+* #93: Fixed CVE-2020-36604 in test dependency `hoek`
 
 ## Dependency Updates
 
