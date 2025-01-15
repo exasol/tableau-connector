@@ -8,7 +8,7 @@
     },
     "devDependencies": {
         "jest": "^29.7.0",
-        "xml2json": "^0.12.0"
+        "xml2json": "^0.7.1"
     },
     "jest": {
         "verbose": false

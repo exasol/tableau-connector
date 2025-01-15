@@ -75,3 +75,9 @@ This release fixes vulnerability CVE-2020-36604 in test dependency `hoek`.
 * Updated `org.apache.maven.plugins:maven-surefire-plugin:3.2.5` to `3.5.2`
 * Updated `org.codehaus.mojo:versions-maven-plugin:2.16.2` to `2.18.0`
 * Updated `org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121` to `5.0.0.4389`
+
+### Javascript-test
+
+#### Development Dependency Updates
+
+* Updated `xml2json:^0.12.0` to `^0.7.1`
