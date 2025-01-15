@@ -109,6 +109,17 @@ build:
             id: generate-dummy-error-code-report
             run: echo '{"$schema":"https://schemas.exasol.com/error_code_report-1.0.0.json","errorCodes":[]}' > target/error_code_report.json
 
+        - action: INSERT_AFTER
+          job: build-and-test
+          stepId: sonar-analysis
+          content:
+            name: Audit NPM dependencies
+            id: audit-npm-dependencies
+            run: |
+              cd javascript-test
+              npm audit --audit-level low
+              npm audit signatures
+
         - action: REPLACE
           job: next-java-compatibility
           stepId: build-next-java

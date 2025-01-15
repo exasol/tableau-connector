@@ -119,6 +119,12 @@ jobs:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}',
           SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
         }
+      - name: Audit NPM dependencies
+        id: audit-npm-dependencies
+        run: |
+          cd javascript-test
+          npm audit --audit-level low
+          npm audit signatures
       - name: Verify Release Artifacts
         id: verify-release-artifacts
         run: "print_message() {\n    local -r message=$1\n    echo \"$message\"\n    echo \"$message\" >> \"$GITHUB_STEP_SUMMARY\"\n}\n\nprint_message \"### Release Artifacts\"\n\nIFS=$'\\n' artifacts_array=($ARTIFACTS)\nmissing_files=()\nfor file in \"${artifacts_array[@]}\";\ndo  \n    echo \"Checking if file $file exists...\"\n    if ! [[ -f \"$file\" ]]; then\n        print_message \"* ⚠️ \\`$file\\` does not exist ⚠️\"\n        echo \"Content of directory $(dirname \"$file\"):\"\n        ls \"$(dirname \"$file\")\"\n        missing_files+=(\"$file\")\n    else\n        print_message \"* \\`$file\\` ✅\" \n    fi\ndone\nprint_message \"\"\nnumber_of_missing_files=${#missing_files[@]}\nif [[ $number_of_missing_files -gt 0 ]]; then\n    print_message \"⚠️ $number_of_missing_files release artifact(s) missing ⚠️\"\n    exit 1\nfi\n"
