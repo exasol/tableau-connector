@@ -29,6 +29,7 @@ excludes:
   - regex: "(?s)E-PK-CORE-62: The project's README\\.md does not contain a valid badges block\\. Please add or replace the following badges.*"
   - "E-PK-CORE-17: Missing required file: '.github/workflows/ci-build-next-java.yml'"
 build:
+  runnerOs: ubuntu-24.04
   workflows:
     - name: "ci-build.yml"
       stepCustomizations:
