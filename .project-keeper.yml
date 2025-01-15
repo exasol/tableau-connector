@@ -98,7 +98,7 @@ build:
           content:
             name: Project Keeper Verify
             id: build-pk-verify
-            run: mvn --batch-mode -DtrimStackTrace=false --projects . test com.exasol:project-keeper-maven-plugin:verify
+            run: mvn --batch-mode --projects . test com.exasol:project-keeper-maven-plugin:verify
 
         - action: INSERT_AFTER
           job: build-and-test
@@ -107,6 +107,14 @@ build:
             name: Generate dummy error code report
             id: generate-dummy-error-code-report
             run: echo '{"$schema":"https://schemas.exasol.com/error_code_report-1.0.0.json","errorCodes":[]}' > target/error_code_report.json
+
+        - action: REPLACE
+          job: next-java-compatibility
+          stepId: build-next-java
+          content:
+            name: Run tests and build with Maven 17
+            id: build-next-java
+            run: mvn --batch-mode clean package --projects . -Djava.version=17
 
     - name: "release.yml"
       stepCustomizations:
