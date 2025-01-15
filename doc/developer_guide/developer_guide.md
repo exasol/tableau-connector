@@ -140,6 +140,8 @@ npm error       |            CopyablePersistentTraits
 npm error ../../nan/nan.h:207:7: note: 'CopyablePersistentTraits' declared here
 ```
 
+Installing Node version 22 should fix the problem.
+
 ### Run Tests
 
 ```sh
