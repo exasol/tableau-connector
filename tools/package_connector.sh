@@ -5,6 +5,7 @@ project_dir="$( cd "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )"
 readonly project_dir
 readonly target_dir="$project_dir/target/"
 readonly sdk_dir="$target_dir/connector-plugin-sdk/"
+readonly venv_dir="$sdk_dir/connector-packager/.venv/"
 readonly packager_dir="$sdk_dir/connector-packager/"
 
 
@@ -13,6 +14,7 @@ set_up_environment () {
     change_to_connector_packager_directory
     create_virtual_environment
     activate_virtual_environment
+    install_setuptools
     install_packaging_module
 }
 
@@ -30,25 +32,29 @@ change_to_connector_packager_directory () {
 }
 
 create_virtual_environment () {
-    echo "# Creating virtual environment"
+    echo "# Creating virtual environment at $venv_dir"
     echo "# NOTE: Make sure 'python3-venv' is installed ('sudo apt-get install python3-venv' in Ubuntu)"
     if hash python3 2>/dev/null; then
-        python3 -m venv .venv
+        python3 -m venv "$venv_dir"
     else
-        python -m venv .venv
+        python -m venv "$venv_dir"
     fi
 }
 
 activate_virtual_environment () {
-    echo "# Activating virtual environment"
-    venv_dir="$sdk_dir/connector-packager/.venv/"
     if [ -d "$venv_dir/Scripts" ]; then
         activate_script="$venv_dir/Scripts/activate"
     else
         activate_script="$venv_dir/bin/activate"
     fi
+    echo "# Activating virtual environment using $activate_script"
     # shellcheck source=/dev/null # file only exists at runtime
     source "$activate_script"
+}
+
+install_setuptools () {
+    echo "# Installing Python setuptools..."
+    pip install --upgrade pip setuptools
 }
 
 install_packaging_module () {

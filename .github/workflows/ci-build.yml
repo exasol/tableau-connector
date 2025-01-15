@@ -9,8 +9,8 @@ on:
   pull_request: null
   workflow_dispatch: null
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-test:
+    runs-on: ubuntu-24.04
     defaults:
       run: {
         shell: bash
@@ -20,7 +20,7 @@ jobs:
       issues: read
     }
     concurrency: {
-      group: '${{ github.workflow }}-${{ github.ref }}',
+      group: '${{ github.workflow }}-build-and-test-${{ github.ref }}',
       cancel-in-progress: true
     }
     outputs: {
@@ -44,7 +44,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: |
+          java-version: |-
             11
             17
           cache: maven
@@ -100,7 +100,7 @@ jobs:
       - {
         name: Project Keeper Verify,
         id: build-pk-verify,
-        run: 'mvn --batch-mode -DtrimStackTrace=false --projects . test com.exasol:project-keeper-maven-plugin:verify'
+        run: 'mvn --batch-mode --projects . test com.exasol:project-keeper-maven-plugin:verify'
       }
       - {
         name: Generate dummy error code report,
@@ -119,6 +119,12 @@ jobs:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}',
           SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
         }
+      - name: Audit NPM dependencies
+        id: audit-npm-dependencies
+        run: |
+          cd javascript-test
+          npm audit --audit-level low
+          npm audit signatures
       - name: Verify Release Artifacts
         id: verify-release-artifacts
         run: "print_message() {\n    local -r message=$1\n    echo \"$message\"\n    echo \"$message\" >> \"$GITHUB_STEP_SUMMARY\"\n}\n\nprint_message \"### Release Artifacts\"\n\nIFS=$'\\n' artifacts_array=($ARTIFACTS)\nmissing_files=()\nfor file in \"${artifacts_array[@]}\";\ndo  \n    echo \"Checking if file $file exists...\"\n    if ! [[ -f \"$file\" ]]; then\n        print_message \"* ⚠️ \\`$file\\` does not exist ⚠️\"\n        echo \"Content of directory $(dirname \"$file\"):\"\n        ls \"$(dirname \"$file\")\"\n        missing_files+=(\"$file\")\n    else\n        print_message \"* \\`$file\\` ✅\" \n    fi\ndone\nprint_message \"\"\nnumber_of_missing_files=${#missing_files[@]}\nif [[ $number_of_missing_files -gt 0 ]]; then\n    print_message \"⚠️ $number_of_missing_files release artifact(s) missing ⚠️\"\n    exit 1\nfi\n"
@@ -133,6 +139,89 @@ jobs:
           path: '${{ steps.build-pk-verify.outputs.release-artifacts }}',
           retention-days: 5
         }
+      - name: Configure link check
+        id: configure-link-check
+        run: |
+          mkdir -p ./target
+          echo '{"aliveStatusCodes": [429, 200], "ignorePatterns": [' \
+               '{"pattern": "^https?://(www|dev).mysql.com/"},' \
+               '{"pattern": "^https?://(www.)?opensource.org"}' \
+               '{"pattern": "^https?://(www.)?eclipse.org"}' \
+               '{"pattern": "^https?://projects.eclipse.org"}' \
+               ']}' > ./target/broken_links_checker.json
+      - uses: gaurav-nelson/github-action-markdown-link-check@v1
+        id: run-link-check
+        with: {
+          use-quiet-mode: yes,
+          use-verbose-mode: yes,
+          config-file: ./target/broken_links_checker.json
+        }
+  next-java-compatibility:
+    runs-on: ubuntu-latest
+    defaults:
+      run: {
+        shell: bash
+      }
+    permissions: {
+      contents: read
+    }
+    concurrency: {
+      group: '${{ github.workflow }}-next-java-${{ github.ref }}',
+      cancel-in-progress: true
+    }
+    steps:
+      - name: Checkout the repository
+        id: checkout
+        uses: actions/checkout@v4
+        with: {
+          fetch-depth: 0
+        }
+      - name: Set up JDK 17
+        id: setup-java
+        uses: actions/setup-java@v4
+        with: {
+          distribution: temurin,
+          java-version: '17',
+          cache: maven
+        }
+      - {
+        name: Run tests and build with Maven 17,
+        id: build-next-java,
+        run: mvn --batch-mode clean test -Djava.version=17
+      }
+  build:
+    needs: [
+      build-and-test,
+      next-java-compatibility
+    ]
+    runs-on: ubuntu-latest
+    defaults:
+      run: {
+        shell: bash
+      }
+    permissions: {
+      contents: read,
+      issues: read
+    }
+    outputs: {
+      release-required: '${{ steps.check-release.outputs.release-required }}'
+    }
+    steps:
+      - name: Checkout the repository
+        id: checkout
+        uses: actions/checkout@v4
+        with: {
+          fetch-depth: 0
+        }
+      - name: Set up JDKs
+        id: setup-java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: |-
+            11
+            17
+          cache: maven
       - name: Check if release is needed
         id: check-release
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -141,7 +230,7 @@ jobs:
               echo "### ✅ Release preconditions met, start release" >> "$GITHUB_STEP_SUMMARY"
               echo "release-required=true" >> "$GITHUB_OUTPUT"
           else
-              echo "### 🛑 Release precondition not met, skipping release" >> "$GITHUB_STEP_SUMMARY"
+              echo "### 🛑 Not all release preconditions met, skipping release" >> "$GITHUB_STEP_SUMMARY"
               echo "See log output for details." >> "$GITHUB_STEP_SUMMARY"
               echo "release-required=false" >> "$GITHUB_OUTPUT"
           fi

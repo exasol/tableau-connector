@@ -29,10 +29,12 @@ excludes:
   - regex: "(?s)E-PK-CORE-62: The project's README\\.md does not contain a valid badges block\\. Please add or replace the following badges.*"
   - "E-PK-CORE-17: Missing required file: '.github/workflows/ci-build-next-java.yml'"
 build:
+  runnerOs: ubuntu-24.04
   workflows:
     - name: "ci-build.yml"
       stepCustomizations:
         - action: INSERT_AFTER
+          job: build-and-test
           stepId: setup-java
           content:
             id: setup-node
@@ -43,6 +45,7 @@ build:
               cache-dependency-path: "javascript-test/package-lock.json"
 
         - action: INSERT_AFTER
+          job: build-and-test
           stepId: setup-node
           content:
             name: Run JavaScript tests
@@ -53,6 +56,7 @@ build:
               npm run test
 
         - action: INSERT_AFTER
+          job: build-and-test
           stepId: run-javascript-tests
           content:
             name: Build connectors
@@ -60,6 +64,7 @@ build:
             run: ./tools/package_connector.sh
 
         - action: INSERT_AFTER
+          job: build-and-test
           stepId: build-connectors
           content:
             name: Retrieve code signing certificate
@@ -69,6 +74,7 @@ build:
               CODE_SIGNING_CERTIFICATE_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}
 
         - action: INSERT_AFTER
+          job: build-and-test
           stepId: retrieve-code-signing-certificate
           content:
             name: Retrieve code signing certificate chain
@@ -78,6 +84,7 @@ build:
               CODE_SIGNING_CERTIFICATE_CHAIN_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 }}
 
         - action: INSERT_AFTER
+          job: build-and-test
           stepId: retrieve-code-signing-certificate-chain
           content:
             name: Sign connectors
@@ -87,22 +94,44 @@ build:
               CODE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}
 
         - action: REPLACE
+          job: build-and-test
           stepId: build-pk-verify
           content:
             name: Project Keeper Verify
             id: build-pk-verify
-            run: mvn --batch-mode -DtrimStackTrace=false --projects . test com.exasol:project-keeper-maven-plugin:verify
+            run: mvn --batch-mode --projects . test com.exasol:project-keeper-maven-plugin:verify
 
         - action: INSERT_AFTER
+          job: build-and-test
           stepId: build-pk-verify
           content:
             name: Generate dummy error code report
             id: generate-dummy-error-code-report
             run: echo '{"$schema":"https://schemas.exasol.com/error_code_report-1.0.0.json","errorCodes":[]}' > target/error_code_report.json
 
+        - action: INSERT_AFTER
+          job: build-and-test
+          stepId: sonar-analysis
+          content:
+            name: Audit NPM dependencies
+            id: audit-npm-dependencies
+            run: |
+              cd javascript-test
+              npm audit --audit-level low
+              npm audit signatures
+
+        - action: REPLACE
+          job: next-java-compatibility
+          stepId: build-next-java
+          content:
+            name: Run tests and build with Maven 17
+            id: build-next-java
+            run: mvn --batch-mode clean test -Djava.version=17
+
     - name: "release.yml"
       stepCustomizations:
         - action: INSERT_AFTER
+          job: release
           stepId: setup-jdks
           content:
             id: setup-node
@@ -113,6 +142,7 @@ build:
               cache-dependency-path: "javascript-test/package-lock.json"
 
         - action: REPLACE
+          job: release
           stepId: build
           content:
             name: Build connectors
@@ -120,6 +150,7 @@ build:
             run: ./tools/package_connector.sh
 
         - action: INSERT_AFTER
+          job: release
           stepId: build
           content:
             name: Retrieve code signing certificate
@@ -129,6 +160,7 @@ build:
               CODE_SIGNING_CERTIFICATE_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}
 
         - action: INSERT_AFTER
+          job: release
           stepId: retrieve-code-signing-certificate
           content:
             name: Retrieve code signing certificate chain
@@ -138,6 +170,7 @@ build:
               CODE_SIGNING_CERTIFICATE_CHAIN_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 }}
 
         - action: INSERT_AFTER
+          job: release
           stepId: retrieve-code-signing-certificate-chain
           content:
             name: Sign connectors
@@ -147,6 +180,7 @@ build:
               CODE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}
 
         - action: INSERT_AFTER
+          job: release
           stepId: build
           content:
             name: Generate dummy error code report

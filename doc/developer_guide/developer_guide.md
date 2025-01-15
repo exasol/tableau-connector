@@ -127,6 +127,23 @@ target/tableau-exasol-connector-odbc-<version>.taco
 
 ## Run JavaScript Tests
 
+### Required Node Version
+
+Installing test dependencies may fail with Node version 23 when compiling native library `node-expat`:
+
+```
+npm error In file included from ../node-expat.cc:1:
+npm error ../../nan/nan.h:208:12: error: no template named 'CopyablePersistentTraits' in namespace 'v8'; did you mean simply 'CopyablePersistentTraits'?
+npm error   208 |     public v8::CopyablePersistentTraits<T> {};
+npm error       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+npm error       |            CopyablePersistentTraits
+npm error ../../nan/nan.h:207:7: note: 'CopyablePersistentTraits' declared here
+```
+
+Installing Node version 22 should fix the problem.
+
+### Run Tests
+
 ```sh
 cd javascript-test
 npm install

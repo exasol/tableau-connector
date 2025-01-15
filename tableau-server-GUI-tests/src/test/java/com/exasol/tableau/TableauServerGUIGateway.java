@@ -28,7 +28,6 @@ public class TableauServerGUIGateway {
         this.httpHostAddress = httpHostAddress;
         WebDriverManager.chromedriver().setup();
         final ChromeOptions options = new ChromeOptions();
-        options.setHeadless(true);
         this.driver = new ChromeDriver(options);
     }
 
@@ -164,7 +163,7 @@ public class TableauServerGUIGateway {
         this.clickUpperMenuData("dataMenu");
         this.clickUpperMenuInnerButton("Duplicate Data Source");
         this.explicitWait(2);
-        return this.getElement("input", "data-tb-test-id", "renameDataSource-TextInput").getAttribute("value");
+        return this.getElement("input", "data-tb-test-id", "renameDataSource-TextInput").getDomAttribute("value");
     }
 
     private void clickUpperMenuData(final String menuName) {
