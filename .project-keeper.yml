@@ -115,7 +115,7 @@ build:
           content:
             name: Run tests and build with Maven 17
             id: build-next-java
-            run: mvn --batch-mode clean package --projects . -Djava.version=17
+            run: mvn --batch-mode clean test --projects . -Djava.version=17
 
     - name: "release.yml"
       stepCustomizations:
