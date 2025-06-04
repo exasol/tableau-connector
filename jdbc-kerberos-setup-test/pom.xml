@@ -20,14 +20,14 @@
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.11.4</version>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.13.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-jdbc</artifactId>
-            <version>24.2.1</version>
+            <version>25.2.3</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
@@ -36,7 +36,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>4.5.0</version>
+                <version>5.1.0</version>
                 <executions>
                     <execution>
                         <goals>
