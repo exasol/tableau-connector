@@ -9,7 +9,8 @@ readonly venv_dir="$target_dir/tdvt-venv"
 skip_generate=false
 
 verify_no_connector_installed() {
-    readonly connector_dir=$(cygpath "C:\Program Files\Tableau\Connectors")
+    connector_dir=$(cygpath "C:\Program Files\Tableau\Connectors")
+    readonly connector_dir
     echo "$connector_dir"
     if [ "$(ls -A "$connector_dir")" ]; then
         echo "ERROR: Connectors are installed in $connector_dir that might override code under test: $(ls -A "$connector_dir")"

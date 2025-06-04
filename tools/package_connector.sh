@@ -14,7 +14,6 @@ set_up_environment () {
     change_to_connector_packager_directory
     create_virtual_environment
     activate_virtual_environment
-    install_setuptools
     install_packaging_module
 }
 
@@ -52,14 +51,9 @@ activate_virtual_environment () {
     source "$activate_script"
 }
 
-install_setuptools () {
-    echo "# Installing Python setuptools..."
-    pip install --upgrade pip setuptools
-}
-
 install_packaging_module () {
     echo "# Installing packaging module"
-    python setup.py install
+    pip install -e .
 }
 
 package_connector () {
