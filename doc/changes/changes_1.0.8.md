@@ -89,9 +89,3 @@ This issue has been fixed quite a while back now, but the OSSIndex unfortunately
 * Updated `org.codehaus.mojo:flatten-maven-plugin:1.6.0` to `1.7.0`
 * Updated `org.jacoco:jacoco-maven-plugin:0.8.12` to `0.8.13`
 * Updated `org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389` to `5.1.0.4751`
-
-### Javascript-test
-
-#### Development Dependency Updates
-
-* Updated `xml2json:^0.7.1` to `^0.12.0`
