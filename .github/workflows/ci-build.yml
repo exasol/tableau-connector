@@ -78,7 +78,7 @@ jobs:
         run: |
           echo "All artifacts:"
           pwd
-          ls -la
+          ls -la target
           #echo "${{ steps.build-pk-verify.outputs.release-artifacts }}"
           #jar_file=$(echo "${{ steps.build-pk-verify.outputs.release-artifacts }}" | grep -E '\.jar$' | head -n 1)
           #echo "Found jar file: $jar_file"
