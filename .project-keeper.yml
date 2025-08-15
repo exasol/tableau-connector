@@ -115,7 +115,7 @@ build:
               override: true
         - action: INSERT_AFTER
           job: build-and-test
-          stepId: esign-jdbc
+          stepId: esign-odbc
           content:
             name: Copy signed files
             id: esign-copy-target
