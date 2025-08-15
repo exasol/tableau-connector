@@ -72,12 +72,16 @@ build:
             run: |
               ver_jdbc=$(grep "plugin-version" < src/exasol_jdbc/manifest.xml | sed 's/^.*plugin-version="\([^"]*\)".*$/\1/')
               ver_odbc=$(grep "plugin-version" < src/exasol_jdbc/manifest.xml | sed 's/^.*plugin-version="\([^"]*\)".*$/\1/')
+              jar_jdbc=target/tableau-exasol-connector_jdbc_${ver_jdbc}.jar
               tgt_jdbc=target/tableau-exasol-connector_jdbc_${ver_jdbc}.taco
+              jar_odbc=target/tableau-exasol-connector_odbc_${ver_odbc}.jar
               tgt_odbc=target/tableau-exasol-connector_odbc_${ver_odbc}.taco
-              cp target/exasol_jdbc.taco ${tgt_jdbc}
-              cp target/exasol_odbc.taco ${tgt_odbc}
-              echo "output_jdbc=${tgt_jdbc}" >> "$GITHUB_OUTPUT"
-              echo "output_odbc=${tgt_odbc}" >> "$GITHUB_OUTPUT"
+              cp target/exasol_jdbc.taco ${jar_jdbc}
+              cp target/exasol_odbc.taco ${jar_odbc}
+              echo "jar_jdbc=${jar_jdbc}" >> "$GITHUB_OUTPUT"
+              echo "jar_odbc=${jar_odbc}" >> "$GITHUB_OUTPUT"
+              echo "tgt_jdbc=${tgt_jdbc}" >> "$GITHUB_OUTPUT"
+              echo "tgt_odbc=${tgt_odbc}" >> "$GITHUB_OUTPUT"
               cat "$GITHUB_OUTPUT"
         - action: INSERT_AFTER
           job: build-and-test
@@ -92,7 +96,7 @@ build:
               password: ${{ secrets.ESIGN_PASSWORD }}
               credential_id: ${{ secrets.ESIGN_CREDENTIAL_ID }}
               totp_secret: ${{ secrets.ESIGN_TOTP_SECRET }}
-              file_path: ${{ steps.esign-filter.outputs.output_jdbc }}
+              file_path: ${{ steps.esign-filter.outputs.jar_jdbc }}
               override: true
         - action: INSERT_AFTER
           job: build-and-test
@@ -107,9 +111,19 @@ build:
               password: ${{ secrets.ESIGN_PASSWORD }}
               credential_id: ${{ secrets.ESIGN_CREDENTIAL_ID }}
               totp_secret: ${{ secrets.ESIGN_TOTP_SECRET }}
-              file_path: ${{ steps.esign-filter.outputs.output_odbc }}
+              file_path: ${{ steps.esign-filter.outputs.jar_odbc }}
               override: true
-
+        - action: INSERT_AFTER
+          job: build-and-test
+          stepId: esign-jdbc
+          content:
+            name: Copy signed files
+            id: esign-copy-target
+            run: |
+              cp ${{ steps.esign-filter.outputs.jar_jdbc }} ${{ steps.esign-filter.outputs.tgt_jdbc }}
+              cp ${{ steps.esign-filter.outputs.jar_odbc }} ${{ steps.esign-filter.outputs.tgt_odbc }}
+              echo "All done"
+              ls -l target
 #        - action: INSERT_AFTER
 #          job: build-and-test
 #          stepId: build-connectors
