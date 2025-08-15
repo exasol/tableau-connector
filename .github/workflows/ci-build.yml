@@ -78,11 +78,37 @@ jobs:
         run: |
           ver_jdbc=$(grep "plugin-version" < src/exasol_jdbc/manifest.xml | sed 's/^.*plugin-version="\([^"]*\)".*$/\1/')
           ver_odbc=$(grep "plugin-version" < src/exasol_jdbc/manifest.xml | sed 's/^.*plugin-version="\([^"]*\)".*$/\1/')
-          echo "input_jdbc=target/exasol_jdbc.taco" >> "$GITHUB_OUTPUT"
-          echo "output_jdbc=target/tableau-exasol-connector_jdbc_${ver_jdbc}.taco" >> "$GITHUB_OUTPUT"
-          echo "input_odbc=target/exasol_odbc.taco" >> "$GITHUB_OUTPUT"
-          echo "output_odbc=target/tableau-exasol-connector_odbc_${ver_odbc}.taco" >> "$GITHUB_OUTPUT"
+          tgt_jdbc=target/tableau-exasol-connector_jdbc_${ver_jdbc}.taco
+          tgt_odbc=target/tableau-exasol-connector_odbc_${ver_odbc}.taco
+          cp target/exasol_jdbc.taco ${tgt_jdbc}
+          cp target/exasol_odbc.taco ${tgt_odbc}
+          echo "output_jdbc=${tgt_jdbc}" >> "$GITHUB_OUTPUT"
+          echo "output_odbc=${tgt_odbc}" >> "$GITHUB_OUTPUT"
           cat "$GITHUB_OUTPUT"
+      - name: Sign JDBC with CodeSignTool
+        id: esign-jdbc
+        uses: sslcom/esigner-codesign@v1.3.1
+        with: {
+          command: sign,
+          username: '${{ secrets.ESIGN_USERNAME }}',
+          password: '${{ secrets.ESIGN_PASSWORD }}',
+          credential_id: '${{ secrets.ESIGN_CREDENTIAL_ID }}',
+          totp_secret: '${{ secrets.ESIGN_TOTP_SECRET }}',
+          file_path: '${{ steps.esign-filter.outputs.output_jdbc }}',
+          override: true
+        }
+      - name: Sign ODBC with CodeSignTool
+        id: esign-odbc
+        uses: sslcom/esigner-codesign@v1.3.1
+        with: {
+          command: sign,
+          username: '${{ secrets.ESIGN_USERNAME }}',
+          password: '${{ secrets.ESIGN_PASSWORD }}',
+          credential_id: '${{ secrets.ESIGN_CREDENTIAL_ID }}',
+          totp_secret: '${{ secrets.ESIGN_TOTP_SECRET }}',
+          file_path: '${{ steps.esign-filter.outputs.output_odbc }}',
+          override: true
+        }
       - name: Cache SonarCloud packages
         id: cache-sonar
         uses: actions/cache@v4
