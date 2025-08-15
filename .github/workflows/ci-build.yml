@@ -82,6 +82,7 @@ jobs:
           echo "output_jdbc=target/tableau-exasol-connector_jdbc_${ver_jdbc}.taco" >> "$GITHUB_OUTPUT"
           echo "input_odbc=target/exasol_odbc.taco" >> "$GITHUB_OUTPUT"
           echo "output_odbc=target/tableau-exasol-connector_odbc_${ver_odbc}.taco" >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
       - name: Cache SonarCloud packages
         id: cache-sonar
         uses: actions/cache@v4
