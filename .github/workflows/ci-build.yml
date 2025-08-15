@@ -73,24 +73,16 @@ jobs:
         id: build-connectors,
         run: ./tools/package_connector.sh
       }
-      - name: Retrieve code signing certificate
-        id: retrieve-code-signing-certificate
-        run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.p12
-        env: {
-          CODE_SIGNING_CERTIFICATE_BASE64: '${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}'
-        }
-      - name: Retrieve code signing certificate chain
-        id: retrieve-code-signing-certificate-chain
-        run: echo $CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 | base64 --decode > target/cert_chain.p7b
-        env: {
-          CODE_SIGNING_CERTIFICATE_CHAIN_BASE64: '${{ secrets.CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 }}'
-        }
-      - name: Sign connectors
-        id: sign-connectors
-        run: ./tools/sign_connector.sh target/cert.p12 target/cert_chain.p7b
-        env: {
-          CODE_SIGNING_CERTIFICATE_PASSWORD: '${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}'
-        }
+      - name: Filter artifacts to be signed
+        id: esign-filter
+        run: |
+          echo "All artifacts:"
+          pwd
+          ls -la
+          #echo "${{ steps.build-pk-verify.outputs.release-artifacts }}"
+          #jar_file=$(echo "${{ steps.build-pk-verify.outputs.release-artifacts }}" | grep -E '\.jar$' | head -n 1)
+          #echo "Found jar file: $jar_file"
+          #echo "jar_file=$jar_file" >> "$GITHUB_OUTPUT"
       - name: Cache SonarCloud packages
         id: cache-sonar
         uses: actions/cache@v4

@@ -133,24 +133,6 @@ jobs:
         id: generate-dummy-error-code-report,
         run: 'echo ''{"$schema":"https://schemas.exasol.com/error_code_report-1.0.0.json","errorCodes":[]}'' > target/error_code_report.json'
       }
-      - name: Retrieve code signing certificate
-        id: retrieve-code-signing-certificate
-        run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.p12
-        env: {
-          CODE_SIGNING_CERTIFICATE_BASE64: '${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}'
-        }
-      - name: Retrieve code signing certificate chain
-        id: retrieve-code-signing-certificate-chain
-        run: echo $CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 | base64 --decode > target/cert_chain.p7b
-        env: {
-          CODE_SIGNING_CERTIFICATE_CHAIN_BASE64: '${{ secrets.CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 }}'
-        }
-      - name: Sign connectors
-        id: sign-connectors
-        run: ./tools/sign_connector.sh target/cert.p12 target/cert_chain.p7b
-        env: {
-          CODE_SIGNING_CERTIFICATE_PASSWORD: '${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}'
-        }
       - {
         name: List secret GPG keys,
         id: list-secret-gpg-keys,

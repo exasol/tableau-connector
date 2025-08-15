@@ -67,31 +67,61 @@ build:
           job: build-and-test
           stepId: build-connectors
           content:
-            name: Retrieve code signing certificate
-            id: retrieve-code-signing-certificate
-            run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.p12
-            env:
-              CODE_SIGNING_CERTIFICATE_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}
+            name: Filter artifacts to be signed
+            id: esign-filter
+            run: |
+              echo "All artifacts:"
+              pwd
+              ls -la
+              #echo "${{ steps.build-pk-verify.outputs.release-artifacts }}"
+              #jar_file=$(echo "${{ steps.build-pk-verify.outputs.release-artifacts }}" | grep -E '\.jar$' | head -n 1)
+              #echo "Found jar file: $jar_file"
+              #echo "jar_file=$jar_file" >> "$GITHUB_OUTPUT"
+#        - action: INSERT_AFTER
+#          job: matrix-build
+#          stepId: esign-filter
+#          content:
+#            name: Sign Artifact with CodeSignTool
+#            id: esign-artifact
+#            uses: sslcom/esigner-codesign@v1.3.1
+#            with:
+#              command: sign
+#              username: ${{ secrets.ESIGN_USERNAME }}
+#              password: ${{ secrets.ESIGN_PASSWORD }}
+#              credential_id: ${{ secrets.ESIGN_CREDENTIAL_ID }}
+#              totp_secret: ${{ secrets.ESIGN_TOTP_SECRET }}
+#              file_path: ${{ steps.esign-filter.outputs.jar_file }}
+#              override: true
 
-        - action: INSERT_AFTER
-          job: build-and-test
-          stepId: retrieve-code-signing-certificate
-          content:
-            name: Retrieve code signing certificate chain
-            id: retrieve-code-signing-certificate-chain
-            run: echo $CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 | base64 --decode > target/cert_chain.p7b
-            env:
-              CODE_SIGNING_CERTIFICATE_CHAIN_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 }}
-
-        - action: INSERT_AFTER
-          job: build-and-test
-          stepId: retrieve-code-signing-certificate-chain
-          content:
-            name: Sign connectors
-            id: sign-connectors
-            run: ./tools/sign_connector.sh target/cert.p12 target/cert_chain.p7b
-            env:
-              CODE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}
+#        - action: INSERT_AFTER
+#          job: build-and-test
+#          stepId: build-connectors
+#          content:
+#            name: Retrieve code signing certificate
+#            id: retrieve-code-signing-certificate
+#            run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.p12
+#            env:
+#              CODE_SIGNING_CERTIFICATE_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}
+#
+#        - action: INSERT_AFTER
+#          job: build-and-test
+#          stepId: retrieve-code-signing-certificate
+#          content:
+#            name: Retrieve code signing certificate chain
+#            id: retrieve-code-signing-certificate-chain
+#            run: echo $CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 | base64 --decode > target/cert_chain.p7b
+#            env:
+#              CODE_SIGNING_CERTIFICATE_CHAIN_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 }}
+#
+#        - action: INSERT_AFTER
+#          job: build-and-test
+#          stepId: retrieve-code-signing-certificate-chain
+#          content:
+#            name: Sign connectors
+#            id: sign-connectors
+#            run: ./tools/sign_connector.sh target/cert.p12 target/cert_chain.p7b
+#            env:
+#              CODE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}
 
         - action: REPLACE
           job: build-and-test
@@ -149,35 +179,35 @@ build:
             id: build
             run: ./tools/package_connector.sh
 
-        - action: INSERT_AFTER
-          job: release
-          stepId: build
-          content:
-            name: Retrieve code signing certificate
-            id: retrieve-code-signing-certificate
-            run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.p12
-            env:
-              CODE_SIGNING_CERTIFICATE_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}
-
-        - action: INSERT_AFTER
-          job: release
-          stepId: retrieve-code-signing-certificate
-          content:
-            name: Retrieve code signing certificate chain
-            id: retrieve-code-signing-certificate-chain
-            run: echo $CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 | base64 --decode > target/cert_chain.p7b
-            env:
-              CODE_SIGNING_CERTIFICATE_CHAIN_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 }}
-
-        - action: INSERT_AFTER
-          job: release
-          stepId: retrieve-code-signing-certificate-chain
-          content:
-            name: Sign connectors
-            id: sign-connectors
-            run: ./tools/sign_connector.sh target/cert.p12 target/cert_chain.p7b
-            env:
-              CODE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}
+#        - action: INSERT_AFTER
+#          job: release
+#          stepId: build
+#          content:
+#            name: Retrieve code signing certificate
+#            id: retrieve-code-signing-certificate
+#            run: echo $CODE_SIGNING_CERTIFICATE_BASE64 | base64 --decode > target/cert.p12
+#            env:
+#              CODE_SIGNING_CERTIFICATE_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_BASE64 }}
+#
+#        - action: INSERT_AFTER
+#          job: release
+#          stepId: retrieve-code-signing-certificate
+#          content:
+#            name: Retrieve code signing certificate chain
+#            id: retrieve-code-signing-certificate-chain
+#            run: echo $CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 | base64 --decode > target/cert_chain.p7b
+#            env:
+#              CODE_SIGNING_CERTIFICATE_CHAIN_BASE64: ${{ secrets.CODE_SIGNING_CERTIFICATE_CHAIN_BASE64 }}
+#
+#        - action: INSERT_AFTER
+#          job: release
+#          stepId: retrieve-code-signing-certificate-chain
+#          content:
+#            name: Sign connectors
+#            id: sign-connectors
+#            run: ./tools/sign_connector.sh target/cert.p12 target/cert_chain.p7b
+#            env:
+#              CODE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}
 
         - action: INSERT_AFTER
           job: release
