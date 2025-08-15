@@ -70,13 +70,12 @@ build:
             name: Filter artifacts to be signed
             id: esign-filter
             run: |
-              echo "All artifacts:"
-              pwd
-              ls -la target
-              #echo "${{ steps.build-pk-verify.outputs.release-artifacts }}"
-              #jar_file=$(echo "${{ steps.build-pk-verify.outputs.release-artifacts }}" | grep -E '\.jar$' | head -n 1)
-              #echo "Found jar file: $jar_file"
-              #echo "jar_file=$jar_file" >> "$GITHUB_OUTPUT"
+              ver_jdbc=$(grep "plugin-version" < src/exasol_jdbc/manifest.xml | sed 's/^.*plugin-version="\([^"]*\)".*$/\1/')
+              ver_odbc=$(grep "plugin-version" < src/exasol_jdbc/manifest.xml | sed 's/^.*plugin-version="\([^"]*\)".*$/\1/')
+              echo "input_jdbc=target/exasol_jdbc.taco" >> "$GITHUB_OUTPUT"
+              echo "output_jdbc=target/tableau-exasol-connector_jdbc_${ver_jdbc}.taco" >> "$GITHUB_OUTPUT"
+              echo "input_odbc=target/exasol_odbc.taco" >> "$GITHUB_OUTPUT"
+              echo "output_odbc=target/tableau-exasol-connector_odbc_${ver_odbc}.taco" >> "$GITHUB_OUTPUT"
 #        - action: INSERT_AFTER
 #          job: matrix-build
 #          stepId: esign-filter
