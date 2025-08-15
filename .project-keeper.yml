@@ -124,6 +124,18 @@ build:
               cp ${{ steps.esign-filter.outputs.jar_odbc }} ${{ steps.esign-filter.outputs.tgt_odbc }}
               echo "All done"
               ls -l target
+        - action: INSERT_AFTER
+          job: build-and-test
+          stepId: esign-copy-target
+          content:
+            name: Switch to java 17
+            id: esign-switch-java
+            uses: actions/setup-java@v4
+            with:
+              distribution: temurin
+              java-version: 17
+              cache: maven
+
 #        - action: INSERT_AFTER
 #          job: build-and-test
 #          stepId: build-connectors
