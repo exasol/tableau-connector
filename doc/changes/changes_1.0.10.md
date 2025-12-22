@@ -95,5 +95,4 @@ This release fixes vulnerability CVE-2025-48924 in test dependency `org.apache.c
 
 #### Development Dependency Updates
 
-* Updated `xml2json:^0.7.1` to `^0.12.0`
 * Updated `jest:^29.7.0` to `^30.2.0`
