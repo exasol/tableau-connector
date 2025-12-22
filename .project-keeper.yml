@@ -130,7 +130,7 @@ build:
           content:
             name: Switch to java 17
             id: esign-switch-java
-            uses: actions/setup-java@v4
+            uses: actions/setup-java@v5
             with:
               distribution: temurin
               java-version: 17
@@ -262,7 +262,7 @@ build:
           content:
             name: Switch to java 17
             id: esign-switch-java
-            uses: actions/setup-java@v4
+            uses: actions/setup-java@v5
             with:
               distribution: temurin
               java-version: 17
