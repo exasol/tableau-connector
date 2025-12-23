@@ -1,10 +1,11 @@
-# Tableau Connector 1.0.10, released 2025-12-22
+# Tableau Connector 1.0.10, released 2025-12-23
 
 Code name: Fix CVE-2025-48924 in test dependency
 
 ## Summary
 
 This release fixes vulnerability CVE-2025-48924 in test dependency `org.apache.commons:commons-lang3:jar:3.17.0:test`
+
 ## Security
 
 * #100: Fixed CVE-2025-48924 in `org.apache.commons:commons-lang3:jar:3.17.0:test`
