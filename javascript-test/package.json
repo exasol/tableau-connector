@@ -1,13 +1,13 @@
 {
     "name": "tableau-connector-unit-tests",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "type": "commonjs",
     "scripts": {
         "test": "jest",
         "test-watch": "jest --watchAll"
     },
     "devDependencies": {
-        "jest": "^29.7.0",
+        "jest": "^30.2.0",
         "xml2json": "^0.7.1"
     },
     "jest": {

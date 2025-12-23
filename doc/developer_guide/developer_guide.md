@@ -150,6 +150,13 @@ npm install
 npm test
 ```
 
+### Upgrade NPM Dependencies
+
+```sh
+cd javascript-test
+npx npm-check-updates -u && npm install
+```
+
 ## TDVT Tests
 
 You can run TDVT tests under Windows and macOS. This guide describes the setup for Windows. The setup for macOS is similar.

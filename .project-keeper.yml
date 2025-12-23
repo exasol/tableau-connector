@@ -38,9 +38,9 @@ build:
           stepId: setup-java
           content:
             id: setup-node
-            uses: actions/setup-node@v4
+            uses: actions/setup-node@v6
             with:
-              node-version: "22"
+              node-version: "24"
               cache: "npm"
               cache-dependency-path: "javascript-test/package-lock.json"
 
@@ -130,7 +130,7 @@ build:
           content:
             name: Switch to java 17
             id: esign-switch-java
-            uses: actions/setup-java@v4
+            uses: actions/setup-java@v5
             with:
               distribution: temurin
               java-version: 17
@@ -143,6 +143,9 @@ build:
             name: Project Keeper Verify
             id: build-pk-verify
             run: mvn --batch-mode --projects . test com.exasol:project-keeper-maven-plugin:verify
+            env:
+              OSSINDEX_USERNAME: ${{ secrets.OSSINDEX_USERNAME }}
+              OSSINDEX_API_TOKEN: ${{ secrets.OSSINDEX_API_TOKEN }}
 
         - action: INSERT_AFTER
           job: build-and-test
@@ -178,9 +181,9 @@ build:
           stepId: setup-jdks
           content:
             id: setup-node
-            uses: actions/setup-node@v4
+            uses: actions/setup-node@v6
             with:
-              node-version: "22"
+              node-version: "24"
               cache: "npm"
               cache-dependency-path: "javascript-test/package-lock.json"
 
@@ -259,7 +262,7 @@ build:
           content:
             name: Switch to java 17
             id: esign-switch-java
-            uses: actions/setup-java@v4
+            uses: actions/setup-java@v5
             with:
               distribution: temurin
               java-version: 17

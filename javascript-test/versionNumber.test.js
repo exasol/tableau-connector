@@ -16,12 +16,13 @@ function readJsonFile(path) {
  * @param {string} version the version to split
  */
 function splitVersion(version) {
-    return version.split('.').map(parseInt)
+    return version.split('.').map(part => parseInt(part, 10));
 }
 
 /**
  * @param {string} a first version
  * @param {string} b second version
+ * @returns {number} -1 if a < b, 1 if a > b, 0 if a == b
  */
 function versionComparator(a, b) {
     const [partsA, partsB] = [splitVersion(a), splitVersion(b)];
@@ -37,6 +38,7 @@ function versionComparator(a, b) {
             continue;
         }
     }
+    return 0;
 }
 
 function getLatestChangelogVersion() {
@@ -46,6 +48,25 @@ function getLatestChangelogVersion() {
         .sort(versionComparator)
     return versions[versions.length - 1]
 }
+
+describe("Split version", () => {
+    test("Splits version correctly", () => {
+        expect(splitVersion("1.0.0")).toEqual([1, 0, 0]);
+        expect(splitVersion("2.10.3")).toEqual([2, 10, 3]);
+        expect(splitVersion("0.1.5")).toEqual([0, 1, 5]);
+    })
+})
+
+describe("Version comparator", () => {
+    test("Compares versions correctly", () => {
+        expect(versionComparator("1.0.0", "1.0.1")).toBe(-1);
+        expect(versionComparator("1.0.1", "1.0.0")).toBe(1);
+        expect(versionComparator("1.0.0", "1.0.0")).toBe(0);
+        expect(versionComparator("1.0.9", "1.0.10")).toBe(-1);
+        expect(versionComparator("1.2.0", "1.10.0")).toBe(-1);
+        expect(versionComparator("2.0.0", "1.10.0")).toBe(1);
+    })
+})
 
 const changelogVersion = getLatestChangelogVersion();
 describe(`Latest version number ${changelogVersion}`, () => {
