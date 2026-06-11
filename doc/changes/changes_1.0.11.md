@@ -67,3 +67,9 @@ Code name:
 * Removed `org.apache.maven.plugins:maven-resources-plugin:3.4.0`
 * Updated `org.apache.maven.plugins:maven-surefire-plugin:3.5.4` to `3.5.5`
 * Updated `org.codehaus.mojo:versions-maven-plugin:2.20.1` to `2.21.0`
+
+### Javascript-test
+
+#### Development Dependency Updates
+
+* Updated `jest:^30.2.0` to `^30.4.2`
