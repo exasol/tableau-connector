@@ -119,10 +119,16 @@ jobs:
       - name: Copy signed files
         id: esign-copy-target
         run: |
-          cp ${{ steps.esign-filter.outputs.jar_jdbc }} ${{ steps.esign-filter.outputs.tgt_jdbc }}
-          cp ${{ steps.esign-filter.outputs.jar_odbc }} ${{ steps.esign-filter.outputs.tgt_odbc }}
+          cp "$JDBC_SOURCE" "$JDBC_TARGET"
+          cp "$ODBC_SOURCE" "$ODBC_TARGET"
           echo "All done"
           ls -l target
+        env: {
+          JDBC_SOURCE: '${{ steps.esign-filter.outputs.jar_jdbc }}',
+          ODBC_SOURCE: '${{ steps.esign-filter.outputs.jar_odbc }}',
+          JDBC_TARGET: '${{ steps.esign-filter.outputs.tgt_jdbc }}',
+          ODBC_TARGET: '${{ steps.esign-filter.outputs.tgt_odbc }}'
+        }
       - name: Switch to java 17
         id: esign-switch-java
         uses: actions/setup-java@v5
