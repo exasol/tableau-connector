@@ -27,7 +27,6 @@ version:
   fromSource: pom.xml
 excludes:
   - regex: "(?s)E-PK-CORE-62: The project's README\\.md does not contain a valid badges block\\. Please add or replace the following badges.*"
-  - "E-PK-CORE-17: Missing required file: '.github/workflows/ci-build-next-java.yml'"
 build:
   runnerOs: ubuntu-24.04
   workflows:
@@ -174,7 +173,7 @@ build:
           content:
             name: Run tests and build with Maven 17
             id: build-next-java
-            run: mvn --batch-mode clean test -Djava.version=17
+            run: mvn --batch-mode clean test -Djava.version=25
 
     - name: "release.yml"
       stepCustomizations:
