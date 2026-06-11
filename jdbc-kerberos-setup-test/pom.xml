@@ -11,6 +11,9 @@
         <artifactId>jdbc-kerberos-setup-test-generated-parent</artifactId>
         <version>${revision}</version>
     </parent>
+    <properties>
+        <java.version>21</java.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -21,13 +24,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>6.0.1</version>
+            <version>6.1.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-jdbc</artifactId>
-            <version>25.2.5</version>
+            <version>26.2.7</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
@@ -36,7 +39,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>5.4.4</version>
+                <version>5.6.2</version>
                 <executions>
                     <execution>
                         <goals>

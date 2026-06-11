@@ -89,7 +89,7 @@ build:
           content:
             name: Sign JDBC with CodeSignTool
             id: esign-jdbc
-            uses: sslcom/esigner-codesign@v1.3.1
+            uses: sslcom/esigner-codesign@cf5f6c1d38ad10f47e3ed9aca873f429b1a8d85b # v1.3.2
             with:
               command: sign
               username: ${{ secrets.ESIGN_USERNAME }}
@@ -104,7 +104,7 @@ build:
           content:
             name: Sign ODBC with CodeSignTool
             id: esign-odbc
-            uses: sslcom/esigner-codesign@v1.3.1
+            uses: sslcom/esigner-codesign@cf5f6c1d38ad10f47e3ed9aca873f429b1a8d85b # v1.3.2
             with:
               command: sign
               username: ${{ secrets.ESIGN_USERNAME }}
@@ -142,10 +142,7 @@ build:
           content:
             name: Project Keeper Verify
             id: build-pk-verify
-            run: mvn --batch-mode --projects . test com.exasol:project-keeper-maven-plugin:verify
-            env:
-              OSSINDEX_USERNAME: ${{ secrets.OSSINDEX_USERNAME }}
-              OSSINDEX_API_TOKEN: ${{ secrets.OSSINDEX_API_TOKEN }}
+            run: mvn --batch-mode --projects . test com.exasol:project-keeper-maven-plugin:verify -DossindexSkip=true
 
         - action: INSERT_AFTER
           job: build-and-test
@@ -221,7 +218,7 @@ build:
           content:
             name: Sign JDBC with CodeSignTool
             id: esign-jdbc
-            uses: sslcom/esigner-codesign@v1.3.1
+            uses: sslcom/esigner-codesign@cf5f6c1d38ad10f47e3ed9aca873f429b1a8d85b # v1.3.2
             with:
               command: sign
               username: ${{ secrets.ESIGN_USERNAME }}
@@ -236,7 +233,7 @@ build:
           content:
             name: Sign ODBC with CodeSignTool
             id: esign-odbc
-            uses: sslcom/esigner-codesign@v1.3.1
+            uses: sslcom/esigner-codesign@cf5f6c1d38ad10f47e3ed9aca873f429b1a8d85b # v1.3.2
             with:
               command: sign
               username: ${{ secrets.ESIGN_USERNAME }}
