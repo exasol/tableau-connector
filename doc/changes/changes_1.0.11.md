@@ -1,12 +1,14 @@
-# Tableau Connector 1.0.11, released 2026-??-??
+# Tableau Connector 1.0.11, released 2026-06-11
 
-Code name:
+Code name: Fix dependency check
 
 ## Summary
 
-## Features
+This release fixes the dependency check CI build by configuring credentials for Ossindex.
 
-* ISSUE_NUMBER: description
+## Security
+
+* #107: Fixed dependency check CI build
 
 ## Dependency Updates
 
