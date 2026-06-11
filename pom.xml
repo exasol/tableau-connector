@@ -15,7 +15,7 @@
         <version>${revision}</version>
     </parent>
     <properties>
-        <revision>1.0.10</revision>
+        <revision>1.0.11</revision>
     </properties>
     <modules>
         <module>tableau-server-GUI-tests</module>
@@ -26,7 +26,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>5.4.4</version>
+                <version>5.6.2</version>
                 <executions>
                     <execution>
                         <goals>
@@ -34,18 +34,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.ossindex.maven</groupId>
-                <artifactId>ossindex-maven-plugin</artifactId>
-                <configuration>
-                    <excludeVulnerabilityIds>
-                        <!-- com.google.guava:guava:jar:31.1-jre is used as test dependency, vulnerability is not relevant here -->
-                        <exclude>CVE-2020-8908</exclude>
-                        <!-- False positive in OSS Index for Exasol's JDBC driver because the fix version is missing. -->
-                        <exclude>CVE-2024-55551</exclude>
-                    </excludeVulnerabilityIds>
-                </configuration>
             </plugin>
         </plugins>
     </build>

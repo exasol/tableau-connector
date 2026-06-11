@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Logger;
@@ -54,25 +52,20 @@ public class KerberosConnectionFixture {
         final String runAsUser = subject.getPrincipals().iterator().next().getName();
         LOGGER.info("Getting impersonation credentials for runAs user '" + runAsUser + "' and '" + impersonatedUser
                 + "'");
-        try {
-            return Subject.doAs(subject, (PrivilegedExceptionAction<GSSCredential>) () -> {
-                final GSSManager manager = GSSManager.getInstance();
-                final GSSName selfName = manager.createName(runAsUser, GSSName.NT_USER_NAME);
+        return Subject.callAs(subject, () -> {
+            final GSSManager manager = GSSManager.getInstance();
+            final GSSName selfName = manager.createName(runAsUser, GSSName.NT_USER_NAME);
 
-                final GSSCredential selfCreds = manager.createCredential(selfName, GSSCredential.INDEFINITE_LIFETIME,
-                        createKerberosOid(),
-                        GSSCredential.INITIATE_ONLY);
-                LOGGER.info("Got self credentials " + selfCreds);
+            final GSSCredential selfCreds = manager.createCredential(selfName, GSSCredential.INDEFINITE_LIFETIME,
+                    createKerberosOid(),
+                    GSSCredential.INITIATE_ONLY);
+            LOGGER.info("Got self credentials " + selfCreds);
 
-                final GSSName dbUser = manager.createName(impersonatedUser, GSSName.NT_USER_NAME);
+            final GSSName dbUser = manager.createName(impersonatedUser, GSSName.NT_USER_NAME);
 
-                LOGGER.info("Impersonating user " + dbUser);
-                return ((ExtendedGSSCredential) selfCreds).impersonate(dbUser);
-            });
-        } catch (final PrivilegedActionException exception) {
-            throw new IllegalStateException(
-                    "Could impersonate user '" + impersonatedUser + "' with runAs user '" + runAsUser + "'", exception);
-        }
+            LOGGER.info("Impersonating user " + dbUser);
+            return ((ExtendedGSSCredential) selfCreds).impersonate(dbUser);
+        });
     }
 
     private static Subject getServiceSubject(final String runAsUser, final Path keytabFile) {
@@ -158,15 +151,10 @@ public class KerberosConnectionFixture {
         return createPriviligedConnection(LoginType.SSPI, null, this.config.getImpersonatedUser());
     }
 
-    Connection createPriviligedConnection(final LoginType loginType, final Subject subject,
-            final String connectionUser) {
-        try {
-            return Subject.doAs(subject, (PrivilegedExceptionAction<Connection>) () -> {
-                return createConnection(loginType, connectionUser);
-            });
-        } catch (final PrivilegedActionException exception) {
-            throw new IllegalStateException("Error getting connection", exception);
-        }
+    Connection createPriviligedConnection(final LoginType loginType, final Subject subject, final String connectionUser) {
+        return Subject.callAs(subject, () -> {
+            return createConnection(loginType, connectionUser);
+        });
     }
 
     private Connection createConnection(final LoginType loginType, final String user) {

@@ -45,7 +45,8 @@ jobs:
         id: checkout
         uses: actions/checkout@v6
         with: {
-          fetch-depth: 0
+          fetch-depth: 0,
+          persist-credentials: false
         }
       - name: Set up JDKs
         id: setup-java
@@ -55,10 +56,8 @@ jobs:
           java-version: |-
             11
             17
+            21
           cache: maven
-          server-id: ossindex
-          server-username: OSSINDEX_USERNAME
-          server-password: OSSINDEX_API_TOKEN
       - id: setup-node
         uses: actions/setup-node@v6
         with: {
@@ -95,7 +94,7 @@ jobs:
           cat "$GITHUB_OUTPUT"
       - name: Sign JDBC with CodeSignTool
         id: esign-jdbc
-        uses: sslcom/esigner-codesign@v1.3.1
+        uses: sslcom/esigner-codesign@cf5f6c1d38ad10f47e3ed9aca873f429b1a8d85b
         with: {
           command: sign,
           username: '${{ secrets.ESIGN_USERNAME }}',
@@ -107,7 +106,7 @@ jobs:
         }
       - name: Sign ODBC with CodeSignTool
         id: esign-odbc
-        uses: sslcom/esigner-codesign@v1.3.1
+        uses: sslcom/esigner-codesign@cf5f6c1d38ad10f47e3ed9aca873f429b1a8d85b
         with: {
           command: sign,
           username: '${{ secrets.ESIGN_USERNAME }}',
@@ -120,10 +119,16 @@ jobs:
       - name: Copy signed files
         id: esign-copy-target
         run: |
-          cp ${{ steps.esign-filter.outputs.jar_jdbc }} ${{ steps.esign-filter.outputs.tgt_jdbc }}
-          cp ${{ steps.esign-filter.outputs.jar_odbc }} ${{ steps.esign-filter.outputs.tgt_odbc }}
+          cp "$JDBC_SOURCE" "$JDBC_TARGET"
+          cp "$ODBC_SOURCE" "$ODBC_TARGET"
           echo "All done"
           ls -l target
+        env: {
+          JDBC_SOURCE: '${{ steps.esign-filter.outputs.jar_jdbc }}',
+          ODBC_SOURCE: '${{ steps.esign-filter.outputs.jar_odbc }}',
+          JDBC_TARGET: '${{ steps.esign-filter.outputs.tgt_jdbc }}',
+          ODBC_TARGET: '${{ steps.esign-filter.outputs.tgt_odbc }}'
+        }
       - name: Switch to java 17
         id: esign-switch-java
         uses: actions/setup-java@v5
@@ -145,13 +150,11 @@ jobs:
         id: enable-testcontainer-reuse,
         run: echo 'testcontainers.reuse.enable=true' > "$HOME/.testcontainers.properties"
       }
-      - name: Project Keeper Verify
-        id: build-pk-verify
-        run: mvn --batch-mode --projects . test com.exasol:project-keeper-maven-plugin:verify
-        env: {
-          OSSINDEX_USERNAME: '${{ secrets.OSSINDEX_USERNAME }}',
-          OSSINDEX_API_TOKEN: '${{ secrets.OSSINDEX_API_TOKEN }}'
-        }
+      - {
+        name: Project Keeper Verify,
+        id: build-pk-verify,
+        run: 'mvn --batch-mode --projects . test com.exasol:project-keeper-maven-plugin:verify -DossindexSkip=true'
+      }
       - {
         name: Generate dummy error code report,
         id: generate-dummy-error-code-report,
@@ -162,6 +165,7 @@ jobs:
         if: ${{ env.SONAR_TOKEN != null }}
         run: |
           mvn --batch-mode org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+              -DossindexSkip=true \
               -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
               -DtrimStackTrace=false \
               -Dsonar.token=$SONAR_TOKEN
@@ -183,7 +187,7 @@ jobs:
         }
       - name: Upload artifacts
         id: upload-artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with: {
           name: artifacts,
           path: '${{ steps.build-pk-verify.outputs.release-artifacts }}',
@@ -199,7 +203,7 @@ jobs:
                '{"pattern": "^https?://(www.)?eclipse.org"}' \
                '{"pattern": "^https?://projects.eclipse.org"}' \
                ']}' > ./target/broken_links_checker.json
-      - uses: tcort/github-action-markdown-link-check@v1
+      - uses: tcort/github-action-markdown-link-check@e7c7a18363c842693fadde5d41a3bd3573a7a225
         id: run-link-check
         with: {
           use-quiet-mode: yes,
@@ -224,28 +228,100 @@ jobs:
         id: checkout
         uses: actions/checkout@v6
         with: {
-          fetch-depth: 0
+          fetch-depth: 0,
+          persist-credentials: false
         }
-      - name: Set up JDK 17
+      - name: Set up JDK 25
         id: setup-java
         uses: actions/setup-java@v5
         with: {
           distribution: temurin,
-          java-version: '17',
-          cache: maven,
-          server-id: ossindex,
-          server-username: OSSINDEX_USERNAME,
-          server-password: OSSINDEX_API_TOKEN
+          java-version: '25',
+          cache: maven
         }
       - {
         name: Run tests and build with Maven 17,
         id: build-next-java,
-        run: mvn --batch-mode clean test -Djava.version=17
+        run: mvn --batch-mode clean test -Djava.version=25
       }
+  ossindex:
+    runs-on: ubuntu-latest
+    defaults:
+      run: {
+        shell: bash
+      }
+    permissions: {
+      contents: read
+    }
+    concurrency: {
+      group: '${{ github.workflow }}-ossindex-${{ github.ref }}',
+      cancel-in-progress: true
+    }
+    steps:
+      - name: Checkout the repository
+        id: checkout
+        uses: actions/checkout@v6
+        with: {
+          persist-credentials: false
+        }
+      - name: Set up JDKs
+        id: setup-java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: |-
+            11
+            17
+            21
+          cache: maven
+          server-id: ossindex
+          server-username: OSSINDEX_USERNAME
+          server-password: OSSINDEX_API_TOKEN
+      - name: Run Ossindex
+        id: ossindex
+        run: |
+          mvn --batch-mode test-compile \
+              org.sonatype.ossindex.maven:ossindex-maven-plugin:audit \
+              org.sonatype.ossindex.maven:ossindex-maven-plugin:audit-aggregate \
+              -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+        env: {
+          OSSINDEX_USERNAME: '${{ secrets.OSSINDEX_USERNAME }}',
+          OSSINDEX_API_TOKEN: '${{ secrets.OSSINDEX_API_TOKEN }}'
+        }
+  lint-github-actions:
+    runs-on: ubuntu-latest
+    defaults:
+      run: {
+        shell: bash
+      }
+    permissions: {
+      security-events: write,
+      contents: read,
+      actions: read
+    }
+    concurrency: {
+      group: '${{ github.workflow }}-github-actions-linter-${{ github.ref }}',
+      cancel-in-progress: true
+    }
+    steps:
+      - name: Checkout the repository
+        id: checkout
+        uses: actions/checkout@v6
+        with: {
+          persist-credentials: false
+        }
+      - name: Lint GitHub actions with Zizmore
+        id: lint-github-actions
+        uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e
+        with: {
+          advanced-security: false
+        }
   build:
     needs: [
       build-and-test,
-      next-java-compatibility
+      next-java-compatibility,
+      ossindex,
+      lint-github-actions
     ]
     runs-on: ubuntu-latest
     defaults:
@@ -264,7 +340,8 @@ jobs:
         id: checkout
         uses: actions/checkout@v6
         with: {
-          fetch-depth: 0
+          fetch-depth: 0,
+          persist-credentials: false
         }
       - name: Set up JDKs
         id: setup-java
@@ -274,6 +351,7 @@ jobs:
           java-version: |-
             11
             17
+            21
           cache: maven
       - name: Check if release is needed
         id: check-release
