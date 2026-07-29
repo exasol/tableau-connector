@@ -119,4 +119,5 @@ Sonatype's research suggests that this CVE's details differ from those defined a
 
 #### Development Dependency Updates
 
-* Updated `xml2json:^0.7.1` to `^0.12.0`
+* Added `fast-xml-parser:^5.3.3`
+* Removed `xml2json:^0.7.1`

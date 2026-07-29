@@ -1,10 +1,14 @@
 const { describe, expect, test } = require("@jest/globals");
 const fs = require('fs');
-const xmlParser = require('xml2json');
+const { XMLParser } = require('fast-xml-parser');
+const xmlParser = new XMLParser({
+    ignoreAttributes: false,
+    attributeNamePrefix: ''
+});
 
 function readXmlFile(path) {
     const content = fs.readFileSync(path, 'utf8');
-    return xmlParser.toJson(content, { object: true })
+    return xmlParser.parse(content);
 }
 
 function readJsonFile(path) {
