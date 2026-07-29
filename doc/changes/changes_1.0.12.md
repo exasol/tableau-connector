@@ -84,6 +84,8 @@ Sonatype's research suggests that this CVE's details differ from those defined a
 * Updated `com.exasol:exasol-testcontainers:7.3.0` to `8.0.1`
 * Updated `com.exasol:test-db-builder-java:4.0.0` to `4.0.2`
 * Updated `com.fasterxml.jackson.core:jackson-databind:2.22.0` to `2.22.1`
+* Added `org.apache.httpcomponents.core5:httpcore5-h2:5.4.3`
+* Added `org.apache.httpcomponents.core5:httpcore5:5.4.3`
 * Updated `org.bouncycastle:bcpkix-jdk18on:1.84` to `1.85`
 * Updated `org.json:json:20260522` to `20260719`
 * Updated `org.junit.jupiter:junit-jupiter-api:6.1.0` to `6.1.2`

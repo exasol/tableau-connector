@@ -46,6 +46,20 @@
             </exclusions>
         </dependency>
         <dependency>
+            <!-- Fix CVE-2026-54399 in transitive dependency of webdrivermanager -->
+            <groupId>org.apache.httpcomponents.core5</groupId>
+            <artifactId>httpcore5</artifactId>
+            <version>5.4.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- Fix CVE-2026-54428 in transitive dependency of webdrivermanager -->
+            <groupId>org.apache.httpcomponents.core5</groupId>
+            <artifactId>httpcore5-h2</artifactId>
+            <version>5.4.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <!-- Fix CVE-2024-34447 in transitive dependency of webdrivermanager -->
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk18on</artifactId>
