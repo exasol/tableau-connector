@@ -61,7 +61,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20260522</version>
+            <version>20260719</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -73,13 +73,13 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-testcontainers</artifactId>
-            <version>7.3.0</version>
+            <version>8.0.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>test-db-builder-java</artifactId>
-            <version>4.0.1</version>
+            <version>4.0.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -102,7 +102,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>5.7.3</version>
+                <version>5.7.4</version>
                 <executions>
                     <execution>
                         <goals>

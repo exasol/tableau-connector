@@ -1,4 +1,4 @@
-# Tableau Connector 1.0.12, released 2026-??-??
+# Tableau Connector 1.0.12, released 2026-07-29
 
 Code name: Fixed vulnerabilities CVE-2026-54428, CVE-2026-54515, CVE-2026-59889, CVE-2026-9563, CVE-2026-54399
 
@@ -68,30 +68,53 @@ Sonatype's research suggests that this CVE's details differ from those defined a
 
 #### Plugin Dependency Updates
 
-* Updated `com.exasol:project-keeper-maven-plugin:5.6.2` to `5.7.3`
+* Updated `com.exasol:error-code-crawler-maven-plugin:2.0.7` to `2.1.0`
+* Updated `com.exasol:project-keeper-maven-plugin:5.6.2` to `5.7.4`
+* Removed `com.exasol:quality-summarizer-maven-plugin:0.2.1`
+* Updated `org.apache.maven.plugins:maven-enforcer-plugin:3.6.2` to `3.6.3`
+* Updated `org.apache.maven.plugins:maven-site-plugin:3.21.0` to `3.22.0`
+* Updated `org.apache.maven.plugins:maven-surefire-plugin:3.5.5` to `3.5.6`
+* Updated `org.jacoco:jacoco-maven-plugin:0.8.14` to `0.8.15`
+* Updated `org.sonarsource.scanner.maven:sonar-maven-plugin:5.5.0.6356` to `5.7.0.6970`
 
 ### Tableau Server GUI Tests
 
 #### Test Dependency Updates
 
-* Updated `com.exasol:test-db-builder-java:4.0.0` to `4.0.1`
+* Updated `com.exasol:exasol-testcontainers:7.3.0` to `8.0.1`
+* Updated `com.exasol:test-db-builder-java:4.0.0` to `4.0.2`
 * Updated `com.fasterxml.jackson.core:jackson-databind:2.22.0` to `2.22.1`
 * Updated `org.bouncycastle:bcpkix-jdk18on:1.84` to `1.85`
+* Updated `org.json:json:20260522` to `20260719`
 * Updated `org.junit.jupiter:junit-jupiter-api:6.1.0` to `6.1.2`
 * Updated `org.seleniumhq.selenium:selenium-java:4.44.0` to `4.46.0`
 
 #### Plugin Dependency Updates
 
-* Updated `com.exasol:project-keeper-maven-plugin:5.6.2` to `5.7.3`
+* Updated `com.exasol:error-code-crawler-maven-plugin:2.0.7` to `2.1.0`
+* Updated `com.exasol:project-keeper-maven-plugin:5.6.2` to `5.7.4`
+* Removed `com.exasol:quality-summarizer-maven-plugin:0.2.1`
+* Updated `org.apache.maven.plugins:maven-enforcer-plugin:3.6.2` to `3.6.3`
+* Updated `org.apache.maven.plugins:maven-site-plugin:3.21.0` to `3.22.0`
+* Updated `org.apache.maven.plugins:maven-surefire-plugin:3.5.5` to `3.5.6`
+* Updated `org.jacoco:jacoco-maven-plugin:0.8.14` to `0.8.15`
+* Updated `org.sonarsource.scanner.maven:sonar-maven-plugin:5.5.0.6356` to `5.7.0.6970`
 
 ### Exasol Connector for Tableau
 
 #### Plugin Dependency Updates
 
-* Updated `com.exasol:project-keeper-maven-plugin:5.6.2` to `5.7.3`
+* Updated `com.exasol:error-code-crawler-maven-plugin:2.0.7` to `2.1.0`
+* Updated `com.exasol:project-keeper-maven-plugin:5.6.2` to `5.7.4`
+* Removed `com.exasol:quality-summarizer-maven-plugin:0.2.1`
+* Updated `org.apache.maven.plugins:maven-enforcer-plugin:3.6.2` to `3.6.3`
+* Updated `org.apache.maven.plugins:maven-site-plugin:3.21.0` to `3.22.0`
+* Updated `org.apache.maven.plugins:maven-surefire-plugin:3.5.5` to `3.5.6`
+* Updated `org.jacoco:jacoco-maven-plugin:0.8.14` to `0.8.15`
+* Updated `org.sonarsource.scanner.maven:sonar-maven-plugin:5.5.0.6356` to `5.7.0.6970`
 
 ### Javascript-test
 
 #### Development Dependency Updates
 
-* Updated `jest:^30.2.0` to `^30.4.2`
+* Updated `xml2json:^0.7.1` to `^0.12.0`
