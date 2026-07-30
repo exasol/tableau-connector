@@ -31,14 +31,13 @@
 | [duplicate-finder-maven-plugin Maven Mojo][17]          | [Apache License 2.0][18]                    |
 | [Apache Maven Artifact Plugin][19]                      | [Apache-2.0][9]                             |
 | [JaCoCo :: Maven Plugin][20]                            | [EPL-2.0][21]                               |
-| [Quality Summarizer Maven Plugin][22]                   | [MIT License][23]                           |
-| [error-code-crawler-maven-plugin][24]                   | [MIT License][25]                           |
-| [Git Commit Id Maven Plugin][26]                        | [GNU Lesser General Public License 3.0][27] |
-| [Project Keeper Maven plugin][28]                       | [The MIT License][29]                       |
-| [Apache Maven Clean Plugin][30]                         | [Apache-2.0][9]                             |
-| [Apache Maven Resources Plugin][31]                     | [Apache-2.0][9]                             |
-| [Apache Maven Install Plugin][32]                       | [Apache-2.0][9]                             |
-| [Apache Maven Site Plugin][33]                          | [Apache-2.0][9]                             |
+| [error-code-crawler-maven-plugin][22]                   | [MIT License][23]                           |
+| [Git Commit Id Maven Plugin][24]                        | [GNU Lesser General Public License 3.0][25] |
+| [Project Keeper Maven plugin][26]                       | [The MIT License][27]                       |
+| [Apache Maven Clean Plugin][28]                         | [Apache-2.0][9]                             |
+| [Apache Maven Resources Plugin][29]                     | [Apache-2.0][9]                             |
+| [Apache Maven Install Plugin][30]                       | [Apache-2.0][9]                             |
+| [Apache Maven Site Plugin][31]                          | [Apache-2.0][9]                             |
 
 ## Tableau Server gui Tests
 
@@ -46,10 +45,12 @@
 
 | Dependency                                                              | License                                        |
 | ----------------------------------------------------------------------- | ---------------------------------------------- |
-| [org.seleniumhq.selenium:selenium-java][34]                             | [The Apache Software License, Version 2.0][14] |
+| [org.seleniumhq.selenium:selenium-java][32]                             | [The Apache Software License, Version 2.0][14] |
 | [Hamcrest][0]                                                           | [BSD-3-Clause][1]                              |
 | [JUnit Jupiter API][2]                                                  | [Eclipse Public License v2.0][3]               |
-| [WebDriverManager][35]                                                  | [Apache 2.0][36]                               |
+| [WebDriverManager][33]                                                  | [Apache 2.0][34]                               |
+| [Apache HttpComponents Core HTTP/1.1][35]                               | [Apache License, Version 2.0][9]               |
+| [Apache HttpComponents Core HTTP/2][36]                                 | [Apache License, Version 2.0][9]               |
 | [Bouncy Castle PKIX, CMS, EAC, TSP, PKCS, OCSP, CMP, and CRMF APIs][37] | [Bouncy Castle Licence][38]                    |
 | [mockito-junit-jupiter][39]                                             | [MIT][40]                                      |
 | [JSON in Java][41]                                                      | [Public Domain][42]                            |
@@ -74,15 +75,14 @@
 | [duplicate-finder-maven-plugin Maven Mojo][17]          | [Apache License 2.0][18]                    |
 | [Apache Maven Artifact Plugin][19]                      | [Apache-2.0][9]                             |
 | [JaCoCo :: Maven Plugin][20]                            | [EPL-2.0][21]                               |
-| [Quality Summarizer Maven Plugin][22]                   | [MIT License][23]                           |
-| [error-code-crawler-maven-plugin][24]                   | [MIT License][25]                           |
-| [Git Commit Id Maven Plugin][26]                        | [GNU Lesser General Public License 3.0][27] |
-| [Project Keeper Maven plugin][28]                       | [The MIT License][29]                       |
+| [error-code-crawler-maven-plugin][22]                   | [MIT License][23]                           |
+| [Git Commit Id Maven Plugin][24]                        | [GNU Lesser General Public License 3.0][25] |
+| [Project Keeper Maven plugin][26]                       | [The MIT License][27]                       |
 | [Exec Maven Plugin][51]                                 | [Apache License 2][9]                       |
-| [Apache Maven Clean Plugin][30]                         | [Apache-2.0][9]                             |
-| [Apache Maven Resources Plugin][31]                     | [Apache-2.0][9]                             |
-| [Apache Maven Install Plugin][32]                       | [Apache-2.0][9]                             |
-| [Apache Maven Site Plugin][33]                          | [Apache-2.0][9]                             |
+| [Apache Maven Clean Plugin][28]                         | [Apache-2.0][9]                             |
+| [Apache Maven Resources Plugin][29]                     | [Apache-2.0][9]                             |
+| [Apache Maven Install Plugin][30]                       | [Apache-2.0][9]                             |
+| [Apache Maven Site Plugin][31]                          | [Apache-2.0][9]                             |
 
 ## Exasol Connector for Tableau
 
@@ -101,13 +101,12 @@
 | [duplicate-finder-maven-plugin Maven Mojo][17]          | [Apache License 2.0][18]                    |
 | [Apache Maven Artifact Plugin][19]                      | [Apache-2.0][9]                             |
 | [JaCoCo :: Maven Plugin][20]                            | [EPL-2.0][21]                               |
-| [Quality Summarizer Maven Plugin][22]                   | [MIT License][23]                           |
-| [error-code-crawler-maven-plugin][24]                   | [MIT License][25]                           |
-| [Git Commit Id Maven Plugin][26]                        | [GNU Lesser General Public License 3.0][27] |
-| [Project Keeper Maven plugin][28]                       | [The MIT License][29]                       |
-| [Apache Maven Clean Plugin][30]                         | [Apache-2.0][9]                             |
-| [Apache Maven Install Plugin][32]                       | [Apache-2.0][9]                             |
-| [Apache Maven Site Plugin][33]                          | [Apache-2.0][9]                             |
+| [error-code-crawler-maven-plugin][22]                   | [MIT License][23]                           |
+| [Git Commit Id Maven Plugin][24]                        | [GNU Lesser General Public License 3.0][25] |
+| [Project Keeper Maven plugin][26]                       | [The MIT License][27]                       |
+| [Apache Maven Clean Plugin][28]                         | [Apache-2.0][9]                             |
+| [Apache Maven Install Plugin][30]                       | [Apache-2.0][9]                             |
+| [Apache Maven Site Plugin][31]                          | [Apache-2.0][9]                             |
 
 ## Javascript-test
 
@@ -116,7 +115,7 @@
 [2]: https://junit.org/
 [3]: https://www.eclipse.org/legal/epl-v20.html
 [4]: https://www.exasol.com/
-[5]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/26.2.7/exasol-jdbc-26.2.7-license.txt
+[5]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/26.2.8/exasol-jdbc-26.2.8-license.txt
 [6]: https://docs.sonarsource.com/sonarqube-server/latest/extension-guide/developing-a-plugin/plugin-basics/sonar-scanner-maven/sonar-maven-plugin/
 [7]: http://www.gnu.org/licenses/lgpl.txt
 [8]: https://maven.apache.org/plugins/maven-toolchains-plugin/
@@ -133,21 +132,21 @@
 [19]: https://maven.apache.org/plugins/maven-artifact-plugin/
 [20]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
 [21]: https://www.eclipse.org/legal/epl-2.0/
-[22]: https://github.com/exasol/quality-summarizer-maven-plugin/
-[23]: https://github.com/exasol/quality-summarizer-maven-plugin/blob/main/LICENSE
-[24]: https://github.com/exasol/error-code-crawler-maven-plugin/
-[25]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
-[26]: https://github.com/git-commit-id/git-commit-id-maven-plugin
-[27]: http://www.gnu.org/licenses/lgpl-3.0.txt
-[28]: https://github.com/exasol/project-keeper/
-[29]: https://github.com/exasol/project-keeper/blob/main/LICENSE
-[30]: https://maven.apache.org/plugins/maven-clean-plugin/
-[31]: https://maven.apache.org/plugins/maven-resources-plugin/
-[32]: https://maven.apache.org/plugins/maven-install-plugin/
-[33]: https://maven.apache.org/plugins/maven-site-plugin/
-[34]: https://selenium.dev/
-[35]: https://bonigarcia.dev/webdrivermanager/
-[36]: https://www.apache.org/licenses/LICENSE-2.0
+[22]: https://github.com/exasol/error-code-crawler-maven-plugin/
+[23]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
+[24]: https://github.com/git-commit-id/git-commit-id-maven-plugin
+[25]: http://www.gnu.org/licenses/lgpl-3.0.txt
+[26]: https://github.com/exasol/project-keeper/
+[27]: https://github.com/exasol/project-keeper/blob/main/LICENSE
+[28]: https://maven.apache.org/plugins/maven-clean-plugin/
+[29]: https://maven.apache.org/plugins/maven-resources-plugin/
+[30]: https://maven.apache.org/plugins/maven-install-plugin/
+[31]: https://maven.apache.org/plugins/maven-site-plugin/
+[32]: https://selenium.dev/
+[33]: https://bonigarcia.dev/webdrivermanager/
+[34]: https://www.apache.org/licenses/LICENSE-2.0
+[35]: https://hc.apache.org/httpcomponents-core-5.4.x/5.4.3/httpcore5/
+[36]: https://hc.apache.org/httpcomponents-core-5.4.x/5.4.3/httpcore5-h2/
 [37]: https://www.bouncycastle.org/download/bouncy-castle-java/
 [38]: https://www.bouncycastle.org/licence.html
 [39]: https://github.com/mockito/mockito
