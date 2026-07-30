@@ -1,4 +1,4 @@
-# Tableau Connector 1.0.12, released 2026-07-29
+# Tableau Connector 1.0.12, released 2026-07-30
 
 Code name: Fixed vulnerabilities CVE-2026-54428, CVE-2026-54515, CVE-2026-59889, CVE-2026-9563, CVE-2026-54399
 
