@@ -15,7 +15,7 @@
         <version>${revision}</version>
     </parent>
     <properties>
-        <revision>1.0.12</revision>
+        <revision>1.0.13</revision>
     </properties>
     <modules>
         <module>tableau-server-GUI-tests</module>
