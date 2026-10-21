@@ -49,16 +49,17 @@
 | [Hamcrest][0]                                                           | [BSD-3-Clause][1]                              |
 | [JUnit Jupiter API][2]                                                  | [Eclipse Public License v2.0][3]               |
 | [WebDriverManager][33]                                                  | [Apache 2.0][34]                               |
-| [Apache HttpComponents Core HTTP/1.1][35]                               | [Apache License, Version 2.0][9]               |
-| [Apache HttpComponents Core HTTP/2][36]                                 | [Apache License, Version 2.0][9]               |
-| [Bouncy Castle PKIX, CMS, EAC, TSP, PKCS, OCSP, CMP, and CRMF APIs][37] | [Bouncy Castle Licence][38]                    |
-| [mockito-junit-jupiter][39]                                             | [MIT][40]                                      |
-| [JSON in Java][41]                                                      | [Public Domain][42]                            |
-| [Testcontainers :: JUnit Jupiter Extension][43]                         | [MIT][44]                                      |
-| [Test containers for Exasol on Docker][45]                              | [MIT License][46]                              |
-| [Test Database Builder for Java][47]                                    | [MIT License][48]                              |
-| [jackson-databind][49]                                                  | [The Apache Software License, Version 2.0][9]  |
-| [Apache Commons IO][50]                                                 | [Apache-2.0][9]                                |
+| [Apache HttpClient][35]                                                 | [Apache License, Version 2.0][9]               |
+| [Apache HttpComponents Core HTTP/1.1][36]                               | [Apache License, Version 2.0][9]               |
+| [Apache HttpComponents Core HTTP/2][37]                                 | [Apache License, Version 2.0][9]               |
+| [Bouncy Castle PKIX, CMS, EAC, TSP, PKCS, OCSP, CMP, and CRMF APIs][38] | [Bouncy Castle Licence][39]                    |
+| [mockito-junit-jupiter][40]                                             | [MIT][41]                                      |
+| [JSON in Java][42]                                                      | [Public Domain][43]                            |
+| [Testcontainers :: JUnit Jupiter Extension][44]                         | [MIT][45]                                      |
+| [Test containers for Exasol on Docker][46]                              | [MIT License][47]                              |
+| [Test Database Builder for Java][48]                                    | [MIT License][49]                              |
+| [jackson-databind][50]                                                  | [The Apache Software License, Version 2.0][9]  |
+| [Apache Commons IO][51]                                                 | [Apache-2.0][9]                                |
 
 ### Plugin Dependencies
 
@@ -78,7 +79,7 @@
 | [error-code-crawler-maven-plugin][22]                   | [MIT License][23]                           |
 | [Git Commit Id Maven Plugin][24]                        | [GNU Lesser General Public License 3.0][25] |
 | [Project Keeper Maven plugin][26]                       | [The MIT License][27]                       |
-| [Exec Maven Plugin][51]                                 | [Apache License 2][9]                       |
+| [Exec Maven Plugin][52]                                 | [Apache License 2][9]                       |
 | [Apache Maven Clean Plugin][28]                         | [Apache-2.0][9]                             |
 | [Apache Maven Resources Plugin][29]                     | [Apache-2.0][9]                             |
 | [Apache Maven Install Plugin][30]                       | [Apache-2.0][9]                             |
@@ -145,20 +146,21 @@
 [32]: https://selenium.dev/
 [33]: https://bonigarcia.dev/webdrivermanager/
 [34]: https://www.apache.org/licenses/LICENSE-2.0
-[35]: https://hc.apache.org/httpcomponents-core-5.4.x/5.4.4/httpcore5/
-[36]: https://hc.apache.org/httpcomponents-core-5.4.x/5.4.4/httpcore5-h2/
-[37]: https://www.bouncycastle.org/download/bouncy-castle-java/
-[38]: https://www.bouncycastle.org/licence.html
-[39]: https://github.com/mockito/mockito
-[40]: https://opensource.org/licenses/MIT
-[41]: https://github.com/douglascrockford/JSON-java
-[42]: https://github.com/stleary/JSON-java/blob/master/LICENSE
-[43]: https://java.testcontainers.org
-[44]: http://opensource.org/licenses/MIT
-[45]: https://github.com/exasol/exasol-testcontainers/
-[46]: https://github.com/exasol/exasol-testcontainers/blob/main/LICENSE
-[47]: https://github.com/exasol/test-db-builder-java/
-[48]: https://github.com/exasol/test-db-builder-java/blob/main/LICENSE
-[49]: https://github.com/FasterXML/jackson
-[50]: https://commons.apache.org/proper/commons-io/
-[51]: https://www.mojohaus.org/exec-maven-plugin
+[35]: https://hc.apache.org/httpcomponents-client-5.6.x/5.6.5/httpclient5/
+[36]: https://hc.apache.org/httpcomponents-core-5.4.x/5.4.4/httpcore5/
+[37]: https://hc.apache.org/httpcomponents-core-5.4.x/5.4.4/httpcore5-h2/
+[38]: https://www.bouncycastle.org/download/bouncy-castle-java/
+[39]: https://www.bouncycastle.org/licence.html
+[40]: https://github.com/mockito/mockito
+[41]: https://opensource.org/licenses/MIT
+[42]: https://github.com/douglascrockford/JSON-java
+[43]: https://github.com/stleary/JSON-java/blob/master/LICENSE
+[44]: https://java.testcontainers.org
+[45]: http://opensource.org/licenses/MIT
+[46]: https://github.com/exasol/exasol-testcontainers/
+[47]: https://github.com/exasol/exasol-testcontainers/blob/main/LICENSE
+[48]: https://github.com/exasol/test-db-builder-java/
+[49]: https://github.com/exasol/test-db-builder-java/blob/main/LICENSE
+[50]: https://github.com/FasterXML/jackson
+[51]: https://commons.apache.org/proper/commons-io/
+[52]: https://www.mojohaus.org/exec-maven-plugin

@@ -75,6 +75,7 @@ This release ensures that GitHub releases expose only signed, versioned Tableau 
 * Updated `com.exasol:test-db-builder-java:4.0.2` to `4.0.3`
 * Updated `com.fasterxml.jackson.core:jackson-databind:2.22.1` to `2.22.4`
 * Updated `io.github.bonigarcia:webdrivermanager:6.3.4` to `6.4.0`
+* Added `org.apache.httpcomponents.client5:httpclient5:5.6.5`
 * Updated `org.apache.httpcomponents.core5:httpcore5-h2:5.4.3` to `5.4.4`
 * Updated `org.apache.httpcomponents.core5:httpcore5:5.4.3` to `5.4.4`
 * Updated `org.bouncycastle:bcpkix-jdk18on:1.85` to `1.86`
