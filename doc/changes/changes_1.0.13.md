@@ -45,6 +45,14 @@ This release ensures that GitHub releases expose only signed, versioned Tableau 
 
 ### JDBC Kerberos Setup Tests
 
+#### Runtime Dependency Updates
+
+* Updated `com.exasol:exasol-jdbc:26.2.8` to `26.2.10`
+
+#### Test Dependency Updates
+
+* Updated `org.junit.jupiter:junit-jupiter-api:6.1.2` to `6.1.3`
+
 #### Plugin Dependency Updates
 
 * Updated `com.exasol:error-code-crawler-maven-plugin:2.1.0` to `2.1.2`
@@ -60,6 +68,20 @@ This release ensures that GitHub releases expose only signed, versioned Tableau 
 * Updated `org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970` to `5.8.0.7211`
 
 ### Tableau Server GUI Tests
+
+#### Test Dependency Updates
+
+* Updated `com.exasol:exasol-testcontainers:8.0.1` to `8.0.2`
+* Updated `com.exasol:test-db-builder-java:4.0.2` to `4.0.3`
+* Updated `com.fasterxml.jackson.core:jackson-databind:2.22.1` to `2.22.4`
+* Updated `io.github.bonigarcia:webdrivermanager:6.3.4` to `6.4.0`
+* Updated `org.apache.httpcomponents.core5:httpcore5-h2:5.4.3` to `5.4.4`
+* Updated `org.apache.httpcomponents.core5:httpcore5:5.4.3` to `5.4.4`
+* Updated `org.bouncycastle:bcpkix-jdk18on:1.85` to `1.86`
+* Updated `org.json:json:20260719` to `20260814`
+* Updated `org.junit.jupiter:junit-jupiter-api:6.1.2` to `6.1.3`
+* Updated `org.mockito:mockito-junit-jupiter:5.23.0` to `5.24.0`
+* Updated `org.seleniumhq.selenium:selenium-java:4.46.0` to `4.51.0`
 
 #### Plugin Dependency Updates
 
