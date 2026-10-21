@@ -181,7 +181,7 @@ jobs:
         id: audit-npm-dependencies
         run: |
           cd javascript-test
-          npm audit --audit-level low
+          npm audit --audit-level high
           npm audit signatures
       - name: Verify Release Artifacts
         id: verify-release-artifacts
