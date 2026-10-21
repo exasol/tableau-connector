@@ -57,3 +57,10 @@ Code name:
 * Updated `org.codehaus.mojo:flatten-maven-plugin:1.7.3` to `1.8.0`
 * Updated `org.codehaus.mojo:versions-maven-plugin:2.21.0` to `2.23.0`
 * Updated `org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970` to `5.8.0.7211`
+
+### Javascript-test
+
+#### Development Dependency Updates
+
+* Updated `fast-xml-parser:^5.3.3` to `^5.11.2`
+* Updated `jest:^30.4.2` to `^30.5.2`
