@@ -4,6 +4,33 @@ Code name:
 
 ## Summary
 
+## Security
+
+* #120: Fixed vulnerability CVE-2026-40542 in dependency `org.apache.httpcomponents.client5:httpclient5:jar:5.6:test`
+* #116: Fixed vulnerability CVE-2026-64607 in dependency `org.apache.httpcomponents.client5:httpclient5:jar:5.6:test`
+* #121: Fixed vulnerability CVE-2026-71290 in dependency `org.apache.httpcomponents.client5:httpclient5:jar:5.6:test`
+* #129: Fixed vulnerability CVE-2026-17508 in dependency `org.bouncycastle:bcprov-jdk18on:jar:1.85:test`
+* #130: Fixed vulnerability CVE-2026-18036 in dependency `org.bouncycastle:bcprov-jdk18on:jar:1.85:test`
+* #131: Fixed vulnerability CVE-2026-18040 in dependency `org.bouncycastle:bcprov-jdk18on:jar:1.85:test`
+* #132: Fixed vulnerability CVE-2026-71889 in dependency `org.bouncycastle:bcprov-jdk18on:jar:1.85:test`
+* #133: Fixed vulnerability CVE-2026-71891 in dependency `org.bouncycastle:bcprov-jdk18on:jar:1.85:test`
+* #142: Fixed vulnerability CVE-2026-97873 in dependency `org.bouncycastle:bcprov-jdk18on:jar:1.85:test`
+* #125: Fixed vulnerability CVE-2026-68498 in dependency `com.fasterxml.jackson.core:jackson-core:jar:2.22.1:test`
+* #139: Fixed vulnerability CVE-2026-89407 in dependency `com.fasterxml.jackson.core:jackson-core:jar:2.22.1:test`
+* #140: Fixed vulnerability CVE-2026-89425 in dependency `com.fasterxml.jackson.core:jackson-core:jar:2.22.1:test`
+* #123: Fixed vulnerability CVE-2026-86231 in dependency `com.github.mwiede:jsch:jar:2.28.5:test`
+* #130: Fixed vulnerability CVE-2026-18036 in dependency `org.bouncycastle:bcpkix-jdk18on:jar:1.85:test`
+* #126: Fixed vulnerability CVE-2026-71888 in dependency `org.bouncycastle:bcpkix-jdk18on:jar:1.85:test`
+* #127: Fixed vulnerability CVE-2026-71889 in dependency `org.bouncycastle:bcpkix-jdk18on:jar:1.85:test`
+* #128: Fixed vulnerability CVE-2026-71892 in dependency `org.bouncycastle:bcpkix-jdk18on:jar:1.85:test`
+* #144: Fixed vulnerability CVE-2026-102554 in dependency `com.google.guava:guava:jar:33.6.0-jre:test`
+* Fixed vulnerability CVE-2026-110879 in dependency `com.fasterxml.jackson.core:jackson-databind:jar:2.22.1:test`
+* #117: Fixed vulnerability CVE-2026-19032 in dependency `com.fasterxml.jackson.core:jackson-databind:jar:2.22.1:test`
+* #118: Fixed vulnerability CVE-2026-68497 in dependency `com.fasterxml.jackson.core:jackson-databind:jar:2.22.1:test`
+* #134: Fixed vulnerability CVE-2026-91776 in dependency `com.fasterxml.jackson.core:jackson-databind:jar:2.22.1:test`
+* #135: Fixed vulnerability CVE-2026-91777 in dependency `com.fasterxml.jackson.core:jackson-databind:jar:2.22.1:test`
+* #136: Fixed vulnerability CVE-2026-83557 in dependency `com.fasterxml.jackson.core:jackson-databind:jar:2.22.1:test`
+
 ## Features
 
 * ISSUE_NUMBER: description
