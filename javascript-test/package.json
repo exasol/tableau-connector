@@ -1,6 +1,6 @@
 {
     "name": "tableau-connector-unit-tests",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "type": "commonjs",
     "scripts": {
         "test": "jest",
