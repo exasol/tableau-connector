@@ -1,8 +1,14 @@
-# Tableau Connector 1.0.13, released 2026-??-??
+# Tableau Connector 1.0.13, released 2026-10-21
 
-Code name:
+Code name: Publish only signed connector artifacts
 
 ## Summary
+
+This release ensures that GitHub releases expose only signed, versioned Tableau connector artifacts, preventing users from downloading connector packages that Tableau rejects because of invalid signatures (#138).
+
+## Bugfixes
+
+* #138: Remove unsigned connectors from GitHub release
 
 ## Security
 
