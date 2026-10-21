@@ -4,7 +4,7 @@ Code name: Publish only signed connector artifacts
 
 ## Summary
 
-This release ensures that GitHub releases expose only signed, versioned Tableau connector artifacts, preventing users from downloading connector packages that Tableau rejects because of invalid signatures (#138).
+This release ensures that GitHub releases expose only signed, versioned Tableau connector artifacts, preventing users from downloading connector packages that Tableau rejects because of invalid signatures. Install `tableau-exasol-connector-jdbc-<version>.taco` or `tableau-exasol-connector-odbc-<version>.taco` as appropriate (#138).
 
 ## Bugfixes
 
@@ -36,10 +36,6 @@ This release ensures that GitHub releases expose only signed, versioned Tableau 
 * #134: Fixed vulnerability CVE-2026-91776 in dependency `com.fasterxml.jackson.core:jackson-databind:jar:2.22.1:test`
 * #135: Fixed vulnerability CVE-2026-91777 in dependency `com.fasterxml.jackson.core:jackson-databind:jar:2.22.1:test`
 * #136: Fixed vulnerability CVE-2026-83557 in dependency `com.fasterxml.jackson.core:jackson-databind:jar:2.22.1:test`
-
-## Features
-
-* ISSUE_NUMBER: description
 
 ## Dependency Updates
 

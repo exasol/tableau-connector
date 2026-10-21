@@ -17,8 +17,6 @@ sources:
   - type: maven
     path: pom.xml
     artifacts:
-      - target/exasol_jdbc.taco
-      - target/exasol_odbc.taco
       - target/tableau-exasol-connector-jdbc-${version}.taco
       - target/tableau-exasol-connector-odbc-${version}.taco
   - type: npm
