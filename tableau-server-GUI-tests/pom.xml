@@ -18,7 +18,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.51.0</version>
+            <version>4.52.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -100,14 +100,14 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>test-db-builder-java</artifactId>
-            <version>4.0.3</version>
+            <version>5.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <!-- Upgrade to fix CVE-2020-25649, CVE-2020-36518, CVE-2022-42003, CVE-2022-42004 -->
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.22.4</version>
+            <version>2.23.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -123,7 +123,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>5.8.0</version>
+                <version>5.8.2</version>
                 <executions>
                     <execution>
                         <goals>
